@@ -44,6 +44,9 @@ Usage
 * QPM編譯QPKG `qpm`
 * QPM版本資訊 `qpm --version|-ver|-V`
 * QPM操作說明 `qpm -h`
+* QPM顯示NAS上已安裝的QPKG `qpm -l`
+* QPM在NAS上安裝QPKG `qpm install ${QPKG_NAME}`
+* QPM在NAS上移除QPKG `qpm uninstall ${QPKG_NAME}`
 
 Q&A
 ===
