@@ -103,8 +103,8 @@ Q&A
 - 不會，但會陸續增加功能  [v0.3]
 
 #### 如何取得Package的系統設定值？
-- set_qpkg_cfg field value [qpkg_name]
-- get_qpkg_cfg field [default_value] [qpkg_name]
+- 設定 `set_qpkg_cfg field value [qpkg_name]`
+- 取得 `get_qpkg_cfg field [default_value] [qpkg_name]`
 
 #### 如有疑問或發現bug如何處理？
 - 請直接建立issue https://github.com/yutin1987/QPM/issues
