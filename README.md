@@ -29,7 +29,7 @@ Configs
  - `QPKG_WEBUI="/"` WebApp目錄
  - `QPKG_WEB_PORT=""` WebApp的Port number
 
-* Package 相斥
+* QPKG屬性
  - `QPKG_DESKTOP="1"` 嵌入QTS4的Web桌面系統
 
 * QPKG目錄
