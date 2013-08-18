@@ -4,31 +4,43 @@ qnap package manager
 
 Configs
 ===
-QPKG_NAME=""                                    # Package 名稱（必須）
-QPKG_DISPLAY_NAME=""                            # Package 顯示的名稱
+* Package 名稱（必須）
+ - QPKG_NAME=""
 
-QPKG_VER_MAJOR="0"                              # 版本資訊
-QPKG_VER_MINOR="1"
-QPKG_VER_BUILD="0"                              # 第幾次編譯（自動增加）
+* Package 顯示的名稱
+ - QPKG_DISPLAY_NAME=""
 
-QPKG_AUTHOR=""                                  # 作者或維護人員（預設為使用者帳號）
+* 版本資訊
+ - QPKG_VER_MAJOR="0"                         
+ - QPKG_VER_MINOR="1"
+ - QPKG_VER_BUILD="0" `第幾次編譯（自動增加）`
 
-QPKG_LICENSE="GPL v2"                           # 授權模式
+* 作者或維護人員（預設為使用者帳號）
+ - QPKG_AUTHOR=""
 
-QPKG_REQUIRE="Python >= 2.5, Optware | opkg"   # Package 相依
-QPKG_CONFLICT="Python, OPT/sed"                # Package 相斥
+* 授權模式
+ - QPKG_LICENSE="GPL v2"
 
-QPKG_WEBUI="/"                                 # WebApp目錄
-QPKG_WEB_PORT=""                               # WebApp的Port number
+* Package 相依
+ - QPKG_REQUIRE="Python >= 2.5, Optware | opkg"
 
+* Package 相斥
+ - QPKG_CONFLICT="Python, OPT/sed"
+
+* Web Application
+ - QPKG_WEBUI="/" `WebApp目錄`
+ - QPKG_WEB_PORT="" `WebApp的Port number`
+
+* Package 相斥
 QPKG_DESKTOP="1"                               # 遷入QTS4的Web桌面系統
 
-QPKG_DIR_ICONS="icon"                          # Package 圖式的目錄
-QPKG_DIR_ARM="arm"                             # Package 檔案目錄，ARM專用
-QPKG_DIR_X86="x86"                             # Package 檔案目錄，X86專用
-QPKG_DIR_SHARED="share"                        # Package 檔案目錄，通用
-QPKG_DIR_WEB="share/web"                       # Package Web檔案的目錄
-QPKG_DIR_BIN="share/bin"                       # Package Bin檔案的目錄
+* QPKG目錄
+ - QPKG_DIR_ICONS="icon"                          # Package 圖式的目錄
+ - QPKG_DIR_ARM="arm"                             # Package 檔案目錄，ARM專用
+ - QPKG_DIR_X86="x86"                             # Package 檔案目錄，X86專用
+ - QPKG_DIR_SHARED="share"                        # Package 檔案目錄，通用
+ - QPKG_DIR_WEB="share/web"                       # Package Web檔案的目錄
+ - QPKG_DIR_BIN="share/bin"                       # Package Bin檔案的目錄
 
 Usage
 ===
@@ -49,5 +61,5 @@ Q&A
 - 可執行檔必須設定權限為755
 - 當 start service 時，會將可執行檔link至/usr/bin目錄內
 
-#### Package 相依自動到AppCenter下載安裝嗎？
+#### Package 相依會自動到AppCenter下載安裝嗎？
 - 不會，但會陸續增加功能
