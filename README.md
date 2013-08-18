@@ -46,12 +46,12 @@ Usage
 * QPM編譯QPKG `qpm`
 * QPM版本資訊 `qpm --version|-ver|-V`
 * QPM操作說明 `qpm -h`
-* QPM顯示NAS上已安裝的QPKG `qpm -l`
-* QPM在NAS上安裝QPKG `qpm install ${QPKG_NAME}`
-* QPM在NAS上移除QPKG `qpm uninstall ${QPKG_NAME}`
-* QPM在NAS上啓動QPKG `qpm start ${QPKG_NAME}`
-* QPM在NAS上停止QPKG `qpm stop ${QPKG_NAME}`
-* QPM在NAS上重啓QPKG `qpm restart ${QPKG_NAME}`
+* QPM顯示NAS上已安裝的QPKG `qpm -l` [v0.3.0]
+* QPM在NAS上安裝QPKG `qpm install ${QPKG_NAME}` [v0.3.0]
+* QPM在NAS上移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3.0]
+* QPM在NAS上啓動QPKG `qpm start ${QPKG_NAME}` [v0.2.0]
+* QPM在NAS上停止QPKG `qpm stop ${QPKG_NAME}` [v0.2.0]
+* QPM在NAS上重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2.0]
 
 Package Icons
 ===
@@ -63,7 +63,10 @@ Package Icons
 
 Service Script
 ===
-
+- 當start service時 `service.sh >-> start`
+- 當stop service時 `service.sh >-> start` 
+- 當install QPKG後 `service.sh >-> install`
+- 當uninstall QPKG前 `service.sh >-> uninstall`
 
 Q&A
 ===
@@ -84,4 +87,4 @@ Q&A
 - 專屬x86的bin檔可放至`x86/bin`，專屬arm的bin檔可放至`x86/bin`
 
 #### Package 相依會自動到AppCenter下載安裝嗎？
-- 不會，但會陸續增加功能
+- 不會，但會陸續增加功能  [v0.3.0]
