@@ -33,6 +33,9 @@ Configs
  - `QPKG_WEB_PATH="/"` WebApp目錄
  - `QPKG_WEB_PORT=""` WebApp的Port number
 
+* 背景運作的Service
+ - `QPKG_SERVICE_SCRIPT=""` QPKG啓動後在背景運作的Script
+
 * QPKG屬性
  - `QPKG_DESKTOP="1"` 嵌入QTS4的Web桌面系統
 
