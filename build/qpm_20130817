@@ -1,0 +1,318 @@
+#!/bin/sh
+##############################################################################
+#
+# $Id: qbuild $
+#
+# This script is used to build QPKGs.
+#
+##############################################################################
+# Default Configs
+
+QPKG_LICENSE="GPL v2"
+
+QBUILD_DIR_ICONS="icon"
+QBUILD_DIR_ARM="arm"
+QBUILD_DIR_X86="x86"
+QBUILD_DIR_SHARED="shared"
+QBUILD_DIR_WEB="web"
+QBUILD_DIR_BUILD="build"
+
+QBUILD_QPKG_CONFIGS="qpkg.cfg"
+QBUILD_QPKG_SERVICE="service.sh"
+QBUILD_QPKG_DATA="data.tar.gz"
+QBUILD_QPKG_SCRIPT="script.sh"
+QBUILD_QPKG_INSTALL="install.sh"
+QBUILD_QPKG_UNINSTALL="uninstall.sh"
+
+#===
+# Message
+#===
+
+# Error messages
+err_msg(){
+  echo "[ERROR] $1" 1>&1
+  echo "[x] 任務失敗"
+  rm -rf build.$$
+  rm -rf tmp.$$
+  exit 0
+}
+
+warn_msg(){
+  echo "[WARN] $1" 1>&1
+}
+
+# message
+msg(){
+  echo "$1" 1>&1
+}
+
+debug_msg(){
+  #msg "$1" $DEBUG
+  return 0
+}
+
+#===
+# Library
+#===
+
+# Edit QPKG config
+edit_config(){
+  local field="$1"
+  local value="$2"
+  local qpkg_cfg="${3:-$QBUILD_QPKG_CONFIGS}"
+  if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
+    local new_cfg="${field}=\"${value}\""
+    new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
+    sed "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg >> $qpkg_cfg
+  else
+    return 1
+  fi
+}
+
+fetch_shell(){
+  local start=$(grep -n "^###${1} START" ${0} |  awk -F "[/:]" '{print $1}')
+  start=$(expr ${start} + 1)
+
+  local end=$(grep -n "^###${1} END" ${0} |  awk -F "[/:]" '{print $1}')
+  end=$(expr ${end} - 1)
+
+  sed -n "${start},${end}p" ${0}
+
+  return 0
+}
+
+#===
+# Main
+#===
+
+# Help messages
+help(){
+  cat <<EOF
+Usage: $(/usr/bin/basename $0) [options] [--create NAME]
+Options:
+  --create, -c NAME       建立一個package目錄
+  -?, -h, --help          顯示操作訊息
+  -V, -ver, --version     列出qbuild的版本資訊.
+EOF
+  exit 0
+}
+
+# Create directory with template build environment
+create_qpkg(){
+  [ -n "$1" ] || err_msg "internal error: create called with no argument"
+  local qpkg_name="$1"
+
+  [ -d "$qpkg_name" ] && err_msg "$(pwd)/${qpkg_name} 已經存在"
+
+  echo "建立 $qpkg_name 目錄..."
+  /bin/mkdir -m 755 -p "${qpkg_name}" || err_msg "${qpkg_name}: 主目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QBUILD_DIR_ICON}" || err_msg "${qpkg_name}: Icon目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QBUILD_DIR_ARM}" || err_msg "${qpkg_name}: ARM目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QBUILD_DIR_X86}" || err_msg "${qpkg_name}: X86目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QBUILD_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QBUILD_DIR_SHARED}" || err_msg "${qpkg_name}: Share目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QBUILD_DIR_BUILD}" || err_msg "${qpkg_name}: Build目錄建立失敗"
+
+  echo "初始化 QPKG設定檔..."
+
+  local configs_path="${qpkg_name}/${QBUILD_QPKG_CONFIGS}"
+  fetch_shell "QBUILD_QPKG_CONFIGS" >> $configs_path
+  
+  edit_config "QPKG_NAME" ${qpkg_name} ${configs_path}
+  edit_config "QPKG_DISPLAY_NAME" ${qpkg_name} ${configs_path}
+  edit_config "QPKG_AUTHOR" $(/usr/bin/whoami) ${configs_path}
+  edit_config "QPKG_DIR_ICONS" ${QBUILD_DIR_ICONS} ${configs_path}
+  edit_config "QPKG_DIR_ARM" ${QBUILD_DIR_ARM} ${configs_path}
+  edit_config "QPKG_DIR_X86" ${QBUILD_DIR_X86} ${configs_path}
+  edit_config "QPKG_DIR_WEB" ${QBUILD_DIR_WEB} ${configs_path}
+  edit_config "QPKG_DIR_SHARED" ${QBUILD_DIR_SHARED} ${configs_path}
+  edit_config "QPKG_DIR_BUILD" ${QBUILD_DIR_BUILD} ${configs_path}
+
+  fetch_shell "QBUILD_QPKG_SERVICE" >> "${qpkg_name}/${QBUILD_QPKG_SERVICE}"
+
+  echo "[v] package初始化完成"
+}
+
+build_qpkg(){
+  # Fetch configs
+  msg "取得QPKG設定值..."
+  . $QBUILD_QPKG_CONFIGS
+
+  QPKG_VER=$QPKG_VER_MAJOR"."$QPKG_VER_MINOR"."$QPKG_VER_BUILD
+  QPKG_VER="${QPKG_VER:-0.1.0}"
+  
+  # Check
+  msg "檢查編譯環境..."
+  [ -n "$QPKG_AUTHOR" ] || err_msg "$QBUILD_QPKG_CONFIGS: QPKG_AUTHOR 必須設定值"
+  [ -n "$QPKG_NAME" ] || err_msg "$QBUILD_QPKG_CONFIGS: QPKG_NAME 必須設定值"
+
+  # Build
+  msg "編譯QPKG..."
+
+  mkdir -m 755 -p build.$$ || err_msg "無法建立暫存目錄 ${build.$$}"
+
+  cp -afp $QBUILD_QPKG_CONFIGS build.$$/qpkg.cfg || err_msg 找不到configs檔
+  cp -afp $QBUILD_QPKG_SERVICE build.$$/service.sh || err_msg 找不到service檔
+
+  cp -af ${QPKG_DIR_ICONS:-${QBUILD_DIR_ICONS}} build.$$/${QBUILD_DIR_ICONS} || warn_msg 找不到icon目錄
+  cp -af ${QPKG_DIR_ARM:-${QBUILD_DIR_ARM}} build.$$/${QBUILD_DIR_ARM} || warn_msg 找不到icon目錄
+  cp -af ${QPKG_DIR_X86:-${QBUILD_DIR_X86}} build.$$/${QBUILD_DIR_X86} || warn_msg 找不到x86目錄
+  cp -af ${QPKG_DIR_SHARED:-${QBUILD_DIR_SHARED}} build.$$/${QBUILD_DIR_SHARED} || warn_msg 找不到shared目錄
+  cp -af ${QPKG_DIR_WEB:-${QBUILD_DIR_WEB}} build.$$/${QBUILD_DIR_WEB} || warn_msg 找不到web目錄
+
+  cat >> "tmp.$$/${QBUILD_QPKG_INSTALL}" <<EOF
+EOF
+
+  mkdir -m 755 -p tmp.$$ || err_msg "無法建立暫存目錄 ${tmp.$$}"
+
+  tar -zcf tmp.$$/$QBUILD_QPKG_DATA build.$$/*
+  rm -rf build.$$
+
+  cat >> "tmp.$$/${QBUILD_QPKG_SCRIPT}" <<EOF
+EOF
+
+  mkdir -m 755 -p build || err_msg "無法建立編譯目錄"
+
+  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPKG_VER}.qpkg}
+  QPKG_FILE_PATH=${QBUILD_QPKG_BUILD}/${QPKG_FILE_NAME}
+  rm -f "${QPKG_FILE_PATH}"
+  touch "${QPKG_FILE_PATH}" || err_msg "建立package失敗 ${QPKG_FILE_PATH}"
+
+  local script_len=$(ls -l tmp.$$/${QBUILD_QPKG_SCRIPT} | awk '{ print $5 }')
+  script_len=$(expr $script_len + ${#script_len})
+  sed "s/EXTRACT_SCRIPT_LEN=/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/${QBUILD_QPKG_SCRIPT} >> ${QPKG_FILE_PATH}
+
+  #dd if=tmp.$$/$QBUILD_QPKG_DATA of="${QBUILD_QPKG_BUILD}/${QPKG_FILE_PATH}"
+  cat tmp.$$/$QBUILD_QPKG_DATA >> ${QPKG_FILE_PATH}
+
+  rm -rf tmp.$$
+}
+
+# Main
+main(){
+  while  [ $# -gt 0 ]
+  do
+    case "$1" in
+    --help|-h|-\?)  qbuild_help=TRUE ;;
+    --version|-ver|-V) qbuild_version=TRUE ;;
+    --create|-c) qbuild_qpkg_name="$2"
+        [ -n "$qbuild_qpkg_name" ] || err_msg "--create, -c: 沒有package名稱"
+        shift
+        ;;
+    esac
+    shift
+  done
+
+  [ -n "$qbuild_version" ] && version
+  [ -n "$qbuild_help" ] && help
+
+
+  if [ -n "$qbuild_qpkg_name" ]; then 
+    create_qpkg "$qbuild_qpkg_name"
+  else
+    build_qpkg # 2>/dev/null
+  fi
+}
+
+main "$@"
+exit 1
+###QBUILD_QPKG_SCRIPT START
+#!/bin/sh
+/bin/echo "Install QNAP package on TS-NAS..."
+/bin/grep "/mnt/HDA_ROOT" /proc/mounts >/dev/null 2>&1 || exit 1
+EXTRACT_DIR_TEMP="/mnt/HDA_ROOT/update_pkg/tmp.$$"
+EXTRACT_SCRIPT_LEN=
+/bin/mkdir -p $EXTRACT_DIR_TEMP || exit 1
+/bin/dd if=${0} bs=$EXTRACT_SCRIPT_LEN skip=1 | /bin/tar -xz -C $EXTRACT_DIR_TEMP || exit 1
+( cd $EXTRACT_DIR_TEMP && /bin/sh qinstall.sh || echo "Installation Abort." )
+/bin/rm -rf $EXTRACT_DIR_TEMP && exit 10
+exit 1
+###QBUILD_QPKG_SCRIPT END
+
+###QBUILD_QPKG_CONFIGS START
+QPKG_NAME=""                                    # Package 名稱
+QPKG_DISPLAY_NAME=""                            # Package 顯示的名稱
+
+QPKG_VER_MAJOR="0"                              # 版本資訊
+QPKG_VER_MINOR="1"
+QPKG_VER_BUILD="0"
+
+QPKG_AUTHOR=                                    # 作者或維護人員
+
+QPKG_LICENSE="GPL v2"                           # 授權模式
+
+#QPKG_REQUIRE="Python >= 2.5, Optware | opkg"   # Package 相依
+#QPKG_CONFLICT="Python, OPT/sed"                # Package 相斥
+
+#QPKG_WEBUI="/"                                 # WebApp目錄
+#QPKG_WEB_PORT=""                               # WebApp的Port number
+
+#QPKG_DESKTOP="1"                               # 遷入QTS4的Web桌面系統
+
+#QPKG_DIR_ICONS=""                              # Package 圖式的目錄
+#QPKG_DIR_ARM=""                                # Package 檔案目錄，ARM專用
+#QPKG_DIR_X86=""                                # Package 檔案目錄，X86專用
+#QPKG_DIR_SHARED=""                             # Package 檔案目錄，通用
+#QPKG_DIR_WEB=""                                # Package Web檔案的目錄
+###QBUILD_QPKG_CONFIGS END
+
+###QBUILD_QPKG_SERVICE START
+#!/bin/sh
+QPKG_NAME="${qpkg_name}"
+QPKG_CONF=/etc/config/qpkg.conf
+QPKG_DIR=$(/sbin/getcfg $QPKG_NAME Install_Path -d "" -f $QPKG_CONF)
+
+WEB_SHARENAME=$(/sbin/getcfg SHARE_DEF defWeb -d Web -f /etc/config/def_share.info)
+WEB_PATH=$(/sbin/getcfg $WEB_SHARENAME path -f /etc/config/smb.conf)
+BIN_PATH=/bin
+OPT_PATH=/mnt/ext/opt
+
+case "$1" in
+  start)
+    echo service start...
+    : ADD START ACTIONS HERE
+    ;;
+
+  stop)
+    echo service stop...
+    : ADD STOP ACTIONS HERE
+    ;;
+
+  restart)
+    $0 stop
+    $0 start
+    ;;
+
+  install)
+    ;;
+
+  unistall)
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
+###QBUILD_QPKG_SERVICE END
+
+###QBUILD_QPKG_INSTALL START
+SYS_RSS_IMG_DIR="/home/httpd/RSS/images"
+
+copy_qpkg_icons()
+{
+  $CMD_RM -fr $SYS_RSS_IMG_DIR/${QPKG_NAME}.gif
+  $CMD_CP -af $SYS_QPKG_DIR/.qpkg_icon.gif $SYS_RSS_IMG_DIR/${QPKG_NAME}.gif 2>/dev/null
+
+  $CMD_RM -fr $SYS_RSS_IMG_DIR/${QPKG_NAME}_80.gif
+  $CMD_CP -af $SYS_QPKG_DIR/.qpkg_icon_80.gif $SYS_RSS_IMG_DIR/${QPKG_NAME}_80.gif 2>/dev/null
+
+  $CMD_RM -fr $SYS_RSS_IMG_DIR/${QPKG_NAME}_gray.gif
+  $CMD_CP -af $SYS_QPKG_DIR/.qpkg_icon_gray.gif $SYS_RSS_IMG_DIR/${QPKG_NAME}_gray.gif 2>/dev/null
+}
+###QBUILD_QPKG_INSTALL END
+
+###QBUILD_QPKG_UNINSTALL START
+
+###QBUILD_QPKG_UNINSTALL END
