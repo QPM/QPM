@@ -47,6 +47,9 @@ Usage
 * QPM顯示NAS上已安裝的QPKG `qpm -l`
 * QPM在NAS上安裝QPKG `qpm install ${QPKG_NAME}`
 * QPM在NAS上移除QPKG `qpm uninstall ${QPKG_NAME}`
+* QPM在NAS上啓動QPKG `qpm start ${QPKG_NAME}`
+* QPM在NAS上停止QPKG `qpm stop ${QPKG_NAME}`
+* QPM在NAS上重啓QPKG `qpm restart ${QPKG_NAME}`
 
 Q&A
 ===
@@ -59,6 +62,11 @@ Q&A
 - QPKG_DIR/share/bin為可執行檔的目錄，將可執行檔放至該目錄
 - 可執行檔必須設定權限為755
 - 當 start service 時，會將可執行檔link至/usr/bin目錄內
+
+#### ARM和X86的檔案如何運作？
+- ARM和X86的檔案會包裝成同一個QPKG
+- 安裝時會將SHARED目錄和ARM/X86目錄內的檔案合併
+- 當系統是X86時，將先安裝shared目錄再使用x86目錄覆蓋
 
 #### Package 相依會自動到AppCenter下載安裝嗎？
 - 不會，但會陸續增加功能
