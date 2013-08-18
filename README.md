@@ -55,9 +55,15 @@ Usage
 
 Package Icons
 ===
+- 當QPKG啓動時（64x64） `icon/qpkg_icon.png`
+- 當QPKG停止時（64x64） `icon/qpkg_icon_gray.png`
+- 較高解析度的圖示（80x80） `icon/qpkg_icon_80.png`
+- 介紹圖（184x115） `icon/qpkg_184x115.png`
+- 較高解析度的介紹圖（640x40） `icon/qpkg_640x400.png`
 
 Service Script
 ===
+
 
 Q&A
 ===
