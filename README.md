@@ -5,6 +5,7 @@ qnap package manager
 引用宣告：
 
 平台：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
+
 授權：GPL v2
 
 Configs
