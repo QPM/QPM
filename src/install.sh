@@ -809,11 +809,8 @@ main(){
   post_install_link_service
   # register QPKG information
   post_install_register_qpkg
-  # register web interface
-  post_install_register_web
-  # register binary interface
-  post_install_register_bin
-
+  # run post-install custom script
+  ${SYS_QPKG_SERVICE} install ${QPKG_NAME}
   # start service
   start_service
 
