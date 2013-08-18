@@ -4,43 +4,39 @@ qnap package manager
 
 Configs
 ===
-* Package 名稱（必須）
- - QPKG_NAME=""
-
-* Package 顯示的名稱
- - QPKG_DISPLAY_NAME=""
+* Package name
+ - `QPKG_NAME=""` （套件名稱，必須）
+ - `QPKG_DISPLAY_NAME=""` （顯示名稱）
 
 * 版本資訊
- - QPKG_VER_MAJOR="0"                         
- - QPKG_VER_MINOR="1"
- - QPKG_VER_BUILD="0" `第幾次編譯（自動增加）`
+ - `QPKG_VER_MAJOR="0"`
+ - `QPKG_VER_MINOR="1"`
+ - `QPKG_VER_BUILD="0"` 第幾次編譯（自動增加）
 
-* 作者或維護人員（預設為使用者帳號）
- - QPKG_AUTHOR=""
+* 作者或維護人員
+ - `QPKG_AUTHOR=""`（預設為使用者帳號）
 
 * 授權模式
- - QPKG_LICENSE="GPL v2"
+ - `QPKG_LICENSE="GPL v2"`
 
-* Package 相依
- - QPKG_REQUIRE="Python >= 2.5, Optware | opkg"
-
-* Package 相斥
- - QPKG_CONFLICT="Python, OPT/sed"
+* 相依/相斥
+ - `QPKG_REQUIRE="Python >= 2.5, Optware | opkg"` 相依
+ - `QPKG_CONFLICT="Python, OPT/sed"` 相斥
 
 * Web Application
- - QPKG_WEBUI="/" `WebApp目錄`
- - QPKG_WEB_PORT="" `WebApp的Port number`
+ - `QPKG_WEBUI="/"` WebApp目錄
+ - `QPKG_WEB_PORT=""` WebApp的Port number
 
 * Package 相斥
-QPKG_DESKTOP="1"                               # 遷入QTS4的Web桌面系統
+ - `QPKG_DESKTOP="1"` 嵌入QTS4的Web桌面系統
 
 * QPKG目錄
- - QPKG_DIR_ICONS="icon"                          # Package 圖式的目錄
- - QPKG_DIR_ARM="arm"                             # Package 檔案目錄，ARM專用
- - QPKG_DIR_X86="x86"                             # Package 檔案目錄，X86專用
- - QPKG_DIR_SHARED="share"                        # Package 檔案目錄，通用
- - QPKG_DIR_WEB="share/web"                       # Package Web檔案的目錄
- - QPKG_DIR_BIN="share/bin"                       # Package Bin檔案的目錄
+ - `QPKG_DIR_ICONS="icon"` Package 圖式的目錄
+ - `QPKG_DIR_ARM="arm"` Package 檔案目錄，ARM專用
+ - `QPKG_DIR_X86="x86"` Package 檔案目錄，X86專用
+ - `QPKG_DIR_SHARED="share"` Package 檔案目錄，通用
+ - `QPKG_DIR_WEB="web"` Package Web檔案的目錄
+ - `QPKG_DIR_BIN="bin"` Package Bin檔案的目錄
 
 Usage
 ===
