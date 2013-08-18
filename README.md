@@ -30,7 +30,7 @@ Configs
  - `QPKG_CONFLICT="Python, OPT/sed"` 相斥
 
 * Web Application
- - `QPKG_WEBUI="/"` WebApp目錄
+ - `QPKG_WEB_PATH="/"` WebApp目錄
  - `QPKG_WEB_PORT=""` WebApp的Port number
 
 * QPKG屬性
@@ -50,12 +50,12 @@ Usage
 * QPM編譯QPKG `qpm`
 * QPM版本資訊 `qpm --version|-ver|-V`
 * QPM操作說明 `qpm -h`
-* QPM顯示NAS上已安裝的QPKG `qpm -l` [v0.3.0]
-* QPM在NAS上安裝QPKG `qpm install ${QPKG_NAME}` [v0.3.0]
-* QPM在NAS上移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3.0]
-* QPM在NAS上啓動QPKG `qpm start ${QPKG_NAME}` [v0.2.0]
-* QPM在NAS上停止QPKG `qpm stop ${QPKG_NAME}` [v0.2.0]
-* QPM在NAS上重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2.0]
+* QPM顯示NAS上已安裝的QPKG `qpm -l` [v0.3]
+* QPM在NAS上安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
+* QPM在NAS上移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3]
+* QPM在NAS上啓動QPKG `qpm start ${QPKG_NAME}` [v0.2]
+* QPM在NAS上停止QPKG `qpm stop ${QPKG_NAME}` [v0.2]
+* QPM在NAS上重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2]
 
 Package Icons
 ===
@@ -77,7 +77,7 @@ Q&A
 #### 如何建立Web服務？
 - `${QPKG_DIR}/share/web`為網站目錄，將網站內容放至該目錄
 - 首頁必須為`index.html` / `index.htm` / `index.php`
-- 當 start service 時，會依據QPKG_WEBUI的設定建立apache虛擬目錄
+- 當 start service 時，會依據QPKG_WEB_PATH的設定建立apache虛擬目錄
 
 #### 如何放至Bin檔案？
 - `${QPKG_DIR}/share/bin`為可執行檔的目錄，將可執行檔放至該目錄
@@ -91,7 +91,7 @@ Q&A
 - 專屬x86的bin檔可放至`x86/bin`，專屬arm的bin檔可放至`x86/bin`
 
 #### Package 相依會自動到AppCenter下載安裝嗎？
-- 不會，但會陸續增加功能  [v0.3.0]
+- 不會，但會陸續增加功能  [v0.3]
 
 #### 如有疑問或發現bug如何處理？
 - 請直接建立issue https://github.com/yutin1987/QPM/issues
