@@ -34,8 +34,8 @@ Configs
 
 * QPKG目錄
  - `QPKG_DIR_ICONS="icon"` Package 圖式的目錄
- - `QPKG_DIR_ARM="arm"` Package 檔案目錄，ARM專用
- - `QPKG_DIR_X86="x86"` Package 檔案目錄，X86專用
+ - `QPKG_DIR_ARM="arm"` Package 檔案目錄，ARM專屬
+ - `QPKG_DIR_X86="x86"` Package 檔案目錄，X86專屬
  - `QPKG_DIR_SHARED="share"` Package 檔案目錄，通用
  - `QPKG_DIR_WEB="web"` Package Web檔案的目錄
  - `QPKG_DIR_BIN="bin"` Package Bin檔案的目錄
