@@ -3,6 +3,9 @@ QPM
 qnap package manager
 
 引用宣告：
+$Id: install.sh
+Copyright (C) 2009,2010 QNAP Systems, Inc.
+Copyright (C) 2010,2011 Michael Nordstrom
 
 平台：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
 
