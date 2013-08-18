@@ -2,6 +2,8 @@ QPM
 ===
 qnap package manager
 
+平台：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
+
 Configs
 ===
 * Package name
