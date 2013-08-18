@@ -33,8 +33,8 @@ Configs
  - `QPKG_WEB_PATH="/"` WebApp目錄
  - `QPKG_WEB_PORT=""` WebApp的Port number
 
-* 背景運作的Service
- - `QPKG_SERVICE_SCRIPT=""` QPKG啓動後在背景運作的Script [v0.3]
+* 背景運作的service
+ - `QPKG_SERVICE_SCRIPT=""` QPKG啓動後在背景運作的script [v0.3]
 
 * QPKG屬性
  - `QPKG_DESKTOP="1"` 嵌入QTS4的Web桌面系統
@@ -49,16 +49,22 @@ Configs
 
 Usage
 ===
-* QPM建立QPKG目錄 `qpm -c [QPKG_NAME]`
-* QPM編譯QPKG `qpm`
-* QPM版本資訊 `qpm --version|-ver|-V`
-* QPM操作說明 `qpm -h`
-* QPM顯示NAS上已安裝的QPKG `qpm -l` [v0.3]
-* QPM在NAS上安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
-* QPM在NAS上移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3]
-* QPM在NAS上啓動QPKG `qpm start ${QPKG_NAME}` [v0.2]
-* QPM在NAS上停止QPKG `qpm stop ${QPKG_NAME}` [v0.2]
-* QPM在NAS上重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2]
+* QPM建立QPKG目錄
+ - `qpm --create|-c [QPKG_NAME]`
+* QPM編譯QPKG
+ - 直接編譯 `qpm`
+ - 指定編譯前/後的script `qpm --build-script=[file...]` [v0.3]
+* QPM版本資訊
+ - `qpm --version|-ver|-V`
+* QPM操作說明
+ - `qpm --help|-h|-\?`
+* QPM在NAS上操作QPKG
+ - 顯示已安裝的QPKG `qpm -l|-list` [v0.3]
+ - 安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
+ - 移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3]
+ - 啓動QPKG `qpm start ${QPKG_NAME}` [v0.2]
+ - 停止QPKG `qpm stop ${QPKG_NAME}` [v0.2]
+ - 重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2]
 
 Package Icons
 ===
