@@ -361,7 +361,6 @@ QPM_QPKG_SCRIPT=""
 QPM_QPKG_INSTALL=""
 QPM_QPKG_UNINSTALL=""
 QPM_QPKG_WEB_CONFIG=".web.conf"
-QPM_QPKG_BIN_LOG=".bin_log"
 
 ##### system library #####
 # set QPKG configs, avgs(field value [qpkg_name])
@@ -482,28 +481,20 @@ esac
 case "$1" in
   start)
     : ADD START ACTIONS HERE
-    setup_web_interface
-    setup_bin_interface
     ;;
 
   stop)
     : ADD STOP ACTIONS HERE
-    remove_web_interface
-    remove_bin_interface
-    ;;
-
-  restart)
-    $0 stop
-    $0 start
     ;;
 
   install)
     # Install after forced start service
+    : ADD INSTALL ACTIONS HERE
     ;;
 
   unistall)
     # Uninstall before forced stop service
-
+    : ADD UNSTALL ACTIONS HERE
     ;;
 esac
 ###QPM_QPKG_SERVICE END
@@ -1263,6 +1254,21 @@ post_install_register_qpkg(){
   set_qpkg_web_port
 }
 
+post_install_register_web(){
+  local web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
+    cat >> $qpkg_apache_path <<EOF
+Alias /${QPKG_WEBUI:-$QPKG_NAME}/ "${web_dir}"
+<Directory "${web_dir}">
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+</Directory>
+EOF
+  fi
+}
+
+
 #===
 # Main installation
 #===
@@ -1305,7 +1311,8 @@ main(){
   post_install_link_service
   # register QPKG information
   post_install_register_qpkg
-
+  # run post-install custom script
+  ${SYS_QPKG_SERVICE} install ${QPKG_NAME}
   # start service
   start_service
 

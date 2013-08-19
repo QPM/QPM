@@ -8,6 +8,7 @@ source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
 case "$1" in
   start)
     echo "service start..."
+    /etc/config/apache/apache.conf
     ##### register web interface #####
     local web_dir=${SYS_QPKG_DIR}/${QPKG_DIR_WEB}
     if [ -n ${QPKG_DIR_WEB} ] &&
@@ -15,13 +16,14 @@ case "$1" in
        [$(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0]; then
       local qpkg_web_path="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
       cat > $qpkg_web_path <<EOF
-Alias /${QPKG_WEBUI:-$QPKG_NAME}/ "${web_dir}"
-<Directory "${web_dir}">
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-</Directory>
+<IfModule alias_module>
+  Alias /${QPKG_WEB_PATH:-$QPKG_NAME}/ "${web_dir}"
+  <Directory "${web_dir}">
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+  </Directory>
+</IfModule>
 EOF
       echo "Include ${qpkg_web_path} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
     fi

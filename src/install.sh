@@ -752,21 +752,6 @@ post_install_register_qpkg(){
   set_qpkg_web_port
 }
 
-post_install_register_web(){
-  local web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
-    cat >> $qpkg_apache_path <<EOF
-Alias /${QPKG_WEBUI:-$QPKG_NAME}/ "${web_dir}"
-<Directory "${web_dir}">
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-</Directory>
-EOF
-  fi
-}
-
-
 #===
 # Main installation
 #===
