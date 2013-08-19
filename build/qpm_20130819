@@ -163,12 +163,12 @@ build_qpkg(){
   rm -rf build.$$
   mkdir -m 755 -p build.$$ || err_msg "無法建立暫存目錄 ${build.$$}"
 
-  cp -afp ${QPM_QPKG_CONFIGS} build.$$/.qpkg.cfg || err_msg 找不到configs檔
+  cp -afp ${QPM_QPKG_CONFIGS} "build.$$/${QPM_QPKG_CONFIGS}" || err_msg 找不到configs檔
+  edit_config "QPM_VER" ${QPM_VER} "build.$$/${QPM_QPKG_CONFIGS}"
 
-  local service_file="build.$$/.${QPM_QPKG_SERVICE}"
+  local service_file="build.$$/${QPM_QPKG_SERVICE}"
   fetch_shell "QPM_QPKG_QPM_SERVICE" > ${service_file}
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
-  edit_config "QPM_VER" ${QPM_VER} ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
@@ -176,11 +176,11 @@ build_qpkg(){
   cp -af ${QPKG_DIR_SHARED:-${QPM_DIR_SHARED}} build.$$/${QPM_DIR_SHARED} || warn_msg 找不到shared目錄
 
   fetch_shell "QPM_QPKG_INSTALL" > "build.$$/${QPM_QPKG_INSTALL}"
-  fetch_shell "QPM_QPKG_UNINSTALL" > "build.$$/.${QPM_QPKG_UNINSTALL}"
+  fetch_shell "QPM_QPKG_UNINSTALL" > "build.$$/${QPM_QPKG_UNINSTALL}"
 
   mkdir -m 755 -p tmp.$$ || err_msg "無法建立暫存目錄 ${tmp.$$}"
 
-  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" .${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARED} ${QPM_QPKG_INSTALL} .${QPM_QPKG_UNINSTALL}
+  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARED} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
   rm -rf build.$$
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
@@ -200,6 +200,10 @@ build_qpkg(){
   cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
 
   rm -rf tmp.$$
+
+  edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
+
+  echo "[v] package編譯完成"
 }
 
 # Main
