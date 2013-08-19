@@ -18,7 +18,7 @@ QPM_VER=""
 QPM_DIR_ICONS="icon"
 QPM_DIR_ARM="arm"
 QPM_DIR_X86="x86"
-QPM_DIR_SHARE="shared"
+QPM_DIR_SHARE="share"
 QPM_DIR_WEB="web"
 QPM_DIR_BIN="bin"
 QPM_DIR_BUILD="build"
@@ -26,6 +26,7 @@ QPM_DIR_BUILD="build"
 QPM_QPKG_CONFIGS="qpkg.cfg"
 QPM_QPKG_QPM_SERVICE="qpm_service.sh"
 QPM_QPKG_SERVICE="service.sh"
+QPM_QPKG_SERVICE_ID=101
 QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
@@ -193,13 +194,12 @@ build_qpkg(){
   fetch_shell "QPM_QPKG_SCRIPT" > tmp.$$/$QPM_QPKG_SCRIPT
 
   local script_len=$(ls -l tmp.$$/${QPM_QPKG_SCRIPT} | awk '{ print $5 }')
-  script_len=$(expr $script_len + ${#script_len})
-  sed "s/EXTRACT_SCRIPT_LEN=/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${QPKG_FILE_PATH}
+  sed "s/EXTRACT_SCRIPT_LEN=000/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${QPKG_FILE_PATH}
 
   #dd if=tmp.$$/$QPM_QPKG_DATA of="${QPM_QPKG_BUILD}/${QPKG_FILE_PATH}"
   cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
 
-  rm -rf tmp.$$
+  #rm -rf tmp.$$
 
   edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
 

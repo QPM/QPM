@@ -23,6 +23,5 @@ $CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}.gif"
 $CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_80.gif"
 $CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_gray.gif"
 
-##### remove binary link #####
-
-##### remove web interface #####
+##### remove QPKG configs #####
+rmcfg ${QPKG_NAME} -f ${SYS_QPKG_CONFIG}

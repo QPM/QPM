@@ -18,7 +18,7 @@ QPM_VER=""
 QPM_DIR_ICONS="icon"
 QPM_DIR_ARM="arm"
 QPM_DIR_X86="x86"
-QPM_DIR_SHARED="shared"
+QPM_DIR_SHARE="share"
 QPM_DIR_WEB="web"
 QPM_DIR_BIN="bin"
 QPM_DIR_BUILD="build"
@@ -117,9 +117,9 @@ create_qpkg(){
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ICONS}" || err_msg "${qpkg_name}: Icon目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ARM}" || err_msg "${qpkg_name}: ARM目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_X86}" || err_msg "${qpkg_name}: X86目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}" || err_msg "${qpkg_name}: Share目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}" || err_msg "${qpkg_name}: Share目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BUILD}" || err_msg "${qpkg_name}: Build目錄建立失敗"
 
   echo "初始化 QPKG設定檔..."
@@ -135,7 +135,7 @@ create_qpkg(){
   edit_config "#QPKG_DIR_X86" ${QPM_DIR_X86} ${configs_path}
   edit_config "#QPKG_DIR_WEB" ${QPM_DIR_WEB} ${configs_path}
   edit_config "#QPKG_DIR_BIN" ${QPM_DIR_BIN} ${configs_path}
-  edit_config "#QPKG_DIR_SHARED" ${QPM_DIR_SHARED} ${configs_path}
+  edit_config "#QPKG_DIR_SHARE" ${QPM_DIR_SHARE} ${configs_path}
 
   fetch_shell "QPM_QPKG_SERVICE" > "${qpkg_name}/${QPM_QPKG_SERVICE}"
 
@@ -173,14 +173,14 @@ build_qpkg(){
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_X86:-${QPM_DIR_X86}} build.$$/${QPM_DIR_X86} || warn_msg 找不到x86目錄
-  cp -af ${QPKG_DIR_SHARED:-${QPM_DIR_SHARED}} build.$$/${QPM_DIR_SHARED} || warn_msg 找不到shared目錄
+  cp -af ${QPKG_DIR_SHARE:-${QPM_DIR_SHARE}} build.$$/${QPM_DIR_SHARE} || warn_msg 找不到shared目錄
 
   fetch_shell "QPM_QPKG_INSTALL" > "build.$$/${QPM_QPKG_INSTALL}"
   fetch_shell "QPM_QPKG_UNINSTALL" > "build.$$/${QPM_QPKG_UNINSTALL}"
 
   mkdir -m 755 -p tmp.$$ || err_msg "無法建立暫存目錄 ${tmp.$$}"
 
-  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARED} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
+  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARE} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
   rm -rf build.$$
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
@@ -193,13 +193,12 @@ build_qpkg(){
   fetch_shell "QPM_QPKG_SCRIPT" > tmp.$$/$QPM_QPKG_SCRIPT
 
   local script_len=$(ls -l tmp.$$/${QPM_QPKG_SCRIPT} | awk '{ print $5 }')
-  script_len=$(expr $script_len + ${#script_len})
-  sed "s/EXTRACT_SCRIPT_LEN=/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${QPKG_FILE_PATH}
+  sed "s/EXTRACT_SCRIPT_LEN=000/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${QPKG_FILE_PATH}
 
   #dd if=tmp.$$/$QPM_QPKG_DATA of="${QPM_QPKG_BUILD}/${QPKG_FILE_PATH}"
   cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
 
-  rm -rf tmp.$$
+  #rm -rf tmp.$$
 
   edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
 
@@ -239,7 +238,7 @@ exit 1
 /bin/echo "Install QNAP package on TS-NAS..."
 /bin/grep "/mnt/HDA_ROOT" /proc/mounts >/dev/null 2>&1 || exit 1
 EXTRACT_DIR_TEMP="/mnt/HDA_ROOT/update_pkg/tmp.$$"
-EXTRACT_SCRIPT_LEN=
+EXTRACT_SCRIPT_LEN=000
 /bin/mkdir -p $EXTRACT_DIR_TEMP || exit 1
 /bin/dd if=${0} bs=$EXTRACT_SCRIPT_LEN skip=1 | /bin/tar -xz -C $EXTRACT_DIR_TEMP || exit 1
 ( cd $EXTRACT_DIR_TEMP && /bin/sh install.sh || echo "Installation Abort." )
@@ -272,7 +271,7 @@ QPKG_LICENSE="GPL v2"                           # 授權模式
 #QPKG_DIR_ICONS=""                              # Package 圖式的目錄
 #QPKG_DIR_ARM=""                                # Package 檔案目錄，ARM專用
 #QPKG_DIR_X86=""                                # Package 檔案目錄，X86專用
-#QPKG_DIR_SHARED=""                             # Package 檔案目錄，通用
+#QPKG_DIR_SHARE=""                             # Package 檔案目錄，通用
 #QPKG_DIR_WEB=""                                # Package Web檔案的目錄
 #QPKG_DIR_BIN=""                                # Package Bin檔案的目錄
 
@@ -325,13 +324,20 @@ SYS_INIT_DIR="/etc/init.d"
 SYS_STARTUP_DIR="/etc/rcS.d"
 SYS_SHUTDOWN_DIR="/etc/rcK.d"
 
+SYS_BASE_DIR="/share/HDA_DATA"
+SYS_PUBLIC_DIR="/share/Public"
+SYS_DOWNLOAD_DIR="/share/Download"
+SYS_MULTIMEDIA_DIR="/share/Multimedia"
+SYS_RECORDINGS_DIR="/share/Recordings"
+
+SYS_WEB_DIR="/share/Web"
 SYS_WEB_CONFIG="${SYS_CONFIG_DIR}/apache/apache.conf"
 SYS_WEB_INIT="${SYS_INIT_DIR}/Qthttpd.sh"
 
 SYS_QPKG_CONFIG="${SYS_CONFIG_DIR}/qpkg.conf"
 SYS_QPKG_SERVICE="${SYS_INIT_DIR}/${QPKG_NAME}"
-SYS_QPKG_STORE=""
-SYS_QPKG_DIR=""
+SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
+SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
 
 SYS_QPKG_CFG_QPKGFILE="QPKG_File"
 SYS_QPKG_CFG_NAME="Name"
@@ -353,7 +359,7 @@ QPM_VER=""
 QPM_DIR_ICONS="icon"
 QPM_DIR_ARM="arm"
 QPM_DIR_X86="x86"
-QPM_DIR_SHARED="shared"
+QPM_DIR_SHARE="share"
 QPM_DIR_WEB="web"
 QPM_DIR_BIN="bin"
 QPM_DIR_BUILD="build"
@@ -547,26 +553,19 @@ set_progress_fail(){
   set_progress -1
 }
 
-#####################################
-# Message to terminal and system log
-#####################################
+#===
+# Log
+#===
 log() {
   local write_msg="$CMD_LOG_TOOL -t0 -uSystem -p127.0.0.1 -mlocalhost -a"
   [ -n "$1" ] && $CMD_ECHO "$1" && $write_msg "$1"
 }
 
-#############################################
-# Warning message to terminal and system log
-#############################################
 warn_log() {
   local write_warn="$CMD_LOG_TOOL -t1 -uSystem -p127.0.0.1 -mlocalhost -a"
   [ -n "$1" ] && $CMD_ECHO "$1" 1>&2 && $write_warn "$1"
 }
 
-###################################################################
-# Error message to terminal and system log. Also cleans up after a
-# failed installation. This function terminates the installation.
-###################################################################
 err_log(){
   local write_err="$CMD_LOG_TOOL -t2 -uSystem -p127.0.0.1 -mlocalhost -a"
   local message="$QPKG_NAME $QPKG_VER installation failed. $1"
@@ -608,71 +607,6 @@ remove_file_and_empty_dir(){
   elif [ -d "$file" ]; then
     $CMD_RMDIR "$file" 2>/dev/null
   fi
-}
-
-###############################################################################
-# Determine location of given share and assign to variable in second argument.
-###############################################################################
-get_share_path(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-  local share="$1"
-  local path="$2"
-
-  # Get location from smb.conf  
-  local location=$($CMD_GETCFG "$share" path -f $SYS_CONFIG_DIR/smb.conf)
-
-  [ -n "$location" ] || return 1
-  eval $path=\"$location\"
-}
-
-####################################################
-# Determine name and location for all system shares
-####################################################
-init_share_settings(){
-  SYS_PUBLIC_SHARE=$($CMD_GETCFG SHARE_DEF defPublic -d Public -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_DOWNLOAD_SHARE=$($CMD_GETCFG SHARE_DEF defDownload -d Qdownload -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_MULTIMEDIA_SHARE=$($CMD_GETCFG SHARE_DEF defMultimedia -d Qmultimedia -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_RECORDINGS_SHARE=$($CMD_GETCFG SHARE_DEF defRecordings -d Qrecordings -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_USB_SHARE=$($CMD_GETCFG SHARE_DEF defUsb -d Qusb -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_WEB_SHARE=$($CMD_GETCFG SHARE_DEF defWeb -d Qweb -f $SYS_CONFIG_DIR/def_share.info)
-
-  get_share_path $SYS_PUBLIC_SHARE     SYS_PUBLIC_PATH
-  get_share_path $SYS_DOWNLOAD_SHARE   SYS_DOWNLOAD_PATH
-  get_share_path $SYS_MULTIMEDIA_SHARE SYS_MULTIMEDIA_PATH
-  get_share_path $SYS_RECORDINGS_SHARE SYS_RECORDINGS_PATH
-  get_share_path $SYS_USB_SHARE        SYS_USB_PATH
-  get_share_path $SYS_WEB_SHARE        SYS_WEB_PATH
-}
-
-##################################################################
-# Determine BASE installation location and assign to SYS_QPKG_DIR
-##################################################################
-assign_base(){
-  local base=""
-  if [ -n "$SYS_PUBLIC_PATH" ] && [ -d "$SYS_PUBLIC_PATH" ]; then
-    local dirp1=$($CMD_ECHO $SYS_PUBLIC_PATH | $CMD_CUT -d "/" -f 2)
-    local dirp2=$($CMD_ECHO $SYS_PUBLIC_PATH | $CMD_CUT -d "/" -f 3)
-    local dirp3=$($CMD_ECHO $SYS_PUBLIC_PATH | $CMD_CUT -d "/" -f 4)
-    [ -n "$dirp1" ] && [ -n "$dirp2" ] && [ -n "$dirp3" ] &&
-      [ -d "/$dirp1/$dirp2/$SYS_PUBLIC_SHARE" ] && base="/$dirp1/$dirp2"
-  fi
-  
-  # Determine BASE location by checking where the directory is.
-  if [ -z "$base" ]; then
-    for datadirtest in /share/HDA_DATA /share/HDB_DATA /share/HDC_DATA \
-           /share/HDD_DATA /share/HDE_DATA /share/HDF_DATA \
-           /share/HDG_DATA /share/HDH_DATA /share/MD0_DATA \
-           /share/MD1_DATA /share/MD2_DATA /share/MD3_DATA
-    do
-      [ -d "$datadirtest/$SYS_PUBLIC_SHARE" ] && base="$datadirtest"
-    done
-  fi
-  if [ -z "$base" ] ; then
-    err_log "$SYS_MSG_PUBLIC_NOT_FOUND"
-  fi
-  SYS_QPKG_BASE="$base"
-  SYS_QPKG_STORE="$SYS_QPKG_BASE/.qpkg"
-  SYS_QPKG_DIR="$SYS_QPKG_STORE/$QPKG_NAME"
 }
 
 ####################################################################
@@ -744,6 +678,24 @@ split_version(){
   eval ${prefix}MAJOR=${major:-0}
   eval ${prefix}MINOR=${minor:-0}
   eval ${prefix}BUILD=${build:-0}
+}
+
+#===
+# library
+#===
+edit_config(){
+  local field="$1"
+  local value="$2"
+  local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
+  if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
+    local new_cfg="${field}=\"${value}\""
+    new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
+    sed "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg > $qpkg_cfg.$$
+    rm -f $qpkg_cfg
+    mv -f $qpkg_cfg.$$ $qpkg_cfg
+  else
+    return 1
+  fi
 }
 
 ##################################################################
@@ -1137,10 +1089,54 @@ init(){
 }
 
 #===
+# get base dir
+#===
+pre_install_get_base_dir_from(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+  local sys_base=""
+  local sys_share=$($CMD_GETCFG SHARE_DEF ${1} -d ${2} -f ${SYS_CONFIG_DIR}/def_share.info)
+  local sys_dir=$($CMD_GETCFG ${sys_share} path -f ${SYS_CONFIG_DIR}/smb.conf)
+  [ -d ${sys_dir} ] && sys_base=$($CMD_ECHO ${sys_dir} | $CMD_AWK -F'/' '{print "/"$2"/"$3}')
+  
+  if [ -z ${sys_base} ] || [ ${sys_base} = '//']; then
+    for dirtest in /share/HDA_DATA /share/HDB_DATA /share/HDC_DATA \
+           /share/HDD_DATA /share/HDE_DATA /share/HDF_DATA \
+           /share/HDG_DATA /share/HDH_DATA /share/MD0_DATA \
+           /share/MD1_DATA /share/MD2_DATA /share/MD3_DATA
+    do
+      [ -d "$dirtest/${sys_share}" ] && sys_base="$dirtest"
+    done
+  fi
+
+  echo ${sys_base}
+}
+
+pre_install_get_base_dir(){
+  if [ -d $(pre_install_get_base_dir_from defPublic Public) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defPublic Public)
+  elif [ -d $(pre_install_get_base_dir_from defDownload Qdownload) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defDownload Qdownload)
+  elif [ -d $(pre_install_get_base_dir_from defMultimedia Qmultimedia) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defMultimedia Qmultimedia)
+  elif [ -d $(pre_install_get_base_dir_from defWeb Qweb) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defWeb Qweb)
+  else
+    err_log "$SYS_MSG_PUBLIC_NOT_FOUND"
+  fi
+
+  SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
+  SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
+
+  edit_config "SYS_BASE_DIR" ${SYS_BASE_DIR}
+  edit_config "SYS_QPKG_STORE" ${SYS_QPKG_STORE}
+  edit_config "SYS_QPKG_DIR" ${SYS_QPKG_DIR}
+}
+
+#===
 # put data
 #===
 install_put_data(){
-  $CMD_CP -arf "${QPM_DIR_SHARED}/*" "${SYS_QPKG_DIR}/"
+  $CMD_CP -arf "${QPM_DIR_SHARE}/*" "${SYS_QPKG_DIR}/"
   if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     echo "put data for arm"
     $CMD_CP -arf "${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
@@ -1155,9 +1151,9 @@ install_put_data(){
 #===
 install_put_script(){
   # put configs
-  $CMD_CP -af ${QPM_QPKG_CONFIGS} "${SYS_QPKG_DIR}/"
+  $CMD_CP -af ${QPM_QPKG_CONFIGS} "${SYS_QPKG_DIR}/.${QPM_QPKG_CONFIGS}"
   # put service script
-  $CMD_CP -af ${QPM_QPKG_SERVICE} "${SYS_QPKG_DIR}/"
+  $CMD_CP -af ${QPM_QPKG_SERVICE} "${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
   # put uninstall script
   $CMD_CP -af ${QPM_QPKG_UNINSTALL} "${SYS_QPKG_DIR}/.${QPM_QPKG_UNINSTALL}"
 }
@@ -1227,6 +1223,8 @@ main(){
   set_progress_begin
   # WTF
   init
+  # get base dir & get qpkg dir
+  pre_install_get_base_dir
   # check QPKG_REQUIRE & QPKG_CONFLICT
   pre_install_check_requirements
   # check whether is already installed

@@ -58,23 +58,9 @@ err_log(){
   exit 1
 }
 
-#####################################################################
-# Add given configuration file and md5sum to SYS_QPKG_CONFIG if
-# not already added.
-######################################################################
-add_qpkg_config(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-  local file="$1"
-  local md5sum="$2"
-
-  $CMD_ECHO "$file" >>$SYS_QPKG_DIR/.list
-  $CMD_GETCFG "$QPKG_NAME" "cfg:$file" -f $SYS_QPKG_CONFIG >/dev/null || \
-    set_qpkg_config $file $md5sum
-}
-
-#################################################
+#===
 # Remove specified file or directory (if empty).
-#################################################
+#===
 remove_file_and_empty_dir(){
   [ -n "$1" ] || return 1
   local file=
@@ -91,80 +77,11 @@ remove_file_and_empty_dir(){
   fi
 }
 
-####################################################################
-# Assign given value to specified field (optional section, defaults
-# to QPKG_NAME).
-####################################################################
-set_qpkg_name(){
-  set_qpkg_field $SYS_QPKG_CFG_NAME "$QPKG_NAME"
-}
-set_qpkg_version(){
-  set_qpkg_field $SYS_QPKG_CFG_VERSION "$QPKG_VER"
-}
-set_qpkg_author(){
-  set_qpkg_field $SYS_QPKG_CFG_AUTHOR "$QPKG_AUTHOR"
-}
-set_qpkg_install_date(){
-  set_qpkg_field $SYS_QPKG_CFG_DATE $($CMD_DATE +%F)
-}
-set_qpkg_install_path(){
-  set_qpkg_field $SYS_QPKG_CFG_INSTALL_PATH $SYS_QPKG_DIR
-}
-set_qpkg_file_name(){
-  set_qpkg_field $SYS_QPKG_CFG_QPKGFILE "${QPKG_QPKG_FILE:-${QPKG_NAME}.qpkg}"
-}
-set_qpkg_config_path(){
-  [ -z "$QPKG_CONFIG_PATH" ] || set_qpkg_field $SYS_QPKG_CFG_CONFIG_PATH "$QPKG_CONFIG_PATH"
-}
-set_qpkg_service_path(){
-  [ -z "$QPKG_SERVICE_PROGRAM" ] || set_qpkg_field $SYS_QPKG_CFG_SHELL "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM"
-}
-set_qpkg_service_port(){
-  [ -z "$QPKG_SERVICE_PORT" ] || set_qpkg_field $SYS_QPKG_CFG_SERVICEPORT "$QPKG_SERVICE_PORT"
-}
-set_qpkg_service_pid(){
-  [ -z "$QPKG_SERVICE_PIDFILE" ] || set_qpkg_field $SYS_QPKG_CFG_SERVICE_PIDFILE "$QPKG_SERVICE_PIDFILE"
-}
-set_qpkg_web_url(){
-  [ -z "$QPKG_WEBUI" ] || set_qpkg_field $SYS_QPKG_CFG_WEBUI "$QPKG_WEBUI"
-}
-set_qpkg_web_port(){
-  if [ -n "$QPKG_WEB_PORT" ]; then
-    set_qpkg_field $SYS_QPKG_CFG_WEBPORT "$QPKG_WEB_PORT"
-    [ -n "$QPKG_WEBUI" ] || set_qpkg_field $SYS_QPKG_CFG_WEBUI "/"
-  fi
-}
-set_qpkg_config(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-  local file="$1"
-  local md5sum="$2"
-
-  set_qpkg_field "cfg:$file" "$md5sum"
-}
-
-##################################################################
-# Split MAJOR.MINOR.BUILD version into individual parts adding an
-# optional prefix to definition
-#
-# The values are available in ${PREFIX}MAJOR, ${PREFIX}MINOR,
-# and ${PREFIX}BUILD
-##################################################################
-split_version(){
-  [ -n "$1" ] || return 1
-  local version="$1"
-  local prefix="$2"
-
-  local major=$($CMD_EXPR "$version" : '\([^.]*\)')
-  local minor=$($CMD_EXPR "$version" : '[^.]*[.]\([^.]*\)')
-  local build=$($CMD_EXPR "$version" : '[^.]*[.][^.]*[.]\([^.]*\)')
-  eval ${prefix}MAJOR=${major:-0}
-  eval ${prefix}MINOR=${minor:-0}
-  eval ${prefix}BUILD=${build:-0}
-}
-
 #===
 # library
 #===
+
+# edit qpkg.cfg
 edit_config(){
   local field="$1"
   local value="$2"
@@ -178,6 +95,20 @@ edit_config(){
   else
     return 1
   fi
+}
+
+# split MAJOR.MINOR.BUILD version
+split_version(){
+  [ -n "$1" ] || return 1
+  local version="$1"
+  local prefix="$2"
+
+  local major=$($CMD_EXPR "$version" : '\([^.]*\)')
+  local minor=$($CMD_EXPR "$version" : '[^.]*[.]\([^.]*\)')
+  local build=$($CMD_EXPR "$version" : '[^.]*[.][^.]*[.]\([^.]*\)')
+  eval ${prefix}MAJOR=${major:-0}
+  eval ${prefix}MINOR=${minor:-0}
+  eval ${prefix}BUILD=${build:-0}
 }
 
 ##################################################################
@@ -525,18 +456,6 @@ call_defined_routine(){
   cd $SYS_EXTRACT_DIR
 }
 
-#################################################
-# Rename configuration files that use old format
-#################################################
-add_config_prefix(){
-  local qpkg_config=$($CMD_SED -n '/^QPKG_CONFIG/s/QPKG_CONFIG="\(.*\)"/\1/p' qpkg.cfg)
-  for file in $qpkg_config
-  do
-    $CMD_GETCFG "$QPKG_NAME" "$file" -f $SYS_QPKG_CONFIG >/dev/null && \
-      $CMD_SED -i "/\[$QPKG_NAME\]/,/^\[/s*^$file*cfg:&*" $SYS_QPKG_CONFIG
-  done
-}
-
 ###############
 # Init routine
 ###############
@@ -555,19 +474,6 @@ init(){
     $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS update || warn_log "$CMD_PKG_TOOL update failed"
     SYS_PKG_UPDATED="TRUE"
   fi
-
-  init_share_settings
-  assign_base
-
-  if [ -f $SYS_QPKG_DIR/.list ]; then
-    $CMD_SORT -r $SYS_QPKG_DIR/.list > $SYS_QPKG_DIR/.oldlist
-    $CMD_RM $SYS_QPKG_DIR/.list
-  fi
-
-  add_config_prefix
-
-  # Package specific routines as defined in package_routines.
-  call_defined_routine pkg_init
 }
 
 #===
@@ -656,20 +562,20 @@ install_put_icons(){
 # link service script
 #===
 post_install_link_service(){
-  if [ -n "$QPKG_SERVICE_PROGRAM" ]; then
-    $CMD_ECHO "Link service start/stop script: $QPKG_SERVICE_PROGRAM"
-    [ -f "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM" ] || err_log "$QPKG_SERVICE_PROGRAM: no such file"
-    $CMD_LN -sf "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM" "$SYS_INIT_DIR/$QPKG_SERVICE_PROGRAM"
-    $CMD_LN -sf "$SYS_INIT_DIR/$QPKG_SERVICE_PROGRAM" "$SYS_STARTUP_DIR/QS${QPKG_RC_NUM}${QPKG_NAME}"
-    $CMD_LN -sf "$SYS_INIT_DIR/$QPKG_SERVICE_PROGRAM" "$SYS_SHUTDOWN_DIR/QK${QPKG_RC_NUM}${QPKG_NAME}"
-    $CMD_CHMOD 755 "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM"
+  if [ -n "$QPM_QPKG_SERVICE" ]; then
+    $CMD_ECHO "Link service start/stop script: $QPM_QPKG_SERVICE"
+    [ -f "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE" ] || err_log "$QPM_QPKG_SERVICE: no such file"
+    $CMD_LN -sf "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE" "$SYS_INIT_DIR/$QPM_QPKG_SERVICE"
+    $CMD_LN -sf "$SYS_INIT_DIR/$QPM_QPKG_SERVICE" "$SYS_STARTUP_DIR/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_LN -sf "$SYS_INIT_DIR/$QPM_QPKG_SERVICE" "$SYS_SHUTDOWN_DIR/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_CHMOD 755 "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE"
   fi
 
   # Only applied on TS-109/209/409 for chrooted env
   if [ -d "${QPKG_ROOTFS-/mnt/HDA_ROOT/rootfs_2_3_6}" ]; then
-    if [ -n "$QPKG_SERVICE_PROGRAM_CHROOT" ]; then
-      $CMD_MV $SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM_CHROOT $QPKG_ROOTFS/etc/init.d
-      $CMD_CHMOD 755 $QPKG_ROOTFS/etc/init.d/$QPKG_SERVICE_PROGRAM_CHROOT
+    if [ -n "$QPM_QPKG_SERVICE_CHROOT" ]; then
+      $CMD_MV $SYS_QPKG_DIR/$QPM_QPKG_SERVICE_CHROOT $QPKG_ROOTFS/etc/init.d
+      $CMD_CHMOD 755 $QPKG_ROOTFS/etc/init.d/$QPM_QPKG_SERVICE_CHROOT
     fi
   fi
 }
@@ -681,19 +587,21 @@ post_install_register_qpkg(){
   $CMD_ECHO "Set QPKG information in $SYS_QPKG_CONFIG"
   [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
 
-  set_qpkg_name
-  set_qpkg_version
-  set_qpkg_author
+  set_qpkg_cfg ${SYS_QPKG_CFG_NAME} ${QPKG_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_DISPLAY_NAME} ${QPKG_DISPLAY_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} ${QPM_VER}
+  set_qpkg_cfg ${SYS_QPKG_CFG_AUTHOR} ${QPKG_AUTHOR}
 
-  set_qpkg_file_name
-  set_qpkg_install_date
-  set_qpkg_service_path
-  set_qpkg_service_port
-  set_qpkg_service_pid
-  set_qpkg_install_path
-  set_qpkg_config_path
-  set_qpkg_web_url
-  set_qpkg_web_port
+  set_qpkg_cfg ${SYS_QPKG_CFG_QPKGFILE} "${QPKG_NAME}.qpkg"
+  set_qpkg_cfg ${SYS_QPKG_CFG_DATE} $($CMD_DATE +%F)
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_SHELL} ${QPM_QPKG_SERVICE}
+  set_qpkg_cfg ${SYS_QPKG_CFG_INSTALL_PATH} ${SYS_QPKG_DIR}
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
+  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT}
+  
+  set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} ${QPKG_DESKTOP_APP}
 }
 
 #===
