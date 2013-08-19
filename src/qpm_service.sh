@@ -14,8 +14,8 @@ case "$1" in
     if [ -n ${QPKG_DIR_WEB} ] &&
        [ -d ${web_dir}] &&
        [$(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0]; then
-      local qpkg_web_path="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
-      cat > $qpkg_web_path <<EOF
+      local qpkg_web_config="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
+      cat > $qpkg_web_config <<EOF
 <IfModule alias_module>
   Alias /${QPKG_WEB_PATH:-$QPKG_NAME}/ "${web_dir}"
   <Directory "${web_dir}">
@@ -25,7 +25,8 @@ case "$1" in
   </Directory>
 </IfModule>
 EOF
-      echo "Include ${qpkg_web_path} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
+      echo "Include ${qpkg_web_config} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
+      ${SYS_WEB_INIT} restart
     fi
     ##### register bin interface #####
     local bin_dir=${SYS_QPKG_DIR}/${QPKG_DIR_BIN}
@@ -46,7 +47,8 @@ EOF
   stop)
     echo "service stop..."
     ##### remove web interface #####
-    $CMD_SED '/^Include.*# QPM {$QPKG_NAME} web/d' ${SYS_WEB_CONFIG}
+    $CMD_SED -i '/^Include.*# QPM {$QPKG_NAME} web/d' ${SYS_WEB_CONFIG}
+    ${SYS_WEB_INIT} restart
     ##### remove bin interface #####
     for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
       rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
