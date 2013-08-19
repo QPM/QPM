@@ -35,26 +35,19 @@ set_progress_fail(){
   set_progress -1
 }
 
-#####################################
-# Message to terminal and system log
-#####################################
+#===
+# Log
+#===
 log() {
   local write_msg="$CMD_LOG_TOOL -t0 -uSystem -p127.0.0.1 -mlocalhost -a"
   [ -n "$1" ] && $CMD_ECHO "$1" && $write_msg "$1"
 }
 
-#############################################
-# Warning message to terminal and system log
-#############################################
 warn_log() {
   local write_warn="$CMD_LOG_TOOL -t1 -uSystem -p127.0.0.1 -mlocalhost -a"
   [ -n "$1" ] && $CMD_ECHO "$1" 1>&2 && $write_warn "$1"
 }
 
-###################################################################
-# Error message to terminal and system log. Also cleans up after a
-# failed installation. This function terminates the installation.
-###################################################################
 err_log(){
   local write_err="$CMD_LOG_TOOL -t2 -uSystem -p127.0.0.1 -mlocalhost -a"
   local message="$QPKG_NAME $QPKG_VER installation failed. $1"
@@ -96,71 +89,6 @@ remove_file_and_empty_dir(){
   elif [ -d "$file" ]; then
     $CMD_RMDIR "$file" 2>/dev/null
   fi
-}
-
-###############################################################################
-# Determine location of given share and assign to variable in second argument.
-###############################################################################
-get_share_path(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-  local share="$1"
-  local path="$2"
-
-  # Get location from smb.conf  
-  local location=$($CMD_GETCFG "$share" path -f $SYS_CONFIG_DIR/smb.conf)
-
-  [ -n "$location" ] || return 1
-  eval $path=\"$location\"
-}
-
-####################################################
-# Determine name and location for all system shares
-####################################################
-init_share_settings(){
-  SYS_PUBLIC_SHARE=$($CMD_GETCFG SHARE_DEF defPublic -d Public -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_DOWNLOAD_SHARE=$($CMD_GETCFG SHARE_DEF defDownload -d Qdownload -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_MULTIMEDIA_SHARE=$($CMD_GETCFG SHARE_DEF defMultimedia -d Qmultimedia -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_RECORDINGS_SHARE=$($CMD_GETCFG SHARE_DEF defRecordings -d Qrecordings -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_USB_SHARE=$($CMD_GETCFG SHARE_DEF defUsb -d Qusb -f $SYS_CONFIG_DIR/def_share.info)
-  SYS_WEB_SHARE=$($CMD_GETCFG SHARE_DEF defWeb -d Qweb -f $SYS_CONFIG_DIR/def_share.info)
-
-  get_share_path $SYS_PUBLIC_SHARE     SYS_PUBLIC_PATH
-  get_share_path $SYS_DOWNLOAD_SHARE   SYS_DOWNLOAD_PATH
-  get_share_path $SYS_MULTIMEDIA_SHARE SYS_MULTIMEDIA_PATH
-  get_share_path $SYS_RECORDINGS_SHARE SYS_RECORDINGS_PATH
-  get_share_path $SYS_USB_SHARE        SYS_USB_PATH
-  get_share_path $SYS_WEB_SHARE        SYS_WEB_PATH
-}
-
-##################################################################
-# Determine BASE installation location and assign to SYS_QPKG_DIR
-##################################################################
-assign_base(){
-  local base=""
-  if [ -n "$SYS_PUBLIC_PATH" ] && [ -d "$SYS_PUBLIC_PATH" ]; then
-    local dirp1=$($CMD_ECHO $SYS_PUBLIC_PATH | $CMD_CUT -d "/" -f 2)
-    local dirp2=$($CMD_ECHO $SYS_PUBLIC_PATH | $CMD_CUT -d "/" -f 3)
-    local dirp3=$($CMD_ECHO $SYS_PUBLIC_PATH | $CMD_CUT -d "/" -f 4)
-    [ -n "$dirp1" ] && [ -n "$dirp2" ] && [ -n "$dirp3" ] &&
-      [ -d "/$dirp1/$dirp2/$SYS_PUBLIC_SHARE" ] && base="/$dirp1/$dirp2"
-  fi
-  
-  # Determine BASE location by checking where the directory is.
-  if [ -z "$base" ]; then
-    for datadirtest in /share/HDA_DATA /share/HDB_DATA /share/HDC_DATA \
-           /share/HDD_DATA /share/HDE_DATA /share/HDF_DATA \
-           /share/HDG_DATA /share/HDH_DATA /share/MD0_DATA \
-           /share/MD1_DATA /share/MD2_DATA /share/MD3_DATA
-    do
-      [ -d "$datadirtest/$SYS_PUBLIC_SHARE" ] && base="$datadirtest"
-    done
-  fi
-  if [ -z "$base" ] ; then
-    err_log "$SYS_MSG_PUBLIC_NOT_FOUND"
-  fi
-  SYS_QPKG_BASE="$base"
-  SYS_QPKG_STORE="$SYS_QPKG_BASE/.qpkg"
-  SYS_QPKG_DIR="$SYS_QPKG_STORE/$QPKG_NAME"
 }
 
 ####################################################################
@@ -625,10 +553,50 @@ init(){
 }
 
 #===
+# get base dir
+#===
+pre_install_get_base_dir_from(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+  local sys_base=""
+  local sys_share=$($CMD_GETCFG SHARE_DEF ${1} -d ${2} -f ${SYS_CONFIG_DIR}/def_share.info)
+  local sys_dir=$($CMD_GETCFG ${sys_share} path -f ${SYS_CONFIG_DIR}/smb.conf)
+  [ -d ${sys_dir} ] && sys_base=$($CMD_ECHO ${sys_dir} | $CMD_AWK -F'/' '{print "/"$2"/"$3}')
+  
+  if [ -z ${sys_base} ] || [ ${sys_base} = '//']; then
+    for dirtest in /share/HDA_DATA /share/HDB_DATA /share/HDC_DATA \
+           /share/HDD_DATA /share/HDE_DATA /share/HDF_DATA \
+           /share/HDG_DATA /share/HDH_DATA /share/MD0_DATA \
+           /share/MD1_DATA /share/MD2_DATA /share/MD3_DATA
+    do
+      [ -d "$dirtest/${sys_share}" ] && sys_base="$dirtest"
+    done
+  fi
+
+  echo ${sys_base}
+}
+
+pre_install_get_base_dir(){
+  if [ -d $(pre_install_get_base_dir_from defPublic Public) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defPublic Public)
+  elif [ -d $(pre_install_get_base_dir_from defDownload Qdownload) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defDownload Qdownload)
+  elif [ -d $(pre_install_get_base_dir_from defMultimedia Qmultimedia) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defMultimedia Qmultimedia)
+  elif [ -d $(pre_install_get_base_dir_from defWeb Qweb) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defWeb Qweb)
+  else
+    err_log "$SYS_MSG_PUBLIC_NOT_FOUND"
+  fi
+
+  SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
+  SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
+}
+
+#===
 # put data
 #===
 install_put_data(){
-  $CMD_CP -arf "${QPM_DIR_SHARED}/*" "${SYS_QPKG_DIR}/"
+  $CMD_CP -arf "${QPM_DIR_SHARE}/*" "${SYS_QPKG_DIR}/"
   if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     echo "put data for arm"
     $CMD_CP -arf "${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
@@ -643,9 +611,9 @@ install_put_data(){
 #===
 install_put_script(){
   # put configs
-  $CMD_CP -af ${QPM_QPKG_CONFIGS} "${SYS_QPKG_DIR}/"
+  $CMD_CP -af ${QPM_QPKG_CONFIGS} "${SYS_QPKG_DIR}/.${QPM_QPKG_CONFIGS}"
   # put service script
-  $CMD_CP -af ${QPM_QPKG_SERVICE} "${SYS_QPKG_DIR}/"
+  $CMD_CP -af ${QPM_QPKG_SERVICE} "${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
   # put uninstall script
   $CMD_CP -af ${QPM_QPKG_UNINSTALL} "${SYS_QPKG_DIR}/.${QPM_QPKG_UNINSTALL}"
 }
@@ -715,6 +683,8 @@ main(){
   set_progress_begin
   # WTF
   init
+  # get base dir & get qpkg dir
+  pre_install_get_base_dir
   # check QPKG_REQUIRE & QPKG_CONFLICT
   pre_install_check_requirements
   # check whether is already installed
