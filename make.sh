@@ -30,4 +30,16 @@ echo "\n###QPM_QPKG_UNINSTALL START" >> ${QPM_PATH}
 cat src/uninstall.sh >> ${QPM_PATH}
 echo "\n###QPM_QPKG_UNINSTALL END" >> ${QPM_PATH}
 
+echo "\n###QPM_ICONS_64 START" >> ${QPM_PATH}
+cat icon/qpkg_icon.png >> ${QPM_PATH}
+echo "\n###QPM_ICONS_64 END" >> ${QPM_PATH}
+
+echo "\n###QPM_ICONS_64_GRAY START" >> ${QPM_PATH}
+cat icon/qpkg_icon_gray.png >> ${QPM_PATH}
+echo "\n###QPM_ICONS_64_GRAY END" >> ${QPM_PATH}
+
+echo "\n###QPM_ICONS_80 START" >> ${QPM_PATH}
+cat icon/qpkg_icon_80.png >> ${QPM_PATH}
+echo "\n###QPM_ICONS_80 END" >> ${QPM_PATH}
+
 chmod 755 ${QPM_PATH}

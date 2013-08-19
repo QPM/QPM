@@ -523,13 +523,13 @@ pre_install_get_base_dir(){
 # put data
 #===
 install_put_data(){
-  $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/*" "${SYS_QPKG_DIR}/"
+  $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/"* "${SYS_QPKG_DIR}/"
   if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     echo "put data for arm"
-    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/"* "${SYS_QPKG_DIR}/"
   else
     echo "put data for x86"
-    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/*" "${SYS_QPKG_DIR}/"
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/"* "${SYS_QPKG_DIR}/"
   fi;
 }
 
@@ -563,11 +563,13 @@ install_put_icons(){
 post_install_link_service(){
   if [ -n "$QPM_QPKG_SERVICE" ]; then
     $CMD_ECHO "Link service start/stop script: $QPM_QPKG_SERVICE"
-    [ -f "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE" ] || err_log "$QPM_QPKG_SERVICE: no such file"
-    $CMD_LN -sf "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE" "$SYS_INIT_DIR/$QPM_QPKG_SERVICE"
-    $CMD_LN -sf "$SYS_INIT_DIR/$QPM_QPKG_SERVICE" "$SYS_STARTUP_DIR/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
-    $CMD_LN -sf "$SYS_INIT_DIR/$QPM_QPKG_SERVICE" "$SYS_SHUTDOWN_DIR/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
-    $CMD_CHMOD 755 "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE"
+    local qpkg_service="${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
+    local init_service="${SYS_INIT_DIR}/${QPKG_NAME}"
+    [ -f ${qpkg_service} ] || err_log "$QPM_QPKG_SERVICE: no such file"
+    $CMD_LN -sf ${qpkg_service} ${init_service}
+    $CMD_LN -sf ${init_service} "${SYS_STARTUP_DIR}/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_LN -sf ${init_service} "${SYS_SHUTDOWN_DIR}/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_CHMOD 755 ${qpkg_service}
   fi
 
   # Only applied on TS-109/209/409 for chrooted env
@@ -641,8 +643,6 @@ main(){
   set_progress_after_install
 
   ##### post-install #####
-  # remove obsolete files
-  $CMD_RM -rf ${SYS_QPKG_TMP}
   # link service script
   post_install_link_service
   # register QPKG information

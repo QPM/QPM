@@ -123,6 +123,10 @@ create_qpkg(){
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BUILD}" || err_msg "${qpkg_name}: Build目錄建立失敗"
 
+  fetch_shell "QPM_ICONS_64" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon.png"
+  fetch_shell "QPM_ICONS_64_GRAY" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon_gray.png"
+  fetch_shell "QPM_ICONS_80" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon_80.png"
+
   echo "初始化 QPKG設定檔..."
 
   local configs_path="${qpkg_name}/${QPM_QPKG_CONFIGS}"

@@ -1,0 +1,3354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plugins>
+  <item>
+    <name>Asterisk</name>
+    <internalName>Asterisk</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Asterisk_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Asterisk_80.png</icon80>
+    <description><![CDATA[Asterisk is a software implementation of a PBX that allows attached telephones to make calls to one another, and to connect to other telephone services including the PSTN and VoIP services. Requires the Optware IPKG.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.4.22.1b</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Asterisk_1.4.22.1b_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Asterisk_1.4.22.1b_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[Adnovea]]></maintainer>
+    <developer><![CDATA[Asterisk - www.asterisk.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=165]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Asterisk]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/asterisk_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/asterisk_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/asterisk_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+    <dependency>Optware</dependency>
+  </item>
+  <item>
+    <name>ATutor</name>
+    <internalName>ATutor</internalName>
+    <category>More</category>
+    <type>Education</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/atutor_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/atutor_80.png</icon80>
+    <description><![CDATA[Atutor is an Open Source Web-based Learning Management System (LMS) used to develop and deliver online courses. Administrators can install or update Atutor in minutes, develop custom themes to give Atutor a new look, and easily extend its functionality with feature modules. Educators can quickly assemble, package, and redistribute Web-based instructional content, easily import prepackaged content, and conduct their courses online. Students can learn in an accessible, adaptive, social learning environment. To manage Atutor, please go to http://NAS_IP/atutor/admin and login with admin/admin (username/password).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.1.1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/ATutor_2.1.1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/ATutor_2.1.1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/10</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Atutor - www.atutor.ca]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:ATutor]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/atutor_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/atutor_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/atutor_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+     <item>
+    <name>BIGACE - Beta</name>
+    <internalName>BIGACE</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/bigace_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/bigace_80.png</icon80>
+    <description>BIGACE is an easy-to-use multi-site, multi-language and multi-user Web CMS, written in PHP/MySQL. Uses FCKeditor for HTML editing. Features: Content versioning, workflows, user and right management. Many Smarty Templates and extensions available. To manage BIGACE, please login with admin/admin (username/password).</description>
+    <moreDescription></moreDescription>
+    <version>2.7.8.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/BIGACE_2.7.8.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/BIGACE_2.7.8.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[BIGACE - www.bigace.de]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:BIGACE]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/bigace_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/bigace_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/bigace_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>BitTorrent Sync</name>
+    <internalName>BitTorrentSync</internalName>
+    <category>More</category>
+    <type>Backup/Sync</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/bittorrentsync_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/bittorrentsync_80.png</icon80>
+    <description><![CDATA[ BitTorrent Sync uses the P2P (peer-to-peer) protocol to synchronize an unlimited number of files (stored on the NAS) between your devices. Your data is not stored on a server in the cloud but is protected using private keys during file transmission.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.1.42</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/BitTorrentSync_1.1.42_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/BitTorrentSync_1.1.42_arm.zip</location>
+    </platform>
+    <publishedDate>2013/08/12</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[BitTorrent Lab]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:BitTorrent Sync]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/bittorrentsync_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/bittorrentsync_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/bittorrentsync_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[]]></tutorialLink>
+  </item>
+  <!--<item>
+    <name>Claroline - Beta</name>
+    <internalName>Claroline</internalName>
+    <category>Beta Lab</category>
+    <type>Education</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/claroline_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/claroline_80.png</icon80>
+    <description><![CDATA[Claroline - is an Open Source eLearning and eWorking platform allowing teachers to build effective online courses and to manage learning and collaborative activities on the web. Translated into 35 languages, Claroline has a large worldwide users’ and developers’ community. After you click the QPKG weblink you will see a warning message. In your browser address bar delete index.php if there and type claroline/install/index.php and press enter. So once again, the final address that will be entered in the address bar will look like this:http://DDNS_ADDRESS/claroline/claroline/install. After you finished the installation, make sure to disable/enable the QPKG in order to delete the install folder.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.10.4</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Claroline_1.10.4_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Claroline_1.10.4_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Claroline - www.claroline.net]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=235]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Claroline]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/claroline_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/claroline_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/claroline_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>-->
+     <item>
+    <name>CMS Made Simple</name>
+    <internalName>CMSMS</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/cmsmadesimple_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/cmsmadesimple_80.png</icon80>
+    <description><![CDATA[CMS Made Simple (CMSMS) is a free open source content management system (CMS) to provide developers, programmers and site owners a web-based development and administration area. To manage CMS Made Simple, please go to http://NAS_IP/cmsms/admin/ and login with admin/admin (username/password).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.11.6.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/CMSMS_1.11.6.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/CMSMS_1.11.6.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/21</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[CMS Made Simple - www.cmsmadesimple.org]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:CMS Made Simple]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/cmsmadesimple_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/cmsmadesimple_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/cmsmadesimple_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Collabtive</name>
+    <internalName>Collabtive</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/collabtive_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/collabtive_80.png</icon80>
+    <description><![CDATA[[Collabtive is a web-based project management software published as free software. It provides an open source alternative to proprietary tools like Basecamp. To manage Collabtive, please login with admin/admin (username/password).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Collabtive_1.0.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Collabtive_1.0.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Collabtive - www.collabtive.o-dyn.de]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Collabtive]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/collabtive_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/collabtive_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/collabtive_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>Concrete 5</name>
+    <internalName>Concrete</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/concrete_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/concrete_80.png</icon80>
+    <description><![CDATA[Concrete 5 is an open source content management system (CMS) for publishing content on the World Wide Web and intranets. Concrete 5 was designed for ease of use, for users with little to no technical background. It enables users to edit site content directly from the page.It provides version management for every page and is similar to wiki software, another type of web site development software. Concrete5 allows users to edit images through an embedded editor on the page. To manage Concrete 5, please login with admin/admin (username/password).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>5.6.1.2.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Concrete_5.6.1.2.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Concrete_5.6.1.2.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/21</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Concrete 5 - www.concrete5.org]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Concrete 5]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/concrete_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/concrete_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/concrete_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+ <!-- <item>
+    <name>CouchPotato 2 - Beta</name>
+    <internalName>CouchPotato2</internalName>
+    <category>Beta Lab</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/couchpotato_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/couchpotato_80.png</icon80>
+    <description>CouchPotato2, or Couch Potato Server (CPS) as it is more commonly known, is an automatic NZB and torrent downloader. You can keep a "movies I want"-list and it will search for NZBs/torrents of these movies every X hours. Once a movie is found, it will send it to SABnzbd or download the .nzb or .torrent to a specified directory.</description>
+    <moreDescription></moreDescription>
+    <version>121229</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/CouchPotato2_121229_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/CouchPotato2_121229_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/27</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[CouchPotato - www.couchpota.to]]></developer>
+    <forumLink>http://forum.qnap.com/viewforum.php?f=269</forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:CouchPotato 2]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/couchpotato_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/couchpotato_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/counchpotato_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+   <dependency>Optware</dependency>
+  </item>-->
+     <item>
+    <name>Dropbox</name>
+    <internalName>Dropbox</internalName>
+    <category>Recommended QPKG</category>
+    <type>Backup/Sync</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/dropbox_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/dropbox_80.png</icon80>
+    <description><![CDATA[The Dropbox app provides a real-time, two-way data synchronization service between the Dropbox folder on the NAS and the user's Dropbox files in the cloud.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.46</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Dropbox_1.0.46_x86.zip</location>
+    </platform>
+    <publishedDate>2013/05/29</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[Dropbox - www.dropbox.com]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Dropbox]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/dropbox_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/dropbox_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/dropbox_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>Download Station</name>
+    <internalName>DownloadStation</internalName>
+    <category>QNAP Select</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Download_Station_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Download_Station_80.png</icon80>
+    <description><![CDATA[The Download Station 3 supports numerous download services including BT, PT (Private Trackers), Magnet link, HTTP/HTTPS and FTP/FTPS. You can easily add download tasks by simple drag-and-drop of the seeds from the computer desktop to the Download Station 3 via Chrome or Firefox, or input the BT URL. Featured with an upgraded download engine, the Download Station 3 brings forth more convenient download experience. ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>3.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/DownloadStation_3.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/DownloadStation_3.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/03/16</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=16]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/downloadtation_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/downloadtation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/downloadstation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+	<item>
+    <name>DJ Station</name>
+    <internalName>djStation</internalName>
+    <category>QNAP Select</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/djstation_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/djstation_80.png</icon80>
+    <description><![CDATA[DJ Station is a live audio streaming service that you can set up your personal radio station by creating custom playlists and broadcasting your favorite music to your friends on Facebook. The DJ Station provides audio streaming by RTMP protocol. So, in the NAT environment you need to open both TCP port 80 and TPC port 1935.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.2.268</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/djStation_1.2.268_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/djStation_1.2.268_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/07/02</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=289]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/djstation_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/djstation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/djstation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+	</item>
+	 <item>
+    <name>DokuWiki - Beta</name>
+    <internalName>DokuWiki</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/dokuwiki_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/dokuwiki_80.png</icon80>
+    <description>DokuWiki is a simple to use and highly versatile Open Source wiki software that doesn't require a database. It is loved by users for its clean and readable syntax. The ease of maintenance, backup and integration makes it an administrator's favorite. To manage DokuWiki, please login with admin/admin (username/password).</description>
+    <moreDescription></moreDescription>
+    <version>20130510.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/DokuWiki_20130510.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/DokuWiki_20130510.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[DokuWiki - www.dokuwiki.org]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:DokuWiki]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/dokuwiki_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/dokuwiki_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/dokuwiki_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>Dolphin - Beta</name>
+    <internalName>Dolphin</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/dolphin_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/dolphin_80.png</icon80>
+    <description><![CDATA[Dolphin is a social networking website package that lets you take control of your own networking website.To manage Dolphin, please login with admin/admin (username/password)]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>7.1.2.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Dolphin_7.1.2.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Dolphin_7.1.2.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/21</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[BoonEx - www.boonex.com/dolphin]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Dolphin]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/dolphin_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/dolphin_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/dolphin_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>Drupal</name>
+    <internalName>drupal7_quicksetup</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/drupal_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/drupal_80.png</icon80>
+    <description>Drupal is a free and open-source content management framework (CMF) written in PHP and distributed under the GNU General Public License.</description>
+    <moreDescription></moreDescription>
+    <version>7.22</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/drupal_7.22.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/drupal_7.22.zip</location>
+    </platform>
+    <publishedDate>2013/06/13</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Drupal - www.drupal.org]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Drupal]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/drupal_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/drupal_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/drupal_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+	<item>
+    <name>DVBLink TV Server - Beta</name>
+    <internalName>DVBLinkTVServer</internalName>
+    <category>Beta Lab</category>
+    <type>Entertainment</type>
+    <icon>http://udpate.qnap.com/QPKG/images/QPKG/dvblink_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/dvblink_80.png</icon80>
+    <description><![CDATA[DVBLink product suite for QNAP NAS turns your QNAP NAS into a personal video recorder. With the support for satellite (DVB-S/S2), Cable (DVB-C and QAM), terrestrial (DVB-T/T2 and ATSC) and IPTV reception DVBLink TV Server will record your favorite TV programs in original quality directly to a hard disk of your QNAP NAS and distribute live and recorded TV throughout your house.<b>Note: DVBLink and pyLoad cannot be installed at the same time.</b>]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>4.5.3</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/DVBLinkTVServer_4.5.3_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/DVBLinkTVServer_4.5.3_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/04/24</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[dvblogic - www.dvblogic.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=298]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:DVBLink TV Server]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/dvblink_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/dvblink_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/dvblink_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>elFinder</name>
+    <internalName>elFinder</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/elfinder_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/elfinder_80.png</icon80>
+    <description><![CDATA[elFinder is a file manager for web similar to that you use on your computer. Written in JavaScript using jQuery UI, it just work's in any modern browser. Its creation is inspired by simplicity and convenience of Finder.app program used in Mac OS X.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.0.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/elFinder_2.0.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/elFinder_2.0.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[elFinder - www.elfinder.org]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:elFinder]]></wikiLink>
+  	<icon100>http://download.qnap.com/QPKG/images/QPKG_100/elfinder_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/elfinder_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/elfinder_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>eTicket</name>
+    <internalName>eTicket</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/eticket_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/eticket_80.png</icon80>
+    <description><![CDATA[eTicket is a PHP-based electronic support ticket system that can receive tickets via email (pop3/pipe) or a web form. It also offers a ticket manager with many features and is an ideal helpdesk solution for any website. To manage eTicket, please go to http://NAS_IP/eticket/admin.php and login with admin/admin (username/password). To use the SMTP service, please go to Control Panel > Notification > SMTP Server.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.7.3.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/eTicket_1.7.3.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/eTicket_1.7.3.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/13</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[eTicketSupport - www.eticketsupport.com]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:eTicket]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/eticket_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/eticket_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/eticket_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <!--<item>
+    <name>Eye-Fi Server - Beta</name>
+    <internalName>EyeFiServer</internalName>
+    <category>Beta Lab</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/eyefiserver_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/eyefiserver_80.png</icon80>
+    <description><![CDATA[Eye-Fi memory cards send pictures from digital cameras to your computer (or any machine on your network) using wifi.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>0.0.14</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/EyeFiServer_0.0.14_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/EyeFiServer_0.0.14_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/26</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[eyefiserver - www.code.google.com/p/eyefiserver/]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewtopic.php?f=132&t=60401]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Eye-Fi Server]]></wikiLink>
+  	<icon100>http://download.qnap.com/QPKG/images/QPKG_100/eyefiserver_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/eyefiserver_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/eyefiserver_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+<dependency>Optware</dependency>
+  </item>-->
+  <item>
+    <name>eyeOS</name>
+    <internalName>eyeOS</internalName>
+    <category>More</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/eyeos_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/eyeos_80.png</icon80>
+    <description><![CDATA[eyeOS is an open source web desktop following the cloud computing concept that leverages collaboration and communication among users.]]></description>
+    <moreDescription><![CDATA[ It acts as a platform for web applications written using the eyeOS Toolkit. It includes a Desktop environment with 67 applications and system utilities. Besides browser access on the PC it's also accessible by portable devices via its mobile front end.]]></moreDescription>
+    <version>1.9.0.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/eyeOS_1.9.0.1.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/eyeOS_1.9.0.1.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[Christopher]]></maintainer>
+    <developer><![CDATA[eyeos - www.eyeos.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=195]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:EyeOS]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/eyeos_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/eyeos_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/eyeos_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Feng Office - Beta</name>
+    <internalName>Fengoffice</internalName>
+    <category>Beta Lab</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/fengoffice_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/fengoffice_80.png</icon80>
+    <description><![CDATA[FengOffice Community Edition main features include project management, document management, contact management, e-mail and time management. Text documents and presentations can be created and edited online. Files can be uploaded, organized and shared, independent of file formats. Organization of the information in Feng Office Community Edition is done using workspaces and tags. The application presents the information stored using different interfaces such as lists, dashboards and calendar views.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.7.4</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Fengoffice_1.7.4_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Fengoffice_1.7.4_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[fengOffice - www.fengoffice.com/web/]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=236]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Feng Office]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/fengoffice_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/fengoffice_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/fengoffice_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Gallery</name>
+    <internalName>Gallery</internalName>
+    <category>More</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/gallery_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/gallery_80.png</icon80>
+    <description><![CDATA[Gallery is an open source project enabling management and publication of digital photographs and other media through a PHP-enabled web server.]]></description>
+    <moreDescription><![CDATA[ Photo manipulation includes automatic thumbnails, resizing, rotation, and flipping, among other things.]]></moreDescription>
+    <version>3.0.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Gallery_3.0.1.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Gallery_3.0.1.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Gallery - www.galleryproject.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=222]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Gallery3]]></wikiLink>
+		<icon100>http://download.qnap.com/QPKG/images/QPKG_100/gallery_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/gallery_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/gallery_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Git</name>
+    <internalName>git</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/git_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/git_80.png</icon80>
+    <description><![CDATA[Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency. It outclasses SCM tools like Subversion, CVS, Perforce, and ClearCase with features like cheap local branching, convenient staging areas, and multiple workflows.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.8.2.3-1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/git_1.8.2.3-1.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/git_1.8.2.3-1.zip</location>
+    </platform>
+    <publishedDate>2013/07/26</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[git - www.git-scm.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=301]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Git]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/git_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/git_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/git_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+    <dependency>Optware</dependency>
+ </item>
+  <item>
+    <name>GLPI</name>
+    <internalName>glpi</internalName>
+    <category>More</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/glpi_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/glpi_80.png</icon80>
+    <description><![CDATA[GLPI is the Information Resource-Manager with an additional Administration- Interface. You can use it to build up a database with an inventory for your company (computer, software, printers...).]]></description>
+    <moreDescription><![CDATA[ It has enhanced functions to make the daily life for the administrators easier, like a job-tracking-system with mail-notification and methods to build a database with basic information about your network-topology. (Quoted from http://www.glpi-project.org/spip.php?article43)<br/><br/>Default administrator account/password: glpi/glpi ]]></moreDescription>
+    <version>0.72.3</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/GLPI_0.72.3.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/GLPI_0.72.3.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[GLPI - www.glpi-project.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=206]]></forumLink>
+    <wikiLink><![CDATA[http://www.glpi-project.org/wiki/doku.php]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/glpi_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/glpi_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/glpi_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>Google Drive Sync</name>
+    <internalName>GoogleDriveSync</internalName>
+    <category>Recommended QPKG</category>
+    <type>Backup/Sync</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/GoogleDriveSync_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/GoogleDriveSync_80.png</icon80>
+    <description><![CDATA[Access files and folders in your Google Drive with Google Drive Sync QPKG. Simply select a shared folder to synchronize with Google Drive or use it as a backup destination.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>0.3.2.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/GoogleDriveSync_0.3.2.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/GoogleDriveSync_0.3.2.1_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2012/10/03</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[Google - www.google.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=291]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Google Drive Sync]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/googledrivesync_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/googledrivesync_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/googledrivesync_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=5734]]></tutorialLink>
+	</item>
+	<item>
+    <name>HappyGet 2</name>
+    <internalName>HappyGet2</internalName>
+    <category>Recommended QPKG</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/HappyGet2_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/HappyGet2_80.png</icon80>
+    <description><![CDATA[HappyGet is your personal video backup tool, which can back up your videos from cloud platforms to your NAS. In the cloud era, smart phones, tablets, and digital cameras may all be connected by the internet. They can easily be used to upload videos to cloud video platforms, such as YouTube and Picasa. However, end devices may be connected to several video platforms and people in one family may upload videos using different accounts. The NAS provides a personal cloud solution to share videos in one family. With HappyGet, you can easily back up videos from the cloud to the NAS and keep them synchronized all the time.
+		<p></p>
+		Supported video platforms
+		<br></br>1. Youtube
+		<br></br>2. Facebook (including photos)
+		<br></br>3. Vimeo
+    <br></br>4. NicoNico
+		]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.1.63c</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/HappyGet2_2.1.63c_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/HappyGet2_2.1.63c_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/06/12</publishedDate>
+    <maintainer><![CDATA[Dogulus Kaien]]></maintainer>
+    <developer><![CDATA[Dogulus Kaien]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=290]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/happyget2_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/happyget2_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/happyget2_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Headphones - Beta</name>
+    <internalName>Headphones</internalName>
+    <category>Beta Lab</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/headphones_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/headphones_80.png</icon80>
+    <description>Headphones is an automated NZB downloader, similar to Sick Beard and CouchPotato, but for music!  Most of it is pretty automated - click a button and your whole music library gets imported.... or if you prefer, you can add your favorite artists in one by one.</description>
+    <moreDescription></moreDescription>
+    <version>130225</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Headphones_130225_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Headphones_130225_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/27</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[ ]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewtopic.php?f=132&t=72515]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Headphones]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/headphones_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/headphones_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/headphones_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+   <dependency>Optware</dependency>
+  </item>
+  <item>
+    <name>HiDrive - Beta</name>
+    <internalName>HiDrive</internalName>
+    <category>Beta Lab</category>
+    <type>Backup/Sync</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/hidrive_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/hidrive_80.png</icon80>
+    <description><![CDATA[HiDrive gives you online storage for all your files: access them whenever you want, and share them with your friends – anywhere, any time. Register for free and get started with 5GB HiDrive! http://www.free-hidrive.com]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.7</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/HiDrive_1.7_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/HiDrive_1.7_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/04/26</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[HiDrive - www.free-hidrive.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=296]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:HiDrive]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/hidrive_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/hidrive_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/hidrive_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+    <tutorialLink><![CDATA[]]></tutorialLink>
+  </item>
+	<item>
+    <name>IceStation</name>
+    <internalName>IceStation</internalName>
+    <category>More</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/icestation_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/icestation_80.png</icon80>
+    <description><![CDATA[IceStation is a project that contains an audio streaming server and a broadcaster. It's based on Icecast and Ices0 with built-in Web GUI interface.]]></description>
+    <moreDescription><![CDATA[ With IceStation you can stream your MP3 music files on the NAS and relaying Internet radio stations.]]></moreDescription>
+    <version>2.0.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/IceStation_2.0.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/IceStation_2.0.1_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[Silas]]></maintainer>
+    <developer><![CDATA[icecast - www.icecast.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=135]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Icestation]]></wikiLink>
+		<icon100>http://download.qnap.com/QPKG/images/QPKG_100/icestation_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/icestation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/icestation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+	</item>
+	 <item>
+    <name>ImpressCMS - Beta</name>
+    <internalName>ImpressCMS</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/impresscms_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/impresscms_80.png</icon80>
+    <description><![CDATA[ImpressCMS is an open source content management system for building and maintaining dynamic web sites, written in the PHP programming language and using a MySQL database. To manage ImpressCMS, please login with admin/admin (username/password).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.3.4.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/ImpressCMS_1.3.4.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/ImpressCMS_1.3.4.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/21</publishedDate>
+    <maintainer><![CDATA[The ImpressCMS Project - www.impresscms.org]]></maintainer>
+    <developer><![CDATA[ ]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:ImpressCMS]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/impresscms_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/impresscms_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/impresscms_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+	<item>
+    <name>iStat</name>
+    <internalName>iStat</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/istat_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/istat_80.png</icon80>
+    <description><![CDATA[iStat monitors everything from cpu, memory and disk usage to which processes are using the most cpu. Users have complete control over which sections they want to monitor and even the detail level in some cases.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>0.5.7</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/iStat_0.5.7_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/iStat_0.5.7_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[Christopher]]></maintainer>
+    <developer><![CDATA[ ]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=209]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:iStat]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/istat_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/istat_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/istat_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>JRE</name>
+    <internalName>JRE</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/JRE_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/JRE_80.png</icon80>
+    <description><![CDATA[Java Runtime Environment 6 which enables to run the compiled Java programs on the NAS (supports only x86-based NAS).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>6.0.22</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/JRE_6.0.22_x86.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[Optimus]]></maintainer>
+    <developer><![CDATA[java - www.java.com]]></developer>
+    <forumLink></forumLink>
+    <wikiLink></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/jre_100.png</icon100>
+		<language><![CDATA[]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/jre_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/jre_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Joomla</name>
+    <internalName>Joomla</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/joomla_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/joomla_80.png</icon80>
+    <description><![CDATA[Joomla! is a free, open source content management system for publishing content on the world wide web and intranets.]]></description>
+    <moreDescription><![CDATA[ The system includes features such as page caching to improve performance, RSS feeds, printable versions of pages, news flashes, blogs, polls, website searching, and language internationalization.]]></moreDescription>
+    <version>1.5.20</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Joomla_1.5.20.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Joomla_1.5.20.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Joomla - www.joomla.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=126]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Joomla]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/joomla_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/joomla_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/joomla_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=2688]]></tutorialLink>
+	</item>
+	<item>
+    <name>LimeSurvey - Beta</name>
+    <internalName>LimeSurvey</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/limesurvey_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/limesurvey_80.png</icon80>
+    <description>LimeSurvey is an online survey application written in PHP based on a MySQL, PostgreSQL or MSSQL database. Designed for ease of use, it enables users to develop and publish surveys, and collect responses, without doing any programming.To manage LimeSurvery, please go to http://NAS_IP/limesurvey/admin/ and login with admin/admin (username/password).</description>
+    <moreDescription></moreDescription>
+    <version>2.00plus.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/LimeSurvey_2.00plus.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/LimeSurvey_2.00plus.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[LimeSurvey - www.limesurvey.org]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:LimeSurvey]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/limesurvey_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/limesurvey_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/limesurvey_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Logaholic</name>
+    <internalName>Logaholic</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/logaholic_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/logaholic_80.png</icon80>
+    <description><![CDATA[Logaholic is a powerful web analytics solution that delivers reliable, objective information about the performance of your web site content, traffic, keywords and marketing. Get useful insights that will help you improve your site today. Logaholic's low impact Javascript tracking tags ensure that collecting data won't slow down your website. If tracking should fail, it does so without delays in load time, which is invisible to the user.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>3.3.3.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Logaholic_3.3.3.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Logaholic_3.3.3.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/21</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Logaholic - www.logaholic.com]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Logaholic]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/logaholic_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/logaholic_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/logaholic_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+	<item>
+    <name>Magento - Beta</name>
+    <internalName>Magento</internalName>
+    <category>Beta Lab</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/magento_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/magento_80.png</icon80>
+    <description><![CDATA[Magento is an open source e-commerce web application. The Magento ecommerce system has been widely adopted by online retailers with 150,000 sites known to use it ranging from smaller ecommerce websites to large multinational businesses.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.4.0.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Magento_1.4.0.1_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Magento_1.4.0.1_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[X.commerce, Inc - www.magentocommerce.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=196]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Magento]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/magento_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/magento_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/magento_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Mantis - Beta</name>
+    <internalName>MantisBT</internalName>
+    <category>Beta Lab</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/mantis_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/mantis_80.png</icon80>
+    <description><![CDATA[MantisBT is a free popular web-based bugtracking system (feature list). It is written in the PHP scripting language and works with MySQL, MS SQL, and PostgreSQL databases and a web server. For detailed installing instruction, please visit QNAP forum - http://forum.qnap.com/viewtopic.php?f=271&t=45728]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.2.11</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/MantisBT_1.2.11_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/MantisBT_1.2.11_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Mantis - www.mantisbt.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=271]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:MantisBT]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/mantis_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/mantis_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/mantis_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>MLDonkey</name>
+    <internalName>MLDonkey</internalName>
+    <category>More</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/mldonkey_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/mldonkey_80.png</icon80>
+    <description><![CDATA[MLDonkey is a door to the "donkey" world, a multi-network, multi-platform open source P2P application used to exchange big files on the Internet and present most features of the basic Windows donkey client and additionally supports overnet, fasttrack, bittorrent and gnutella protocols (and more)!]]></description>
+    <moreDescription><![CDATA[ The core works best with Sancho the premier graphical user interface for MLDonkey and you can download it here.]]></moreDescription>
+    <version>3.1.0.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/MLDonkey_3.1.0.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/MLDonkey_3.1.0.1_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[MLDonkey - www.mldonkey.sourceforge.net]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=122]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:MLDonkey]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/mldonkey_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/mldonkey_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/mldonkey_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=2690]]></tutorialLink>
+  </item>
+  <item>
+    <name>Mono</name>
+    <internalName>Mono</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/mono_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/mono_80.png</icon80>
+    <description><![CDATA[Mono provides .NET Framework environment to run ASP-based websites on Linux.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.6.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Mono_2.6.1_x86.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Mono - www.mono-project.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=214]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Mono]]></wikiLink>
+  	<icon100>http://download.qnap.com/QPKG/images/QPKG_100/mono_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/mono_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/mono_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Moodle - Beta</name>
+    <internalName>Moodle</internalName>
+    <category>Beta Lab</category>
+    <type>Education</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/moodle_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/moodle_80.png</icon80>
+    <description><![CDATA[Moodle - Moodle is an Open Source Course Management System (CMS), also known as a Learning Management System (LMS) or a Virtual Learning Environment (VLE). It has become very popular among educators around the world as a tool for creating online dynamic web sites for their students. To work, it needs to be installed on a web server somewhere, either on one of your own computers or one at a web hosting company.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.0.3</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Moodle_2.0.3_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Moodle_2.0.3_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Moodle - www.moodle.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=247]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Moodle]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/moodle_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/moodle_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/moodle_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>MongoDB</name>
+    <internalName>mongodb</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/mongodb_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/mongodb_80.png</icon80>
+    <description><![CDATA[MongoDB (from "humongous") is an open-source document database, and the leading NoSQL database.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.4.4.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/mongodb_2.4.4.1_x86.zip</location>
+    </platform>
+    <publishedDate>2013/06/13</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[MongoDB - www.mongodb.org]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:MongoDB]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/mongodb_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/mongodb_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/mongodb_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>Multimedia Station</name>
+    <internalName>MultimediaStation</internalName>
+    <category>QNAP Select</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/multimediastation_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/multimediastation_80.png</icon80>
+    <description><![CDATA[The Multimedia Station is a web-based application for viewing the photos, playing music and videos on the NAS by a web browser, and sharing files to popular social networking sites such as Facebook, Plurk, Twitter, Blogger, and so on.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>3.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/MultimediaStation_3.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/MultimediaStation_3.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/25</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=21]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/multimediastation_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/multimediastation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/multimediastation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+	<item>
+    <name>Music Station</name>
+    <internalName>MusicStation</internalName>
+    <category>QNAP Select</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Music_Station_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Music_Station_80.png</icon80>
+    <description><![CDATA[Music Station is a web-based music player for users to enjoy their music collection on the NAS. The music can be played by network streaming or locally via a USB speaker or USB soundcard connected to the NAS. Music alarms can also be set for scheduled playing.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>4.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/MusicStation_4.0_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/MusicStation_4.0_all.zip</location>
+    </platform>
+    <publishedDate>2013/03/11</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=21]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/musicstation_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/musicstation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/musicstation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>MyBB</name>
+    <internalName>MyBB</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/mybb_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/mybb_80.png</icon80>
+    <description>MyBB is a free and open source forum software developed by the MyBB Group. It is written in PHP, supports MySQL, PostgreSQL and SQLite as database systems and has database failover support. To manage MyBB, please login with admin/admin. </description>
+    <moreDescription></moreDescription>
+    <version>1.6.10.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/MyBB_1.6.10.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/MyBB_1.6.10.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[MyBB - www.mybb.com]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:MyBB]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/mybb_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/mybb_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/mybb_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>net2ftp</name>
+    <internalName>net2ftp</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/net2ftp_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/net2ftp_80.png</icon80>
+    <description><![CDATA[net2ftp is a web based FTP client, written in PHP. As well as offering standard FTP functions, net2ftp also offers a variety of features including archiving and extracting files and directories, downloading a selected group of files and/or directories as an archive.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/net2ftp_1.0.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/net2ftp_1.0.1_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/07/18</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[net2ftp - www.net2ftp.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=303]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:net2ftp]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/net2ftp_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/net2ftp_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/net2ftp_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>Node.js</name>
+    <internalName>nodejs</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://udpate.qnap.com/QPKG/images/QPKG/nodejs_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/nodejs_80.png</icon80>
+    <description><![CDATA[Node.js is a server-side software system designed for writing scalable Internet applications, notably web servers. Programs are written on the server side in JavaScript, using event-driven, asynchronous I/O to minimize overhead and maximize scalability.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>0.8.22-2</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/nodejs_0.8.22-2.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/nodejs_0.8.22-2.zip</location>
+    </platform>
+    <publishedDate>2013/07/26</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Joynet, Inc. - www.nodejs.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=300]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Node.js]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/nodejs_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/nodejs_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/nodejs_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+     <item>
+    <name>Nucleus</name>
+    <internalName>Nucleus</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/nucleus_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/nucleus_80.png</icon80>
+    <description>Nucleus CMS is a blog management software package written in PHP with a MySQL backend. It is used to manage frequently-updated Web content. With a little tweaking (mainly to skins), it might be considered a lightweight content management system. To manage Nucleus, please login with admin/admin (username/password).</description>
+    <moreDescription></moreDescription>
+    <version>3.64.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Nucleus_3.64.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Nucleus_3.64.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[The Nucleus Group - www.nucleuscms.org]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Nucleus]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/nucleus_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/nucleus_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/nucleus_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>NZBGet</name>
+    <internalName>NZBGet</internalName>
+    <category>More</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/nzbget_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/nzbget_80.png</icon80>
+    <description><![CDATA[NZBGet is a binary newsgrabber, which downloads files from usenet based on information given in nzb-files. NABGet supports automatic par-check and repair.]]></description>
+    <moreDescription><![CDATA[ Because it's entirely written in C++ so it has extremly low CPU footprint and memory usage.]]></moreDescription>
+    <version>0.7.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/NZBGet_0.7.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/NZBGet_0.7.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[NZBGet - www.nzbget.sourceforge.net]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=141]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:NZBGet]]></wikiLink>
+  	<icon100>http://download.qnap.com/QPKG/images/QPKG_100/nzbget_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/nzbget_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/nzbget_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>OpenCart</name>
+    <internalName>OpenCart</internalName>
+    <category>More</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/opencart_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/opencart_80.png</icon80>
+    <description><![CDATA[OpenCart is a turn-key ready "out of the box" shopping cart solution. You simply install, select your template, add products and you're ready to start accepting orders. To manage OpenCart, please go to http://NAS_IP/opencart/admin/ and login with admin/admin (username/password). ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.5.1.1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/OpenCart_1.5.5.1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/OpenCart_1.5.5.1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/08</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[OpenCart - www.opencart.com]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:OpenCart]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/opencart_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/opencart_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/opencart_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Optware IPKG</name>
+    <internalName>Optware</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/optware_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/optware_80.png</icon80>
+    <description><![CDATA[Ipkg, or the Itsy Package Management System, is a lightweight package management system designed for embedded devices.]]></description>
+    <moreDescription><![CDATA[ It is used in the Unslung operating system for the Linksys NSLU2, in OpenWRT, OpenMoko, Gumstix, iPAQ and now on QNAP NAS too.]]></moreDescription>
+    <version>0.99.163</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Optware_0.99.163.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Optware_0.99.163.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=124]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Optware_Ipkg]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/optware_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/optware_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/optware_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>OSClass</name>
+    <internalName>OSClass</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/osclass_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/osclass_80.png</icon80>
+    <description><![CDATA[OSClass is a php script that allows you to quickly create and manage your own free classifieds. Using this script, you can provide free advertising for sale, real estate, job and car related services. To manage OSClass, please go to http://NAS_IP/osclass/oc-admin and login with admin/admin. ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>3.1.2.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/OSClass_3.1.2.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/OSClass_3.1.2.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/21</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Osclass - www.osclass.org]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:OSClass]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/osclass_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/osclass_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/osclass_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>osCommerce - Beta</name>
+    <internalName>osCommerce</internalName>
+    <category>Beta Lab</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/oscommerce_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/oscommerce_80.png</icon80>
+    <description><![CDATA[osCommerce (“open source Commerce”) is an e-commerce and online store-management software program. It can be used on any web server that has PHP and MySQL installed. It is available as free software under the GNU General Public License.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.31</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/osCommerce_2.31_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/osCommerce_2.31_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[osCommerece - www.oscommerce.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=237]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:osCommerce]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/oscommerce_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/oscommerce_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/oscommerce_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>osTicket - Beta</name>
+    <internalName>osTicket</internalName>
+    <category>Beta Lab</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/osticket_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/osticket_80.png</icon80>
+    <description><![CDATA[osTicket - is a widely-used open source support ticket system. It seamlessly integrates inquiries created via email, phone and web-based forms into a simple easy-to-use multi-user web interface. Manage, organize and archive all your support requests and responses in one place while providing your customers with accountability and responsiveness they deserve.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.6.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/osTicket_1.6.0_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/osTicket_1.6.0_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[osTicket - www.osticket.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=238]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:osTicket]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/osticket_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/osticket_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/osticket_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>phpBB 3 - Beta</name>
+    <internalName>phpBB3</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/phpbb3_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/phpbb3_80.png</icon80>
+    <description>phpBB3 is one of the most popular free forum software around today and we thought it wouldn't be a bad idea to qpkgize it and make is generally available to the public. The installation requires both apache web server and mysql database server to be on and a database needs to be created prior to the installation (use phpMyAdmin to do that).</description>
+    <moreDescription></moreDescription>
+    <version>3.0.8</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/phpBB3_3.0.8_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/phpBB3_3.0.8_all.zip</location>
+    </platform>
+    <publishedDate>2013/05/03</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[phpBB - www.phpbb.com]]></developer>
+    <forumLink>http://forum.qnap.com/viewforum.php?f=193</forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:phpBB 3]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/phpbb3_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/phpbb3_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/phpbb3_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>phpCollab</name>
+    <internalName>phpCollab</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/phpcollab_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/phpcollab_80.png</icon80>
+    <description><![CDATA[phpCollab is an open source Internet-enabled system for use in projects that require collaboration over the Internet. Those organizations, such as consulting firms that rely on a division between firm-side and client-side information, will benefit the most from use of phpCollab.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.5.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/phpCollab_2.5.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/phpCollab_2.5.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/10</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[PHPCOLLAB - www.php-collab.org/blog/]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:phpCollab]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/phpcollab_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/phpcollab_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/phpcollab_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>phpEasyProject</name>
+    <internalName>phpEasyProject</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/phpeasyproject_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/phpeasyproject_80.png</icon80>
+    <description><![CDATA[The intranet solution phpEasyProject is an Open Source project management system designed with an emphasis on project activity management and To-Do lists. To manage phpEasyProject, please login with admin/admin (username/password).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/phpEasyProject_1.1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/phpEasyProject_1.1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/13</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Arthur Harder - www.phpeasyproject.com]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:phpEasyProject]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/phpeasyproject_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/phpeasyproject_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/phpeasyproject_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>phpMyAdmin</name>
+    <internalName>phpMyAdmin</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/phpmyadmin_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/phpmyadmin_80.png</icon80>
+    <description><![CDATA[phpMyAdmin is an open source tool written in PHP intended to handle the administration of MySQL over the Internet.]]></description>
+    <moreDescription><![CDATA[ Currently it can create and drop databases, create/drop/alter tables, delete/edit/add fields, execute any SQL statement, and manage keys on fields.Before logging in phpMyAdmin, please remember to enable TCP/IP networking of MySQL Server.]]></moreDescription>
+    <version>3.3.5</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/phpMyAdmin_3.3.5.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/phpMyAdmin_3.3.5.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[phpMyAdmin - www.phpmyadmin.net]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=125]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:phpMyAdmin]]></wikiLink>
+  	<icon100>http://download.qnap.com/QPKG/images/QPKG_100/phpmyadmin_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/phpmyadmin_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/phpmyadmin_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog> 
+  </item>
+<item>
+    <name>phpFreeChat</name>
+    <internalName>phpFreeChat</internalName>
+    <category>More</category>
+    <type>Communications</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/phpfreechat_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/phpfreechat_80.png</icon80>
+    <description><![CDATA[phpFreeChat is a free, simple to install, fast and customizable chat program that uses its default files for message and nickname storage. It uses AJAX to smoothly refresh and display the chat zone and the nickname zone.]]></description>
+    <moreDescription></moreDescription>
+    <version>2.1.0.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/phpFreeChat_2.1.0.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/phpFreeChat_2.1.0.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/21</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[phpFREECHAT - www.phpfreechat.net]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:phpFreeChat]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/phpfreechat_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/phpfreechat_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/phpfreechat_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Piwik</name>
+    <internalName>Piwik</internalName>
+    <category>More</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/piwik_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/piwik_80.png</icon80>
+    <description><![CDATA[Piwik is a real-time web analytics software program. It provides you with detailed reports on your website visitors: the search engines and keywords they used, the language they speak, your popular pages, just to name a few.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.4</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Piwik_1.4.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Piwik_1.4.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Piwik - www.piwik.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=192]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Piwik]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/piwik_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/piwik_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/piwik_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog> 
+  </item>
+  <item>
+    <name>Plex Media Server</name>
+    <internalName>PlexMediaServer</internalName>
+    <category>More</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/plex_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/plex_80.png</icon80>
+    <description><![CDATA[Plex bridges the gap between your QNAP and your home theater, doing so with a visually appealing user interface that provides instant access to your media.]]></description>
+    <moreDescription><![CDATA[ Plex can play a wide range of video, audio and photo formats as well as online streaming audio and video.]]></moreDescription>
+    <version>0.9.7.12.4</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/PlexMediaServer_0.9.7.12.4_x86.zip</location>
+    </platform>
+<platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/PlexMediaServer_0.9.7.12.4_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/02/06</publishedDate>
+    <maintainer><![CDATA[Cristian]]></maintainer>
+    <developer><![CDATA[Plex - www.plexapp.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=260]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Plex]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/plex_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/plex_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/plex_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>PS3 Media Server</name>
+    <internalName>PMS</internalName>
+    <category>More</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/pms_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/pms_80.png</icon80>
+    <description><![CDATA[PS3 Media Server is a DLNA compliant UPnP Media Server for the PS3, written in Java, with the purpose of streaming or transcoding any kind of media files, with minimum configuration.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.21.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/PMS_1.21.1_x86.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[lightglitch - www.ps3mediaserver.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=212]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:PMS]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/pms_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/pms_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/pms_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog> 
+    <dependency>JRE</dependency>
+  </item>
+	<item>
+    <name>Photo Station</name>
+    <internalName>PhotoStation</internalName>
+    <category>QNAP Select</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Photo_Station_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Photo_Station_80.png</icon80>
+    <description><![CDATA[Photo Station is a web album for you to organize and share photos and videos with your friends, family, and the world. You can also share the photos by email or publish them to popular social networking websites such as Facebook, Twitter, and MySpace. ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>3.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/PhotoStation_3.0_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/PhotoStation_3.0_all.zip</location>
+    </platform>
+    <publishedDate>2013/03/11</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=21]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/photostation_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/photostation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/photostation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>PHP QR Code - Beta</name>
+    <internalName>PHPQRCode</internalName>
+    <category>Beta Lab</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/phpqrcode_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/phpqrcode_80.png</icon80>
+    <description><![CDATA[PHP QR Code is open source (LGPL) library for generating QR Code, 2-dimensional barcode. Based on libqrencode C library, PHP QR Code provides API for creating QR Code barcode images. Implemented purely in PHP, with no external dependencies (except GD2 if needed).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/PHPQRCode_1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/PHPQRCode_1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/03/27</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[PHP QR Code - www.phpqrcode.sourceforge.net]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=302]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:PHP QR Code]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/phpqrcode_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/phpqrcode_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/phpqrcode_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>PostgreSQL - Beta</name>
+    <internalName>PostgreSQL</internalName>
+    <category>Beta Lab</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/postgresql_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/postgresql_80.png</icon80>
+    <description><![CDATA[PostgreSQL is an object-relational database system that has the features of traditional proprietary database systems with enhancements to be found in next-generation DBMS systems.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>9.2.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/PostgreSQL_9.2.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/PostgreSQL_9.2.1_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/03/27</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[PostgreSQL - www.postgresql.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=305]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:PostgreSQL]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/postgresql_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/postgresql_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/postgresql_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>PunBB - Beta</name>
+    <internalName>PunBB</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/punbb_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/punbb_80.png</icon80>
+    <description><![CDATA[PunBB is a fast and lightweight PHP-powered discussion board. It is released under the GNU. Its primary goals are to be faster, smaller and less graphically intensive as compared to other discussion boards. PunBB has fewer features than many other discussion boards, but is generally faster and outputs smaller, semantically correct XHTML-compliant pages.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>0.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/PunBB_0.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/PunBB_0.1_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/03/27</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[PunBB - punbb.informer.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=304]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:PunBB]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/punbb_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/punbb_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/punbb_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>pyLoad</name>
+    <internalName>pyLoad</internalName>
+    <category>More</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/pyLoad_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/pyLoad_80.png</icon80>
+    <description><![CDATA[pyLoad is a fast, lightweight and full-featured download manager for servers and computers running Linux or the other operating systems to download files from common one-clicking websites such as RapidShare or Megaupoload, video sites (e.g. YouTube), or plain HTTP/FTP links. pyLoad supports premium account, CAPTCHA recognition without user input, automatic unraring files, and more.]]></description>
+    <moreDescription><![CDATA[ Users can use this QPKG add-on to download files from one-click hosters to their NAS. <br/><br/>
+    <b>Note:</b> (1) The default login account and password are admin/admin. The downloaded files are saved to the “pyload” folder under Qdownload or Download depending on your NAS model. (2) DVBLink and pyLoad cannot be installed at the same time.]]></moreDescription>
+    <version>4.9</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/pyLoad_4.9_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/pyLoad_4.9_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2012/1/03</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[pyLoad -  www.pyload.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=232]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:pyLoad]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/pyload_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/pyload_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/pyload_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Python</name>
+    <internalName>Python</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/python_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/python_80.png</icon80>
+    <description><![CDATA[Python is a general-purpose, high-level programming language. Its design philosophy emphasizes programmer productivity and code readability.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.7</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Python_2.7_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Python_2.7_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Python - www.python.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=217]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Python]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/python_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/python_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/python_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>QAirplay</name>
+    <internalName>QAirplay</internalName>
+    <category>Recommended QPKG</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/QAirplay_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/QAirplay_80.png</icon80>
+    <description><![CDATA[QAirPlay lets you stream photo, music, and video from NAS to Apple TV. You may also use mobile app Qfile to browse the media content on the NAS and play the content on Apple TV. <p></p>Note:  Currently, the maximum file size that QAirplay supports is 2GB. ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.45a</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/QAirplay_1.1.45a_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/QAirplay_1.1.45a_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/08/14</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/qairplay_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/qairplay_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/qairplay_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <!--<item>
+    <name>QiTunesAir</name>
+   
+    <internalName>QiTunesAir</internalName>
+    <category>Recommended QPKG</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/QiTuneAir_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/QiTuneAir_80.png</icon80>
+    <description><![CDATA[With the iTunes Server alternative, the QiTunesAir QPKG audio files stored in the Turbo NAS can be streamed and played with AirPlay-enabled players such as AirPort Express and Apple TV. With the “Remote” app installed on iOS devices, controlling music playback becomes as easy as using a remote to control a conventional audio set in the house.<p></p>Note: iTunes server will be disabled after QiTunesAir is enabled.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.3</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/QiTunesAir_1.3_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/QiTunesAir_1.3_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2012/9/26</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=282]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:QiTunesAir]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/qitunesair_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/qitunesair_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/qitunesair_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>-->
+<!--<item>
+    <name>Signage Station - Beta</name>
+    <internalName>SignageStation</internalName>
+    <category>Partners</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/qsignage_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/qsignage_80.png</icon80>
+    <description>Signage Station is digital signage software that supports digital signage content upload and users account management. The signage content owner can share his own content to other NAS users.</description>
+    <moreDescription></moreDescription>
+    <version>1.0.9.20</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/SignageStation_1.0.9.20_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/SignageStation_1.0.9.20_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/07/23</publishedDate>
+    <maintainer><![CDATA[iNDS]]></maintainer>
+    <developer><![CDATA[iNDS]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/qsignage_100.png</icon100>
+    <language><![CDATA[English, 繁中, 简中]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/qsignage_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/qsignage_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>-->
+  <item>
+    <name>QUSBCam</name>
+    <internalName>QUSBCam</internalName>
+    <category>Recommended QPKG</category>
+    <type>Surveillance</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/QUSBCam_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/QUSBCam_80.png</icon80>
+    <description><![CDATA[The QUSBCam QPKG add-on allows users to connect a UVC-compliant (USB Video Class) USB webcam to the QNAP Turbo NAS and utilize the Surveillance Station to record and play back videos, building a budget-saving surveillance system for home and office.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/QUSBCam_2.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/QUSBCam_2.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2012/6/12</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink>http://forum.qnap.com/viewforum.php?f=264<![CDATA[]]></forumLink>
+    <wikiLink>http://wiki.qnap.com/wiki/Category:Surveillance_Station<![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/qusbcam_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/qusbcam_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/qusbcam_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=2728]]></tutorialLink>
+  </item>
+  <item>
+    <name>Ruby on Rails</name>
+    <internalName>ruby</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/ruby_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/ruby_80.png</icon80>
+    <description><![CDATA[Ruby on Rail is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.9.1.243</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ruby_1.9.1.243.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ruby_1.9.1.243.zip</location>
+    </platform>
+    <publishedDate>2013/06/13</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[David Heinemeier Hansson - www.rubyonrails.org]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Ruby on Rails]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/ruby_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/ruby_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/ruby_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+<dependency>Optware</dependency>
+  </item>
+  <item>
+    <name>SABnzbdplus - Beta</name>
+      <internalName>SABnzbdplus</internalName>
+    <category>Beta Lab</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/sabnzbd_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/sabnzbd_80.png</icon80>
+    <description><![CDATA[SABnzbdplus is a multi-platform binary newsgroup downloader written in Python language. The program works in the background and simplifies the downloading, verifying and extracting of files from Usenet.]]></description>
+    <moreDescription><![CDATA[ SABnzbdplus does not search for files, instead NZB files (similar to .torrent files, but for Usenet) are fed to SABnzbdplus from sites like newzbin.com, binsearch.info and tvnzb.com (Requires prior installation of Python)]]></moreDescription>
+    <version>0.6.5</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/SABnzbdplus_0.6.5_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/SABnzbdplus_0.6.5_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[sl1000]]></maintainer>
+    <developer><![CDATA[SABnzbd - www.sabnzbd.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=133]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:SABnzbdplus]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/sabnzbd_100.png</icon100>
+		<language><![CDATA[English, Dansk, Deutsch, Italiano, Norsk,  Svenska, Nederlands,  Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/sabnzbd_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/sabnzbd_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+    <dependency>Optware</dependency>
+  </item>
+	<item>
+    <name>Logitech Media Server</name>
+    <internalName>LogitechMediaServer</internalName>
+    <category>More</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/logitech_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/logitech_80.png</icon80>
+    <description><![CDATA[Logitech Media Server is an audio server designed for streaming music to Logitech devices over a network, allowing users to play their music collections from virtually anywhere there is an Internet connection.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>7.7.2</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/LogitechMediaServer_7.7.2_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/LogitechMediaServer_7.7.2_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2012/12/04</publishedDate>
+    <maintainer><![CDATA[SL1000]]></maintainer>
+    <developer><![CDATA[Logitech - www.mysqueezebox.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=123]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Logitech Media Server]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/logitech_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/logitech_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/logitech_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Serendipity - Beta</name>
+    <internalName>Serendipity</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/serendipity_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/serendipity_80.png</icon80>
+    <description><![CDATA[Serendipity - is a PHP-powered weblog application which gives the user an easy way to maintain an online diary, weblog or even a complete homepage. While the default package is designed for the casual blogger, Serendipity offers a flexible, expandable and easy-to-use framework with the power for professional applications. Default username/password: John Doe/john ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.5.5</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Serendipity_1.5.5_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Serendipity_1.5.5_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/26</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Serendipity - www.s9y.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=239]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Serendipity]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/serendipity_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/serendipity_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/serendipity_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+   <item>
+    <name>Sharetronix</name>
+    <internalName>Sharetronix</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/sharetronix_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/sharetronix_80.png</icon80>
+    <description>Sharetronix is the world's favorite opensource microblogging platform. Sharetronix enables people to exchange ideas and multimedia files in real-time. To manage Sharetronix, please login with administrator/administrator (username/password).</description>
+    <moreDescription></moreDescription>
+    <version>3.1.1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Sharetronix_3.1.1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Sharetronix_3.1.1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/03</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Sharetronix - www.sharetronix.com]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Sharetronix]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/sharetronix_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/sharetronix_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/sharetronix_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <!--<item>
+    <name>SickBeard - Beta</name>
+    <internalName>SickBeard</internalName>
+    <category>Beta Lab</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/sickbeard_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/sickbeard_80.png</icon80>
+    <description>Sick Beard is a PVR for newsgroup users (with limited torrent support). It watches for new episodes of your favorite shows and when they are posted it downloads them, sorts and renames them, and optionally generates metadata for them. It currently supports NZBs.org, NZBMatrix, NZBs'R'Us, Bin-Req.com, and EZTV.it and retrieves show information from TVDB.com and TVRage.com. (Requires prior installation of Optware) </description>
+    <moreDescription></moreDescription>
+    <version>121225</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/SickBeard_121225_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/SickBeard_121225_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/27</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[midgetspy - www.sickbeard.com]]></developer>
+    <forumLink>http://forum.qnap.com/viewforum.php?f=223</forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:SickBeard]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/sickbeard_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/sickbeard_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/sickbeard_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+   <dependency>Optware</dependency>
+  </item>-->
+   <item>
+    <name>Simple PHP Blog - Beta</name>
+    <internalName>Sphpblog</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/simplephpblog_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/simplephpblog_80.png</icon80>
+    <description>Simple PHP Blog is an online blog system that does not require a database, uses flat text files, and looks nice. Its main advantage is that it only requires PHP 5 and the write permission. To manage Simple PHP Blog, please login with admin/admin (username/password).</description>
+    <moreDescription></moreDescription>
+    <version>0.8.1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Sphpblog_0.8.1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Sphpblog_0.8.1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/17</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[SimplePHPBlog - www.simplephpblog.com]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Simple PHP Blog]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/simplephpblog_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/simplephpblog_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/simplephpblog_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>SQLBuddy - Beta</name>
+    <internalName>SQLBuddy</internalName>
+    <category>Beta Lab</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/sqlbuddy_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/sqlbuddy_80.png</icon80>
+    <description><![CDATA[SQL Buddy is an open source web based application written in PHP intended to handle the administration of MySQL and SQLite with the use of a Web browser. The project places an emphasis on ease of installation and a simple user interface.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.3.3</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/SQLBuddy_1.3.3_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/SQLBuddy_1.3.3_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/26</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[SQLBuddy - www.sqlbuddy.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=240]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:SQLBuddy]]></wikiLink>
+  	<icon100>http://download.qnap.com/QPKG/images/QPKG_100/sqlbuddy_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/sqlbuddy_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/sqlbuddy_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>SugarCRM - Beta</name>
+    <internalName>sugarCRM</internalName>
+    <category>Beta Lab</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/sugarcrm_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/sugarcrm_80.png</icon80>
+    <description><![CDATA[SugarCRM is the commercial Open Source - Customer Relationship Management (CRM) software for companies of all sizes. Sugar easily adapts to any business environment by offering a more flexible, cost-effective alternative than proprietary applications. SugarCRM's open source architecture allows companies to more easily customize and integrate customer-facing business processes in order to build and maintain more profitable relationships. SugarCRM comes in three editions SugarCRM Open Source, SugarCRM Professional and SugarCRM Enterprise Edition.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>CE-6.2.0b5</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/sugarCRM_CE-6.2.0b5_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/sugarCRM_CE-6.2.0b5_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/26</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[SugarCRM - www.sugarcrm.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=241]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:SugarCRM]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/sugarcrm_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/sugarcrm_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/sugarcrm_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[]]></tutorialLink>
+  </item>
+  <item>
+    <name>Squid</name>
+    <internalName>Squid</internalName>
+    <category>Recommended QPKG</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Squid_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Squid_80.png</icon80>
+    <description><![CDATA[Squid is a caching proxy for the Web supporting HTTP, HTTPS, FTP, and more. It reduces bandwidth and improves response times by caching and reusing frequently-requested web pages.]]></description>
+    <moreDescription><![CDATA[ Squid has extensive access controls and makes a great server accelerator. It runs on most available operating systems, including Windows and is licensed under the GNU GPL]]></moreDescription>
+    <version>3.1.16.5</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Squid_3.1.16.5_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+       <location>http://eu1.qnap.com/Storage/QPKG/ARM/Squid_3.1.16.5_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/07/03</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[Squid - www.squid-cache.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=277]]></forumLink>
+    <wikiLink><![CDATA[http://en.wikipedia.org/wiki/Squid_(software)]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/squid_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/squid_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/squid_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=3838]]></tutorialLink>
+  </item>
+     <item>
+    <name>Subrion - Beta</name>
+    <internalName>Subrion</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/subrion_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/subrion_80.png</icon80>
+    <description>Subrion CMS is a stand-alone PHP content management system that is very easy to use. It comes with a ton of great features including full source editing, per-page permissions, user activity monitoring, and much more. To manage Subrion, please login with admin/admin (username/password).</description>
+    <moreDescription></moreDescription>
+    <version>2.3.7.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Subrion_2.3.7.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Subrion_2.3.7.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/29</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Intelliants LLC - www.subrion.com]]></developer>
+    <forumLink></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Subrion]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/subrion_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/subrion_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/subrion_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Surveillance Station Pro</name>
+    <internalName>SurveillanceStation</internalName>
+    <category>QNAP Select</category>
+    <type>Surveillance</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Surveillance_Station_Pro_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Surveillance_Station_Pro_80.png</icon80>
+    <description><![CDATA[The Surveillance Station Pro is an IP surveillance solution which offers live monitoring and recording of network cameras, intelligent video playback, advanced alarm features and more for home and office security. The VMobile app is also available for management of the Surveillance Station Pro by iOS or Android devices on the go.
+    	<br><br/>Note:
+    	<p></p>1. The Surveillance Station Pro offers one free recording channel. To add extra number of recording channels, please purchase the license from the QNAP License Store (http://license.qnap.com/).
+    	<p></p>2. You will log out of the NAS automatically after installing or removing the Surveillance Station Pro.
+    	]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>3.0.2</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/SurveillanceStation_3.0.2_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/SurveillanceStation_3.0.2_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/06/07</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=21]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/surveillancestationpro_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/surveillancestationpro_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/surveillancestationpro_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>TappIn</name>
+    <internalName>TappIn</internalName>
+    <category>Recommended QPKG</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/TappIn_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/TappIn_80.png</icon80>
+    <description><![CDATA[With TappIn by GlobalSCAPE, users can safely access data directly from most operating systems, platforms, and mobile devices.]]></description>
+    <moreDescription><![CDATA[ TappIn’s innovative secure cloud pathway eliminates the need to upload, sync, or pay for additional cloud storage. With the TappIn service, QNAP Turbo NAS customers can securely access and share files of any size with encryption to safeguard content.]]></moreDescription>
+    <version>2.4</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/TappIn_2.4_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/TappIn_2.4_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/07/17</publishedDate>
+    <maintainer><![CDATA[Tappin, Inc.]]></maintainer>
+    <developer><![CDATA[Tappin, Inc. - www.tappin.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=284]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:TappIn]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/tappin_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/tappin_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/tappin_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=4843]]></tutorialLink>
+  </item>
+  <item>
+    <name>Tomcat</name>
+    <internalName>Tomcat</internalName>
+    <category>More</category>
+    <type>Developer Tools</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Tomcat_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Tomcat_80.png</icon80>
+    <description><![CDATA[Tomcat implements the Java Servlet and the JavaServer Pages (JSP) specifications from Sun Microsystems, and provides a "pure Java" HTTP web server environment for Java code to run.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>6.0.20</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Tomcat_6.0.20_x86.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[Adnovea]]></maintainer>
+    <developer><![CDATA[Apache - www.tomcat.apache.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=166]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Tomcat]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/tomcat_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/tomcat_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/tomcat_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+    <dependency>JRE</dependency>
+  </item>
+  <item>
+    <name>Transmission</name>
+    <internalName>Transmission</internalName>
+    <category>More</category>
+    <type>Download</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/transmission_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/transmission_80.png</icon80>
+    <description><![CDATA[Transmission is an open source, volunteer-based BitTorrent client that allows users to download files from the Internet and upload their own files or torrents.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.75</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Transmission_2.75-b19_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Transmission_2.75-b19_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/01/15</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Transmission Project - www.transmissionbt.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=221]]></forumLink>
+	<wikiLink>http://wiki.qnap.com/wiki/Category:Transmission</wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/transmission_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/transmission_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/transmission_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=8685]]></tutorialLink>
+    <dependency>Optware</dependency>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Transmission]]></wikiLink>
+  </item>
+<item>
+    <name>Digital TV Station</name>
+    <internalName>TvStation</internalName>
+    <category>QNAP Select</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/TVStation_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/TVStation_80.png</icon80>
+    <description><![CDATA[Digital TV Station is a digital TV center that allows you to watch live TV channels and recorded TV programs on the NAS. You can also set up schedules to record your favorite TV programs with the Electronic Program Guide (EPG) provided.
+
+<br/><br/>Note: 
+<p><p/>
+1.A compatible USB TV tuner is required to use this function. Compatibility - http://www.qnap.com/go/compatibility_tv_tuner.html
+<p><p/>
+2.The Digital TV Station is supported on Windows 7 or above with 32-bit web browsers.
+]]></description>
+<moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.3</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/TVStation_1.0.3_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/TVStation_1.0.3_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/06/02</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=21]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/tvstation_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/tvstation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/tvstation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>TwonkyMedia</name>
+    <internalName>TwonkyMedia</internalName>
+    <category>More</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Twonky_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Twonky_80.png</icon80>
+    <description><![CDATA[TwonkyMedia server is DLNA-compliant UPnP AV server software available for all the modern operating systems as well as mobile platforms such as Android.]]></description>
+    <moreDescription><![CDATA[ TwonkyMedia server can be used to share and stream media to most UPnP AV or DLNA-compliant clients, in addition to non-UPnP devices through the HTML, RSS, and JSON supported front-ends.]]></moreDescription>
+    <version>7.0.13</version>
+    <platform>
+    <platformID>TS-NASX86</platformID>
+    <location>http://eu1.qnap.com/Storage/QPKG/X86/TwonkyMedia_7.0.13_x86.zip</location>
+    </platform>
+    <platform>
+    <platformID>TS-NASARM</platformID>
+    <location>http://eu1.qnap.com/Storage/QPKG/ARM/TwonkyMedia_7.0.13_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/03/28</publishedDate>
+    <maintainer><![CDATA[Twonky]]></maintainer>
+    <developer><![CDATA[PacketVideo - www.twonky.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=213]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:TwonkyMedia]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/twonkymedia_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/twonkymedia_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/twonkymedia_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Vanilla Forum - Beta</name>
+    <internalName>Vanilla</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/vanilla_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/vanilla_80.png</icon80>
+    <description><![CDATA[Vanilla is a light weight Internet forum package written in the PHP scripting language. It is released under the GNU GPL. Vanilla Forums are open-source, standards-compliant, customizable discussion forums.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.0.17.9</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Vanilla_2.0.17.9_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Vanilla_2.0.17.9_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Vanilla Forum - www.vanillaforums.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=243]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Vanilla Forum]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/vanilla_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/vanilla_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/vanilla_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Video Station</name>
+    <internalName>VideoStation</internalName>
+    <category>QNAP Select</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Video_Station_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Video_Station_80.png</icon80>
+    <description><![CDATA[Video Station enables you to create your own video website in just a few clicks. It supports various video formats to upload, allowing you to create a rich collection of videos for fun entertainment. Have a seat, and use Video Station to enjoy your collected sport games, movies, music videos, cartoons, or self-recorded videos.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+     <version>1.0.4</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://download.qnap.com/QPKG/VideoStation_1.0.4_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://download.qnap.com/QPKG/VideoStation_1.0.4_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/07/03</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=21]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/videostation_100.png</icon100>
+		<language><![CDATA[English, 简体中文, 繁體中文, Czech, Dansk, Deutsch, Español, Français, Italiano, 日本語, 한글, Norsk, Polski, Русский, Suomi, Svenska, Nederlands, Turk dili, ไทย, Português, Magyar, Ελληνικά, Român]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/videostation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/videostation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>vtiger CRM</name>
+    <internalName>VtigerCRM</internalName>
+    <category>More</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/vtigercrm_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/vtigercrm_80.png</icon80>
+    <description><![CDATA[vtigerCRM is an open source CRM application ideal for small and medium businesses with comparable functionality to SugarCRM and Salesforce.com.]]></description>
+    <moreDescription><![CDATA[ It offers sales force & marketing automation, customer support service, inventory, security and activity management, group calendars, E-mail integration and many more features required for building a complete and production level CRM system.]]></moreDescription>
+    <version>5.2.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/VtigerCRM_5.2.0.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/VtigerCRM_5.2.0.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[vtiger - www.vtiger.com/crm/]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=208]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.vtiger.com/index.php/Main_Page]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/vtigercrm_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/vtigercrm_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/vtigercrm_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=2711]]></tutorialLink>
+  </item>
+  <item>
+    <name>WebCollab - Beta</name>
+    <internalName>Webcollab</internalName>
+    <category>Beta Lab</category>
+    <type>Utilities</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/webcollab_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/webcollab_80.png</icon80>
+    <description><![CDATA[A collaborative web-based system for projects and project management; WebCollab is easy to use, and encourages users to work together. The software is functionally elegant and secure without being cumbersome for users, or graphically intensive. After installing this application, when you click on the QPKG weblink you will be taken to the index paged. In order to setup webcollab, you will have to replace, in your browser address bar index.php with setup.php and follow the instructions there.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.70</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Webcollab_2.70_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Webcollab_2.70_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[WebCollab - www.webcollab.sourceforge.net]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=244]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:WebCollab]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/webcollab_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/webcollab_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/webcollab_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+    <item>
+    <name>Wonder Box</name>
+    <internalName>WonderBox</internalName>
+    <category>Partners</category>
+    <type></type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/wonderbox_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/wonderbox_80.png</icon80>
+    <description>WonderBox simplifies the way sharing is done, and makes sharing easy and intuitive. With the patented network traversal technology of WonderBox, the requirement of fixed IP address for a NAS is not necessary any more. No extra setting on the “Port Forwarding” of an Internet router is required. The only thing what a user needs to do is plugging the NAS into the network to access Internet, and then the user can directly access the NAS anywhere and anytime in Internet.  There is no more process to synchronize data to any public cloud storage, such as DropBox, Skydrive, etc.  Besides, add as many disk spaces on your NAS as you need, easily sharing and connecting by your own QNAP NAS cloud.</description>
+    <moreDescription></moreDescription>
+    <version>1.1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/WonderBox_1.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/WonderBox_1.1_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/07/24</publishedDate>
+    <maintainer><![CDATA[Cyberhood]]></maintainer>
+    <developer><![CDATA[Cyberhood - www.kinghood.com.tw]]></developer>
+    <forumLink>http://www.wonderbox.net.tw/en/#discuss</forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Wonder Box]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/wonderbox_100.png</icon100>
+    <language><![CDATA[English, 繁中]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/wonderbox_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/wonderbox_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>webERP</name>
+    <internalName>webERP</internalName>
+    <category>More</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/weberp_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/weberp_80.png</icon80>
+    <description><![CDATA[webERP is a complete web based accounting and business management system that requires only a web-browser and pdf reader to use. It has a wide range of features suitable for many businesses, and particularly in the wholesale, distribution and manufacturing sectors. To manage, please login with admin/weberp (username/password).]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>4.10.1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/webERP_4.10.1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/webERP_4.10.1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/08</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[webERP - www.weberp.org]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:webERP]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/weberp_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/weberp_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/weberp_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>WordPress</name>
+    <internalName>WordPress</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/wordpress_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/wordpress_80.png</icon80>
+    <description><![CDATA[WordPress is a free, open-source personal publishing system that allows you to easily create a complex blog, or web log, on your site.]]></description>
+    <moreDescription><![CDATA[ Written in PHP and supported by a MySQL database, WordPress offers intuitive administrative tools and sophisticated design features that make it easy to develop and integrate a personal or professional blog on your site.]]></moreDescription>
+    <version>3.1.2</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/WordPress_3.1.2.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/WordPress_3.1.2.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[WordPress - www.wordpress.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=139]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:WordPress]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/wordpress_100.png</icon100>
+		<language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/wordpress_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/wordpress_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+		<tutorialLink><![CDATA[http://www.qnap.com/en/index.php?lang=en&sn=2693]]></tutorialLink>
+  </item>
+  <item>
+    <name>XMail</name>
+    <internalName>XMail_phpxmail</internalName>
+    <category>More</category>
+    <type>Communications</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Xmail_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Xmail_80.png</icon80>
+    <description><![CDATA[XMail is an Internet and Intranet mail server featuring a SMTP server, POP3 server, finger server, TLS support for SMTP and POP3 (both server and client side), multiple domains.]]></description>
+    <moreDescription><![CDATA[ No need for users to have a real system account, SMTP relay checking, DNS based maps check, custom (IP based and address based) spam protection, SMTP authentication (PLAIN LOGIN CRAM-MD5 POP3-before-SMTP and custom), a POP3 account syncronizer with external POP3 accounts, account aliases, domain aliases, custom mail processing, direct mail files delivery, custom mail filters, mailing lists, remote administration, custom mail exchangers, logging, and multi-platform code.]]></moreDescription>
+    <version>1.27</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/XMail_phpxmail_1.27_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/XMail_phpxmail_1.27_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2011/10/12</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Davide Libenzi - www.xmailserver.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=261]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:XMail]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/xmail_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/xmail_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/xmail_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Xoops</name>
+    <internalName>Xoops</internalName>
+    <category>More</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Xoops_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Xoops_80.png</icon80>
+    <description><![CDATA[Xoops is an easy-to-use dynamic web content management system written in PHP. It is very customizable with plenty of themes to download.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>2.5.1.a</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Xoops_2.5.1a.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Xoops_2.5.1a.zip</location>
+    </platform>
+    <publishedDate>2011/12/02</publishedDate>
+    <maintainer><![CDATA[Cristian]]></maintainer>
+    <developer><![CDATA[Xoops - www.xoops.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=245]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Xoops]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/xoops_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/xoops_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/xoops_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>Xeams</name>
+    <internalName>Xeams</internalName>
+    <category>More</category>
+    <type>Communications</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/Xeams_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/Xeams_80.png</icon80>
+    <description><![CDATA[Xeams is a secure and powerful mail server for Windows, Linux, Solaris, Mac OS X and other flavors or UNIX, which supports SMTP, POP3, and IMAP.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>4.3.567b1</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Xeams_4.3.567b1_x86.zip</location>
+    </platform>
+    <publishedDate>2011/12/02</publishedDate>
+    <maintainer><![CDATA[Cristian]]></maintainer>
+    <developer><![CDATA[Synametic Technologies, Inc. - www.xeams.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=256]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Xeams]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/xeams_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/xeams_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/xeams_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <!--<item>
+    <name>Zarafa - Beta</name>
+    <internalName>Zarafa</internalName>
+    <category>Beta Lab</category>
+    <type>Communications</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/zarafa_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/zarafa_80.png</icon80>
+    <description><![CDATA[Zarafa - is a Open Source Email & Collaboration Software. Store all your contacts / emails / notes / task on your QNAP device. It has a powerful webfrontend (Outlook Webaccess alike) and provides Active Sync Support to easily connect mobile devices. It acts like a exchange server to Microsoft Outlook (sync all contacts / task etc.). POP3 and IMAP connections are also possible.<p></p>The configuration of Zarafa is done via SSH.-<p></p> To create a Zarafa user, please use the following command before you can login: zarafa-admin -c <username> -P -e <email> -f "<full name>"
+    ]]></description>
+    <moreDescription></moreDescription>
+    <version>0.6.2</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/Zarafa_0.6.2_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/Zarafa_0.6.2_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/04/27</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Zarafa - www.zarafa.com]]></developer>
+    <forumLink>http://forum.qnap.com/viewforum.php?f=265</forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Zarafa_Configuration]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/zarafa_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/zarafa_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/zarafa_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+   <dependency>Optware</dependency>
+  </item>-->
+    <item>
+    <name>Zen Cart</name>
+    <internalName>ZenCart</internalName>
+    <category>More</category>
+    <type>Business</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/zencart_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/zencart_80.png</icon80>
+    <description><![CDATA[Zen Cart truly is the art of e-commerce; free, user-friendly, open source shopping cart software. The ecommerce web site design program is being developed by a group of like-minded shop owners, programmers, designers, and consultants who think ecommerce web design could be and should be done differently. To manage, please go to http://NAS_IP/zencart/administrator/ and login with admin/admin123 (username/password). ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.5.1.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/X86/ZenCart_1.5.1.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ARM/ZenCart_1.5.1.0_arm-x19.zip</location>
+    </platform>
+    <publishedDate>2013/05/08</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Zen Ventures, LLC - www.zen-cart.com]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Zen Cart]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/zencart_100.png</icon100>
+    <language><![CDATA[English]]></language>
+		<snapshot>http://download.qnap.com/QPKG/img/zencart_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/zencart_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <item>
+    <name>ZenPhoto - Beta</name>
+    <internalName>ZenPhoto</internalName>
+    <category>Beta Lab</category>
+    <type>Entertainment</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/zenphoto_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/zenphoto_80.png</icon80>
+    <description><![CDATA[Zenphoto is an application for online publishing interactive web pages online photo galleries designed to be "a simple web photo album". Includes dynamic image processing, albums organized by folders, editable titles and descriptions AJAX, comments, topics, and easily uploaded online image management.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.4.0.4</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ZenPhoto_1.4.0.4_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/ZenPhoto_1.4.0.4_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Zenphoto - www.zenphoto.org]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=246]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:ZenPhoto]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/zenphoto_100.png</icon100>
+    <language><![CDATA[English, 简体中文, 繁體中文, Deutsch, Español, Français, Italiano, 日本語, Nederlands, Galician, Hebrew, Polish, Slovak, Spanish, Swedish]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/zenphoto_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/zenphoto_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+  <!--<item>
+    <name>Zimplit - Beta</name>
+    <internalName>Zimplit</internalName>
+    <category>Beta Lab</category>
+    <type>CMS</type>
+    <icon>http://download.qnap.com/QPKG/images/QPKG/zimplit_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/zimplit_80.png</icon80>
+    <description><![CDATA[Zimplit - The easiest Open Source Content Management System for small web- and minisites. This one almost didn't make it but I kind of like of the skins and I was why not. After installing this, when you will click on the QPKG web link you will receive an error. In your browser window type at the end of the address zimplit.php. So the address should look like this http://DDNS_ADDRESS/zimplit/zimplit.php This will prompt you to create a admin user account and the next step will be download a skin for your site.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>3.0</version>
+    <platform>
+      <platformID>TS-NASX86</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Zimplit_3.0_all.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-NASARM</platformID>
+      <location>http://eu1.qnap.com/Storage/QPKG/Zimplit_3.0_all.zip</location>
+    </platform>
+    <publishedDate>2013/04/25</publishedDate>
+    <maintainer><![CDATA[ ]]></maintainer>
+    <developer><![CDATA[Zimplit - www.zimplit.com]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=248]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/Category:Zimplit]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/images/QPKG_100/zimplit_100.png</icon100>
+    <language><![CDATA[English]]></language>
+    <snapshot>http://download.qnap.com/QPKG/img/zimplit_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/zimplit_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>-->
+  <item>
+    <name>HD Station</name>
+      <internalName>HD_Station</internalName>
+    <category>QNAP Select</category>
+    <icon>http://download.qnap.com/QPKG/img/HD_Station_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/hdstation_80.png</icon80>
+    <description><![CDATA[The HD Station provides a portal for users to install various TV applications such as XBMC and Chrome on the NAS attached to the TV via the HDMI port and enjoy the multimedia contents. ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.4</version>
+    <platform>
+      <platformID>TS-269</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.4_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-469</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.4_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-569</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.4_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-669</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.4_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-869</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.4_x86_64.zip</location>
+    </platform>
+        <publishedDate>2013/06/25</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/HD_Station_100x100.png</icon100>
+<snapshot>http://download.qnap.com/QPKG/img/hdstation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/hdstation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+ <item>
+    <name>XBMC</name>
+      <internalName>XBMC</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/xbmc_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/xbmc_80.png</icon80>
+    <description><![CDATA[XBMC is an award-winning free and open source (GPL) software media player and entertainment hub for digital media.Enjoy the comfort of your living room and play movies, photos, and music directly on your TV. Powered by XBMC, the QNAP NAS is now also a home entertainment hub and a media player!]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>11.0.2</version>
+    <platform>
+      <platformID>TS-269</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_11.0.2_x86_64_x69.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-469</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_11.0.2_x86_64_x69.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-569</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_11.0.2_x86_64_x69.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-669</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_11.0.2_x86_64_x69.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-869</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_11.0.2_x86_64_x69.zip</location>
+    </platform>
+        <publishedDate>2013/05/13</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.xbmc.org/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/xbmc_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/xbmc_380x380.png</icon_tv>
+  </item>
+  <item>
+    <name>Chrome</name>
+      <internalName>Chrome</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/chorme_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/chrome_80.png</icon80>
+    <description><![CDATA[With the help of Chrome, the QNAP NAS brings endless web content to your HDTV. Just sit back, relax and surf the Internet on your couch.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>23.0.1271</version>
+     <platform>
+      <platformID>TS-269</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-469</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-569</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-669</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-869</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86_64.zip</location>
+    </platform>
+        <publishedDate>2013/01/04</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/chorme_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/chorme_380x380.png</icon_tv>
+  </item>
+    <item>
+    <name>YouTube</name>
+      <internalName>YouTube</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/youtube_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/youtube_80.png</icon80>
+    <description><![CDATA[Simply browse and click to enjoy millions of videos with YouTube on your TV.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.1</version>
+     <platform>
+      <platformID>TS-269</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-469</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-569</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-669</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-869</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86_64.zip</location>
+    </platform>
+        <publishedDate>2013/06/21</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/youtube_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/youtube_380x380.png</icon_tv>
+  </item>
+    <item>
+    <name>MyNAS</name>
+      <internalName>MyNAS</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/my_nas_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/mynas_80.png</icon80>
+    <description><![CDATA[An application to let you enter the local NAS administration web page to view the NAS functions and settings.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.0</version>
+    <platform>
+      <platformID>TS-269</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-469</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-569</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-669</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86_64.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-869</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86_64.zip</location>
+    </platform>
+        <publishedDate>2012/11/6</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/my_nas_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/my_nas_380x380.png</icon_tv>
+  </item>
+    <item>
+    <name>HD Station</name>
+      <internalName>HD_Station</internalName>
+    <category>QNAP Select</category>
+    <icon>http://download.qnap.com/QPKG/img/HD_Station_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/hdstation_80.png</icon80>
+    <description><![CDATA[The HD Station provides a portal for users to install various TV applications such as XBMC and Chrome on the NAS attached to the TV via the HDMI port and enjoy the multimedia contents. ]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.6</version>
+    <platform>
+      <platformID>TS-470</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.6_x86_x70.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-670</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.6_x86_x70.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-870</platformID>
+      <location>http://download.qnap.com/QPKG/HD_Station_1.0.6_x86_x70.zip</location>
+    </platform>
+        <publishedDate>2013/07/26</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/HD_Station_100x100.png</icon100>
+    <snapshot>http://download.qnap.com/QPKG/img/hdstation_640x400.png</snapshot>
+    <snapshotSmall>http://download.qnap.com/QPKG/img/hdstation_184x115.png</snapshotSmall>
+    <changeLog><![CDATA[]]></changeLog>
+  </item>
+ <item>
+    <name>XBMC</name>
+      <internalName>XBMC</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/xbmc_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/xbmc_80.png</icon80>
+    <description><![CDATA[XBMC is an award-winning free and open source (GPL) software media player and entertainment hub for digital media.Enjoy the comfort of your living room and play movies, photos, and music directly on your TV. Powered by XBMC, the QNAP NAS is now also a home entertainment hub and a media player!]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>12.2</version>
+    <platform>
+      <platformID>TS-470</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_12.2_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-670</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_12.2_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-870</platformID>
+      <location>http://download.qnap.com/QPKG/XBMC_12.2_x86.zip</location>
+    </platform>
+        <publishedDate>2013/06/21</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.xbmc.org/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/xbmc_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/xbmc_380x380.png</icon_tv>
+  </item>
+  <item>
+    <name>Chrome</name>
+      <internalName>Chrome</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/chorme_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/chrome_80.png</icon80>
+    <description><![CDATA[With the help of Chrome, the QNAP NAS brings endless web content to your HDTV. Just sit back, relax and surf the Internet on your couch.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>23.0.1271</version>
+    <platform>
+      <platformID>TS-470</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-670</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-870</platformID>
+      <location>http://download.qnap.com/QPKG/Chrome_23.0.1271_x86.zip</location>
+    </platform>
+        <publishedDate>2013/02/25</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/chorme_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/chorme_380x380.png</icon_tv>
+  </item>
+    <item>
+    <name>YouTube</name>
+      <internalName>YouTube</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/youtube_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/youtube_80.png</icon80>
+    <description><![CDATA[Simply browse and click to enjoy millions of videos with YouTube on your TV.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.1</version>
+    <platform>
+      <platformID>TS-470</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-670</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-870</platformID>
+      <location>http://download.qnap.com/QPKG/YouTube_1.0.1_x86.zip</location>
+    </platform>
+        <publishedDate>2013/06/21</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/youtube_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/youtube_380x380.png</icon_tv>
+  </item>
+    <item>
+    <name>MyNAS</name>
+      <internalName>MyNAS</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/my_nas_64x64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/images/QPKG/mynas_80.png</icon80>
+    <description><![CDATA[An application to let you enter the local NAS administration web page to view the NAS functions and settings.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.0</version>
+    <platform>
+      <platformID>TS-470</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-670</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-870</platformID>
+      <location>http://download.qnap.com/QPKG/MyNAS_1.0.0_x86.zip</location>
+    </platform>
+        <publishedDate>2013/02/25</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[http://forum.qnap.com/viewforum.php?f=156]]></forumLink>
+    <wikiLink><![CDATA[http://wiki.qnap.com/wiki/]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/my_nas_100x100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/my_nas_380x380.png</icon_tv>
+  </item>
+  <item>
+    <name>QTranscode</name>
+      <internalName>QTranscode</internalName>
+    <category>QNAP Select</category>
+     <class>HD_Station</class>
+    <icon>http://download.qnap.com/QPKG/img/qtranscode_64.png</icon>
+    <icon80>http://download.qnap.com/QPKG/img/qtranscode_80.png</icon80>
+    <description><![CDATA[QTranscode can speed up the transcoding process for your Turbo NAS. Currently, QTranscode is available only for TS-x70 Pro series.]]></description>
+    <moreDescription><![CDATA[]]></moreDescription>
+    <version>1.0.2</version>
+    <platform>
+      <platformID>TS-470</platformID>
+      <platformReq>Pro</platformReq>
+      <location>http://download.qnap.com/QPKG/QTranscode_1.0.2_x86_70.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-670</platformID>
+     <platformReq>Pro</platformReq>
+      <location>http://download.qnap.com/QPKG/QTranscode_1.0.2_x86_70.zip</location>
+    </platform>
+    <platform>
+      <platformID>TS-870</platformID>
+     <platformReq>Pro</platformReq>
+      <location>http://download.qnap.com/QPKG/QTranscode_1.0.2_x86_70.zip</location>
+    </platform>
+        <publishedDate>2013/07/26</publishedDate>
+    <maintainer><![CDATA[QNAP Systems, Inc.]]></maintainer>
+    <developer><![CDATA[QNAP Systems, Inc.]]></developer>
+    <forumLink><![CDATA[]]></forumLink>
+    <wikiLink><![CDATA[]]></wikiLink>
+    <icon100>http://download.qnap.com/QPKG/img/qtranscode_100.png</icon100>
+    <icon_tv>http://download.qnap.com/QPKG/img/qtranscode_380x380.png</icon_tv>
+  </item>
+</plugins>
