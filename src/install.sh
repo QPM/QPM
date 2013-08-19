@@ -4,6 +4,7 @@
 # QPKG definitions
 #===
 source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
+SYS_QPKG_TMP=$( cd "$( dirname "${0}" )" && pwd )
 
 ###########################################
 # System messages
@@ -89,9 +90,7 @@ edit_config(){
   if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
     local new_cfg="${field}=\"${value}\""
     new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
-    sed "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg > $qpkg_cfg.$$
-    rm -f $qpkg_cfg
-    mv -f $qpkg_cfg.$$ $qpkg_cfg
+    $CMD_SED -i "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg
   else
     return 1
   fi
@@ -486,7 +485,7 @@ pre_install_get_base_dir_from(){
   local sys_dir=$($CMD_GETCFG ${sys_share} path -f ${SYS_CONFIG_DIR}/smb.conf)
   [ -d ${sys_dir} ] && sys_base=$($CMD_ECHO ${sys_dir} | $CMD_AWK -F'/' '{print "/"$2"/"$3}')
   
-  if [ -z ${sys_base} ] || [ ${sys_base} = '//']; then
+  if [ -z ${sys_base} ] || [ ${sys_base} = '//' ]; then
     for dirtest in /share/HDA_DATA /share/HDB_DATA /share/HDC_DATA \
            /share/HDD_DATA /share/HDE_DATA /share/HDF_DATA \
            /share/HDG_DATA /share/HDH_DATA /share/MD0_DATA \
@@ -524,13 +523,13 @@ pre_install_get_base_dir(){
 # put data
 #===
 install_put_data(){
-  $CMD_CP -arf "${QPM_DIR_SHARE}/*" "${SYS_QPKG_DIR}/"
+  $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/*" "${SYS_QPKG_DIR}/"
   if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     echo "put data for arm"
-    $CMD_CP -arf "${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
   else
     echo "put data for x86"
-    $CMD_CP -arf "${QPM_DIR_X86}/*" "${SYS_QPKG_DIR}/"
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/*" "${SYS_QPKG_DIR}/"
   fi;
 }
 
@@ -612,11 +611,13 @@ main(){
   # inform about progress
   set_progress_begin
   # WTF
-  init
+  #init
   # get base dir & get qpkg dir
   pre_install_get_base_dir
+  echo "get system base dir..... ${SYS_BASE_DIR}"
+  echo "get ${QPKG_NAME} qpkg dir..... ${SYS_QPKG_DIR}"
   # check QPKG_REQUIRE & QPKG_CONFLICT
-  pre_install_check_requirements
+  #pre_install_check_requirements
   # check whether is already installed
   if [ -d $SYS_QPKG_DIR ]; then
     local qpkg_ver=$(get_qpkg_cfg ${SYS_QPKG_CFG_VERSION})
@@ -641,7 +642,7 @@ main(){
 
   ##### post-install #####
   # remove obsolete files
-  $CMD_RM -rf $( cd "$( dirname "${0}" )" && pwd )
+  $CMD_RM -rf ${SYS_QPKG_TMP}
   # link service script
   post_install_link_service
   # register QPKG information

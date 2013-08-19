@@ -199,7 +199,7 @@ build_qpkg(){
   #dd if=tmp.$$/$QPM_QPKG_DATA of="${QPM_QPKG_BUILD}/${QPKG_FILE_PATH}"
   cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
 
-  #rm -rf tmp.$$
+  rm -rf tmp.$$
 
   edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
 

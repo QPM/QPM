@@ -26,6 +26,7 @@ QPM_DIR_BUILD="build"
 QPM_QPKG_CONFIGS="qpkg.cfg"
 QPM_QPKG_QPM_SERVICE="qpm_service.sh"
 QPM_QPKG_SERVICE="service.sh"
+QPM_QPKG_SERVICE_ID=101
 QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
@@ -198,7 +199,7 @@ build_qpkg(){
   #dd if=tmp.$$/$QPM_QPKG_DATA of="${QPM_QPKG_BUILD}/${QPKG_FILE_PATH}"
   cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
 
-  #rm -rf tmp.$$
+  rm -rf tmp.$$
 
   edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
 
@@ -266,12 +267,12 @@ QPKG_LICENSE="GPL v2"                           # 授權模式
 #QPKG_WEB_PATH="/"                              # WebApp目錄
 #QPKG_WEB_PORT=""                               # WebApp的Port number
 
-#QPKG_DESKTOP="1"                               # 遷入QTS4的Web桌面系統
+#QPKG_DESKTOP_APP="1"                           # 遷入QTS4的Web桌面系統
 
 #QPKG_DIR_ICONS=""                              # Package 圖式的目錄
 #QPKG_DIR_ARM=""                                # Package 檔案目錄，ARM專用
 #QPKG_DIR_X86=""                                # Package 檔案目錄，X86專用
-#QPKG_DIR_SHARE=""                             # Package 檔案目錄，通用
+#QPKG_DIR_SHARE=""                              # Package 檔案目錄，通用
 #QPKG_DIR_WEB=""                                # Package Web檔案的目錄
 #QPKG_DIR_BIN=""                                # Package Bin檔案的目錄
 
@@ -341,17 +342,17 @@ SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
 
 SYS_QPKG_CFG_QPKGFILE="QPKG_File"
 SYS_QPKG_CFG_NAME="Name"
+SYS_QPKG_CFG_DISPLAY_NAME="Display_Name"
 SYS_QPKG_CFG_VERSION="Version"
+SYS_QPKG_CFG_AUTHOR="Author"
 SYS_QPKG_CFG_ENABLE="Enable"
 SYS_QPKG_CFG_DATE="Date"
 SYS_QPKG_CFG_SHELL="Shell"
 SYS_QPKG_CFG_INSTALL_PATH="Install_Path"
 SYS_QPKG_CFG_CONFIG_PATH="Config_Path"
-SYS_QPKG_CFG_WEBUI="WebUI"
-SYS_QPKG_CFG_WEBPORT="Web_Port"
-SYS_QPKG_CFG_SERVICEPORT="Service_Port"
-SYS_QPKG_CFG_SERVICE_PIDFILE="Pid_File"
-SYS_QPKG_CFG_AUTHOR="Author"
+SYS_QPKG_CFG_WEB_PATH="WebUI"
+SYS_QPKG_CFG_WEB_PORT="Web_Port"
+SYS_QPKG_CFG_DESKTOP_APP="Desktop"
 
 ##### QPM definitions #####
 QPM_VER=""
@@ -367,6 +368,7 @@ QPM_DIR_BUILD="build"
 QPM_QPKG_CONFIGS="qpkg.cfg"
 QPM_QPKG_QPM_SERVICE="qpm_service.sh"
 QPM_QPKG_SERVICE="service.sh"
+QPM_QPKG_SERVICE_ID=101
 QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
@@ -522,6 +524,7 @@ esac
 # QPKG definitions
 #===
 source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
+SYS_QPKG_TMP=$( cd "$( dirname "${0}" )" && pwd )
 
 ###########################################
 # System messages
@@ -576,23 +579,9 @@ err_log(){
   exit 1
 }
 
-#####################################################################
-# Add given configuration file and md5sum to SYS_QPKG_CONFIG if
-# not already added.
-######################################################################
-add_qpkg_config(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-  local file="$1"
-  local md5sum="$2"
-
-  $CMD_ECHO "$file" >>$SYS_QPKG_DIR/.list
-  $CMD_GETCFG "$QPKG_NAME" "cfg:$file" -f $SYS_QPKG_CONFIG >/dev/null || \
-    set_qpkg_config $file $md5sum
-}
-
-#################################################
+#===
 # Remove specified file or directory (if empty).
-#################################################
+#===
 remove_file_and_empty_dir(){
   [ -n "$1" ] || return 1
   local file=
@@ -609,64 +598,25 @@ remove_file_and_empty_dir(){
   fi
 }
 
-####################################################################
-# Assign given value to specified field (optional section, defaults
-# to QPKG_NAME).
-####################################################################
-set_qpkg_name(){
-  set_qpkg_field $SYS_QPKG_CFG_NAME "$QPKG_NAME"
-}
-set_qpkg_version(){
-  set_qpkg_field $SYS_QPKG_CFG_VERSION "$QPKG_VER"
-}
-set_qpkg_author(){
-  set_qpkg_field $SYS_QPKG_CFG_AUTHOR "$QPKG_AUTHOR"
-}
-set_qpkg_install_date(){
-  set_qpkg_field $SYS_QPKG_CFG_DATE $($CMD_DATE +%F)
-}
-set_qpkg_install_path(){
-  set_qpkg_field $SYS_QPKG_CFG_INSTALL_PATH $SYS_QPKG_DIR
-}
-set_qpkg_file_name(){
-  set_qpkg_field $SYS_QPKG_CFG_QPKGFILE "${QPKG_QPKG_FILE:-${QPKG_NAME}.qpkg}"
-}
-set_qpkg_config_path(){
-  [ -z "$QPKG_CONFIG_PATH" ] || set_qpkg_field $SYS_QPKG_CFG_CONFIG_PATH "$QPKG_CONFIG_PATH"
-}
-set_qpkg_service_path(){
-  [ -z "$QPKG_SERVICE_PROGRAM" ] || set_qpkg_field $SYS_QPKG_CFG_SHELL "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM"
-}
-set_qpkg_service_port(){
-  [ -z "$QPKG_SERVICE_PORT" ] || set_qpkg_field $SYS_QPKG_CFG_SERVICEPORT "$QPKG_SERVICE_PORT"
-}
-set_qpkg_service_pid(){
-  [ -z "$QPKG_SERVICE_PIDFILE" ] || set_qpkg_field $SYS_QPKG_CFG_SERVICE_PIDFILE "$QPKG_SERVICE_PIDFILE"
-}
-set_qpkg_web_url(){
-  [ -z "$QPKG_WEBUI" ] || set_qpkg_field $SYS_QPKG_CFG_WEBUI "$QPKG_WEBUI"
-}
-set_qpkg_web_port(){
-  if [ -n "$QPKG_WEB_PORT" ]; then
-    set_qpkg_field $SYS_QPKG_CFG_WEBPORT "$QPKG_WEB_PORT"
-    [ -n "$QPKG_WEBUI" ] || set_qpkg_field $SYS_QPKG_CFG_WEBUI "/"
+#===
+# library
+#===
+
+# edit qpkg.cfg
+edit_config(){
+  local field="$1"
+  local value="$2"
+  local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
+  if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
+    local new_cfg="${field}=\"${value}\""
+    new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
+    $CMD_SED -i "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg
+  else
+    return 1
   fi
 }
-set_qpkg_config(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-  local file="$1"
-  local md5sum="$2"
 
-  set_qpkg_field "cfg:$file" "$md5sum"
-}
-
-##################################################################
-# Split MAJOR.MINOR.BUILD version into individual parts adding an
-# optional prefix to definition
-#
-# The values are available in ${PREFIX}MAJOR, ${PREFIX}MINOR,
-# and ${PREFIX}BUILD
-##################################################################
+# split MAJOR.MINOR.BUILD version
 split_version(){
   [ -n "$1" ] || return 1
   local version="$1"
@@ -678,24 +628,6 @@ split_version(){
   eval ${prefix}MAJOR=${major:-0}
   eval ${prefix}MINOR=${minor:-0}
   eval ${prefix}BUILD=${build:-0}
-}
-
-#===
-# library
-#===
-edit_config(){
-  local field="$1"
-  local value="$2"
-  local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
-  if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
-    local new_cfg="${field}=\"${value}\""
-    new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
-    sed "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg > $qpkg_cfg.$$
-    rm -f $qpkg_cfg
-    mv -f $qpkg_cfg.$$ $qpkg_cfg
-  else
-    return 1
-  fi
 }
 
 ##################################################################
@@ -1043,18 +975,6 @@ call_defined_routine(){
   cd $SYS_EXTRACT_DIR
 }
 
-#################################################
-# Rename configuration files that use old format
-#################################################
-add_config_prefix(){
-  local qpkg_config=$($CMD_SED -n '/^QPKG_CONFIG/s/QPKG_CONFIG="\(.*\)"/\1/p' qpkg.cfg)
-  for file in $qpkg_config
-  do
-    $CMD_GETCFG "$QPKG_NAME" "$file" -f $SYS_QPKG_CONFIG >/dev/null && \
-      $CMD_SED -i "/\[$QPKG_NAME\]/,/^\[/s*^$file*cfg:&*" $SYS_QPKG_CONFIG
-  done
-}
-
 ###############
 # Init routine
 ###############
@@ -1073,19 +993,6 @@ init(){
     $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS update || warn_log "$CMD_PKG_TOOL update failed"
     SYS_PKG_UPDATED="TRUE"
   fi
-
-  init_share_settings
-  assign_base
-
-  if [ -f $SYS_QPKG_DIR/.list ]; then
-    $CMD_SORT -r $SYS_QPKG_DIR/.list > $SYS_QPKG_DIR/.oldlist
-    $CMD_RM $SYS_QPKG_DIR/.list
-  fi
-
-  add_config_prefix
-
-  # Package specific routines as defined in package_routines.
-  call_defined_routine pkg_init
 }
 
 #===
@@ -1098,7 +1005,7 @@ pre_install_get_base_dir_from(){
   local sys_dir=$($CMD_GETCFG ${sys_share} path -f ${SYS_CONFIG_DIR}/smb.conf)
   [ -d ${sys_dir} ] && sys_base=$($CMD_ECHO ${sys_dir} | $CMD_AWK -F'/' '{print "/"$2"/"$3}')
   
-  if [ -z ${sys_base} ] || [ ${sys_base} = '//']; then
+  if [ -z ${sys_base} ] || [ ${sys_base} = '//' ]; then
     for dirtest in /share/HDA_DATA /share/HDB_DATA /share/HDC_DATA \
            /share/HDD_DATA /share/HDE_DATA /share/HDF_DATA \
            /share/HDG_DATA /share/HDH_DATA /share/MD0_DATA \
@@ -1136,13 +1043,13 @@ pre_install_get_base_dir(){
 # put data
 #===
 install_put_data(){
-  $CMD_CP -arf "${QPM_DIR_SHARE}/*" "${SYS_QPKG_DIR}/"
+  $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/*" "${SYS_QPKG_DIR}/"
   if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     echo "put data for arm"
-    $CMD_CP -arf "${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
   else
     echo "put data for x86"
-    $CMD_CP -arf "${QPM_DIR_X86}/*" "${SYS_QPKG_DIR}/"
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/*" "${SYS_QPKG_DIR}/"
   fi;
 }
 
@@ -1174,20 +1081,20 @@ install_put_icons(){
 # link service script
 #===
 post_install_link_service(){
-  if [ -n "$QPKG_SERVICE_PROGRAM" ]; then
-    $CMD_ECHO "Link service start/stop script: $QPKG_SERVICE_PROGRAM"
-    [ -f "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM" ] || err_log "$QPKG_SERVICE_PROGRAM: no such file"
-    $CMD_LN -sf "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM" "$SYS_INIT_DIR/$QPKG_SERVICE_PROGRAM"
-    $CMD_LN -sf "$SYS_INIT_DIR/$QPKG_SERVICE_PROGRAM" "$SYS_STARTUP_DIR/QS${QPKG_RC_NUM}${QPKG_NAME}"
-    $CMD_LN -sf "$SYS_INIT_DIR/$QPKG_SERVICE_PROGRAM" "$SYS_SHUTDOWN_DIR/QK${QPKG_RC_NUM}${QPKG_NAME}"
-    $CMD_CHMOD 755 "$SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM"
+  if [ -n "$QPM_QPKG_SERVICE" ]; then
+    $CMD_ECHO "Link service start/stop script: $QPM_QPKG_SERVICE"
+    [ -f "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE" ] || err_log "$QPM_QPKG_SERVICE: no such file"
+    $CMD_LN -sf "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE" "$SYS_INIT_DIR/$QPM_QPKG_SERVICE"
+    $CMD_LN -sf "$SYS_INIT_DIR/$QPM_QPKG_SERVICE" "$SYS_STARTUP_DIR/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_LN -sf "$SYS_INIT_DIR/$QPM_QPKG_SERVICE" "$SYS_SHUTDOWN_DIR/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_CHMOD 755 "$SYS_QPKG_DIR/$QPM_QPKG_SERVICE"
   fi
 
   # Only applied on TS-109/209/409 for chrooted env
   if [ -d "${QPKG_ROOTFS-/mnt/HDA_ROOT/rootfs_2_3_6}" ]; then
-    if [ -n "$QPKG_SERVICE_PROGRAM_CHROOT" ]; then
-      $CMD_MV $SYS_QPKG_DIR/$QPKG_SERVICE_PROGRAM_CHROOT $QPKG_ROOTFS/etc/init.d
-      $CMD_CHMOD 755 $QPKG_ROOTFS/etc/init.d/$QPKG_SERVICE_PROGRAM_CHROOT
+    if [ -n "$QPM_QPKG_SERVICE_CHROOT" ]; then
+      $CMD_MV $SYS_QPKG_DIR/$QPM_QPKG_SERVICE_CHROOT $QPKG_ROOTFS/etc/init.d
+      $CMD_CHMOD 755 $QPKG_ROOTFS/etc/init.d/$QPM_QPKG_SERVICE_CHROOT
     fi
   fi
 }
@@ -1199,19 +1106,21 @@ post_install_register_qpkg(){
   $CMD_ECHO "Set QPKG information in $SYS_QPKG_CONFIG"
   [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
 
-  set_qpkg_name
-  set_qpkg_version
-  set_qpkg_author
+  set_qpkg_cfg ${SYS_QPKG_CFG_NAME} ${QPKG_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_DISPLAY_NAME} ${QPKG_DISPLAY_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} ${QPM_VER}
+  set_qpkg_cfg ${SYS_QPKG_CFG_AUTHOR} ${QPKG_AUTHOR}
 
-  set_qpkg_file_name
-  set_qpkg_install_date
-  set_qpkg_service_path
-  set_qpkg_service_port
-  set_qpkg_service_pid
-  set_qpkg_install_path
-  set_qpkg_config_path
-  set_qpkg_web_url
-  set_qpkg_web_port
+  set_qpkg_cfg ${SYS_QPKG_CFG_QPKGFILE} "${QPKG_NAME}.qpkg"
+  set_qpkg_cfg ${SYS_QPKG_CFG_DATE} $($CMD_DATE +%F)
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_SHELL} ${QPM_QPKG_SERVICE}
+  set_qpkg_cfg ${SYS_QPKG_CFG_INSTALL_PATH} ${SYS_QPKG_DIR}
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
+  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT}
+  
+  set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} ${QPKG_DESKTOP_APP}
 }
 
 #===
@@ -1222,11 +1131,13 @@ main(){
   # inform about progress
   set_progress_begin
   # WTF
-  init
+  #init
   # get base dir & get qpkg dir
   pre_install_get_base_dir
+  echo "get system base dir..... ${SYS_BASE_DIR}"
+  echo "get ${QPKG_NAME} qpkg dir..... ${SYS_QPKG_DIR}"
   # check QPKG_REQUIRE & QPKG_CONFLICT
-  pre_install_check_requirements
+  #pre_install_check_requirements
   # check whether is already installed
   if [ -d $SYS_QPKG_DIR ]; then
     local qpkg_ver=$(get_qpkg_cfg ${SYS_QPKG_CFG_VERSION})
@@ -1251,7 +1162,7 @@ main(){
 
   ##### post-install #####
   # remove obsolete files
-  $CMD_RM -rf $( cd "$( dirname "${0}" )" && pwd )
+  $CMD_RM -rf ${SYS_QPKG_TMP}
   # link service script
   post_install_link_service
   # register QPKG information
@@ -1297,7 +1208,6 @@ $CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}.gif"
 $CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_80.gif"
 $CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_gray.gif"
 
-##### remove binary link #####
-
-##### remove web interface #####
+##### remove QPKG configs #####
+rmcfg ${QPKG_NAME} -f ${SYS_QPKG_CONFIG}
 ###QPM_QPKG_UNINSTALL END
