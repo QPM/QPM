@@ -40,8 +40,8 @@ EOF
           echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
         fi
       done
-
     fi
+    set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "TRUE"
     ;;
 
   stop)
@@ -54,6 +54,7 @@ EOF
       rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
     done
     rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
+    set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "FALSE"
     ;;
 
   restart)

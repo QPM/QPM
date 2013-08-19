@@ -675,7 +675,7 @@ init(){
 #===
 install_put_data(){
   $CMD_CP -arf "${QPM_DIR_SHARED}/*" "${SYS_QPKG_DIR}/"
-  if [ $(expr match "$(cat /proc/cpuinfo)" '.*ARM') -ne 0 ]; then
+  if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     echo "put data for arm"
     $CMD_CP -arf "${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
   else

@@ -29,6 +29,7 @@ QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
 QPM_QPKG_UNINSTALL="uninstall.sh"
+QPM_QPKG_WEB_CONFIG="web.conf"
 
 #===
 # Message
@@ -134,18 +135,6 @@ create_qpkg(){
   edit_config "#QPKG_DIR_WEB" ${QPM_DIR_WEB} ${configs_path}
   edit_config "#QPKG_DIR_BIN" ${QPM_DIR_BIN} ${configs_path}
   edit_config "#QPKG_DIR_SHARED" ${QPM_DIR_SHARED} ${configs_path}
-
-  edit_config "QPM_DIR_ICONS" ${QPM_DIR_ICONS} ${configs_path}
-  edit_config "QPM_DIR_ARM" ${QPM_DIR_ARM} ${configs_path}
-  edit_config "QPM_DIR_X86" ${QPM_DIR_X86} ${configs_path}
-  edit_config "QPM_DIR_SHARED" ${QPM_DIR_SHARED} ${configs_path}
-
-  edit_config "QPM_QPKG_CONFIGS" ${QPM_QPKG_CONFIGS} ${configs_path}
-  edit_config "QPM_QPKG_SERVICE" ${QPM_QPKG_SERVICE} ${configs_path}
-  edit_config "QPM_QPKG_DATA" ${QPM_QPKG_DATA} ${configs_path}
-  edit_config "QPM_QPKG_SCRIPT" ${QPM_QPKG_SCRIPT} ${configs_path}
-  edit_config "QPM_QPKG_INSTALL" ${QPM_QPKG_INSTALL} ${configs_path}
-  edit_config "QPM_QPKG_UNINSTALL" ${QPM_QPKG_UNINSTALL} ${configs_path}
 
   fetch_shell "QPM_QPKG_SERVICE" > "${qpkg_name}/${QPM_QPKG_SERVICE}"
 
