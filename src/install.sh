@@ -162,6 +162,24 @@ split_version(){
   eval ${prefix}BUILD=${build:-0}
 }
 
+#===
+# library
+#===
+edit_config(){
+  local field="$1"
+  local value="$2"
+  local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
+  if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
+    local new_cfg="${field}=\"${value}\""
+    new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
+    sed "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg > $qpkg_cfg.$$
+    rm -f $qpkg_cfg
+    mv -f $qpkg_cfg.$$ $qpkg_cfg
+  else
+    return 1
+  fi
+}
+
 ##################################################################
 # Check if versions are equal
 #
@@ -590,6 +608,10 @@ pre_install_get_base_dir(){
 
   SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
   SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
+
+  edit_config "SYS_BASE_DIR" ${SYS_BASE_DIR}
+  edit_config "SYS_QPKG_STORE" ${SYS_QPKG_STORE}
+  edit_config "SYS_QPKG_DIR" ${SYS_QPKG_DIR}
 }
 
 #===
