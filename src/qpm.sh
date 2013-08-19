@@ -118,8 +118,8 @@ create_qpkg(){
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ARM}" || err_msg "${qpkg_name}: ARM目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_X86}" || err_msg "${qpkg_name}: X86目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}" || err_msg "${qpkg_name}: Share目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BUILD}" || err_msg "${qpkg_name}: Build目錄建立失敗"
 
   echo "初始化 QPKG設定檔..."
@@ -149,7 +149,8 @@ build_qpkg(){
   msg "取得QPKG設定值..."
   source $QPM_QPKG_CONFIGS
 
-  QPM_VER=${${QPKG_VER_MAJOR}"."${QPKG_VER_MINOR}"."${QPKG_VER_BUILD}:-0.1.0}
+  QPM_VER="${QPKG_VER_MAJOR}.${QPKG_VER_MINOR}.${QPKG_VER_BUILD}"
+  QPM_VER=${QPM_VER:-0.1.0}
   
   # Check
   msg "檢查編譯環境..."
@@ -162,23 +163,24 @@ build_qpkg(){
   rm -rf build.$$
   mkdir -m 755 -p build.$$ || err_msg "無法建立暫存目錄 ${build.$$}"
 
-  cp -afp $QPM_QPKG_CONFIGS build.$$/qpkg.cfg || err_msg 找不到configs檔
+  cp -afp ${QPM_QPKG_CONFIGS} build.$$/.qpkg.cfg || err_msg 找不到configs檔
 
-  fetch_shell "QPM_QPKG_QPM_SERVICE" > build.$$/$QPM_QPKG_SERVICE
-  cat $QPM_QPKG_SERVICE >> build.$$/$QPM_QPKG_SERVICE || err_msg 找不到service檔
-  edit_config "QPM_VER" ${QPM_VER} build.$$/$QPM_QPKG_SERVICE
+  local service_file="build.$$/.${QPM_QPKG_SERVICE}"
+  fetch_shell "QPM_QPKG_QPM_SERVICE" > ${service_file}
+  cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
+  edit_config "QPM_VER" ${QPM_VER} ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_X86:-${QPM_DIR_X86}} build.$$/${QPM_DIR_X86} || warn_msg 找不到x86目錄
   cp -af ${QPKG_DIR_SHARED:-${QPM_DIR_SHARED}} build.$$/${QPM_DIR_SHARED} || warn_msg 找不到shared目錄
 
-  fetch_shell "QPM_QPKG_INSTALL" > build.$$/$QPM_QPKG_INSTALL
-  fetch_shell "QPM_QPKG_UNINSTALL" > build.$$/.$QPM_QPKG_UNINSTALL
+  fetch_shell "QPM_QPKG_INSTALL" > "build.$$/${QPM_QPKG_INSTALL}"
+  fetch_shell "QPM_QPKG_UNINSTALL" > "build.$$/.${QPM_QPKG_UNINSTALL}"
 
   mkdir -m 755 -p tmp.$$ || err_msg "無法建立暫存目錄 ${tmp.$$}"
 
-  tar -zcf tmp.$$/$QPM_QPKG_DATA build.$$/*
+  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" .${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARED} ${QPM_QPKG_INSTALL} .${QPM_QPKG_UNINSTALL}
   rm -rf build.$$
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"

@@ -13,13 +13,14 @@
 #===
 # Default Configs
 #===
+QPM_VER=""
 
 QPM_DIR_ICONS="icon"
 QPM_DIR_ARM="arm"
 QPM_DIR_X86="x86"
 QPM_DIR_SHARED="shared"
-QPM_DIR_WEB="${QPM_DIR_SHARED}/web"
-QPM_DIR_BIN="${QPM_DIR_SHARED}/bin"
+QPM_DIR_WEB="web"
+QPM_DIR_BIN="bin"
 QPM_DIR_BUILD="build"
 
 QPM_QPKG_CONFIGS="qpkg.cfg"
@@ -29,6 +30,7 @@ QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
 QPM_QPKG_UNINSTALL="uninstall.sh"
+QPM_QPKG_WEB_CONFIG="web.conf"
 
 #===
 # Message
@@ -116,8 +118,8 @@ create_qpkg(){
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ARM}" || err_msg "${qpkg_name}: ARM目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_X86}" || err_msg "${qpkg_name}: X86目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}" || err_msg "${qpkg_name}: Share目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARED}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
   /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BUILD}" || err_msg "${qpkg_name}: Build目錄建立失敗"
 
   echo "初始化 QPKG設定檔..."
@@ -135,18 +137,6 @@ create_qpkg(){
   edit_config "#QPKG_DIR_BIN" ${QPM_DIR_BIN} ${configs_path}
   edit_config "#QPKG_DIR_SHARED" ${QPM_DIR_SHARED} ${configs_path}
 
-  edit_config "QPM_DIR_ICONS" ${QPM_DIR_ICONS} ${configs_path}
-  edit_config "QPM_DIR_ARM" ${QPM_DIR_ARM} ${configs_path}
-  edit_config "QPM_DIR_X86" ${QPM_DIR_X86} ${configs_path}
-  edit_config "QPM_DIR_SHARED" ${QPM_DIR_SHARED} ${configs_path}
-
-  edit_config "QPM_QPKG_CONFIGS" ${QPM_QPKG_CONFIGS} ${configs_path}
-  edit_config "QPM_QPKG_SERVICE" ${QPM_QPKG_SERVICE} ${configs_path}
-  edit_config "QPM_QPKG_DATA" ${QPM_QPKG_DATA} ${configs_path}
-  edit_config "QPM_QPKG_SCRIPT" ${QPM_QPKG_SCRIPT} ${configs_path}
-  edit_config "QPM_QPKG_INSTALL" ${QPM_QPKG_INSTALL} ${configs_path}
-  edit_config "QPM_QPKG_UNINSTALL" ${QPM_QPKG_UNINSTALL} ${configs_path}
-
   fetch_shell "QPM_QPKG_SERVICE" > "${qpkg_name}/${QPM_QPKG_SERVICE}"
 
   edit_config "QPKG_NAME" ${qpkg_name} "${qpkg_name}/${QPM_QPKG_SERVICE}"
@@ -159,8 +149,8 @@ build_qpkg(){
   msg "取得QPKG設定值..."
   source $QPM_QPKG_CONFIGS
 
-  QPKG_VER=$QPKG_VER_MAJOR"."$QPKG_VER_MINOR"."$QPKG_VER_BUILD
-  QPKG_VER="${QPKG_VER:-0.1.0}"
+  QPM_VER="${QPKG_VER_MAJOR}.${QPKG_VER_MINOR}.${QPKG_VER_BUILD}"
+  QPM_VER=${QPM_VER:-0.1.0}
   
   # Check
   msg "檢查編譯環境..."
@@ -173,27 +163,29 @@ build_qpkg(){
   rm -rf build.$$
   mkdir -m 755 -p build.$$ || err_msg "無法建立暫存目錄 ${build.$$}"
 
-  cp -afp $QPM_QPKG_CONFIGS build.$$/qpkg.cfg || err_msg 找不到configs檔
+  cp -afp ${QPM_QPKG_CONFIGS} build.$$/.qpkg.cfg || err_msg 找不到configs檔
 
-  fetch_shell "QPM_QPKG_QPM_SERVICE" > build.$$/$QPM_QPKG_SERVICE
-  cat $QPM_QPKG_SERVICE build.$$/$QPM_QPKG_SERVICE || err_msg 找不到service檔
+  local service_file="build.$$/.${QPM_QPKG_SERVICE}"
+  fetch_shell "QPM_QPKG_QPM_SERVICE" > ${service_file}
+  cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
+  edit_config "QPM_VER" ${QPM_VER} ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_X86:-${QPM_DIR_X86}} build.$$/${QPM_DIR_X86} || warn_msg 找不到x86目錄
   cp -af ${QPKG_DIR_SHARED:-${QPM_DIR_SHARED}} build.$$/${QPM_DIR_SHARED} || warn_msg 找不到shared目錄
 
-  fetch_shell "QPM_QPKG_INSTALL" > build.$$/$QPM_QPKG_INSTALL
-  fetch_shell "QPM_QPKG_UNINSTALL" > build.$$/.$QPM_QPKG_UNINSTALL
+  fetch_shell "QPM_QPKG_INSTALL" > "build.$$/${QPM_QPKG_INSTALL}"
+  fetch_shell "QPM_QPKG_UNINSTALL" > "build.$$/.${QPM_QPKG_UNINSTALL}"
 
   mkdir -m 755 -p tmp.$$ || err_msg "無法建立暫存目錄 ${tmp.$$}"
 
-  tar -zcf tmp.$$/$QPM_QPKG_DATA build.$$/*
+  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" .${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARED} ${QPM_QPKG_INSTALL} .${QPM_QPKG_UNINSTALL}
   rm -rf build.$$
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
 
-  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPKG_VER}.qpkg}
+  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPM_VER}.qpkg}
   QPKG_FILE_PATH=${QPM_DIR_BUILD}/${QPKG_FILE_NAME}
   rm -f "${QPKG_FILE_PATH}"
   touch "${QPKG_FILE_PATH}" || err_msg "建立package失敗 ${QPKG_FILE_PATH}"
@@ -264,10 +256,11 @@ QPKG_AUTHOR=""                                  # 作者或維護人員
 
 QPKG_LICENSE="GPL v2"                           # 授權模式
 
+
 #QPKG_REQUIRE="Python >= 2.5, Optware | opkg"   # Package 相依
 #QPKG_CONFLICT="Python, OPT/sed"                # Package 相斥
 
-#QPKG_WEBUI="/"                                 # WebApp目錄
+#QPKG_WEB_PATH="/"                              # WebApp目錄
 #QPKG_WEB_PORT=""                               # WebApp的Port number
 
 #QPKG_DESKTOP="1"                               # 遷入QTS4的Web桌面系統
@@ -328,7 +321,9 @@ SYS_INIT_DIR="/etc/init.d"
 SYS_STARTUP_DIR="/etc/rcS.d"
 SYS_SHUTDOWN_DIR="/etc/rcK.d"
 
-SYS_WEB_CONFIG=""
+SYS_WEB_CONFIG="${SYS_CONFIG_DIR}/apache/apache.conf"
+SYS_WEB_INIT="${SYS_INIT_DIR}/Qthttpd.sh"
+
 SYS_QPKG_CONFIG="${SYS_CONFIG_DIR}/qpkg.conf"
 SYS_QPKG_SERVICE="${SYS_INIT_DIR}/${QPKG_NAME}"
 SYS_QPKG_STORE=""
@@ -349,18 +344,24 @@ SYS_QPKG_CFG_SERVICE_PIDFILE="Pid_File"
 SYS_QPKG_CFG_AUTHOR="Author"
 
 ##### QPM definitions #####
-QPM_DIR_ICONS=""
-QPM_DIR_ARM=""
-QPM_DIR_X86=""
-QPM_DIR_SHARED=""
+QPM_VER=""
 
-QPM_QPKG_CONFIGS=""
-QPM_QPKG_SERVICE=""
-QPM_QPKG_DATA=""
-QPM_QPKG_SCRIPT=""
-QPM_QPKG_INSTALL=""
-QPM_QPKG_UNINSTALL=""
-QPM_QPKG_WEB_CONFIG=".web.conf"
+QPM_DIR_ICONS="icon"
+QPM_DIR_ARM="arm"
+QPM_DIR_X86="x86"
+QPM_DIR_SHARED="shared"
+QPM_DIR_WEB="web"
+QPM_DIR_BIN="bin"
+QPM_DIR_BUILD="build"
+
+QPM_QPKG_CONFIGS="qpkg.cfg"
+QPM_QPKG_QPM_SERVICE="qpm_service.sh"
+QPM_QPKG_SERVICE="service.sh"
+QPM_QPKG_DATA="data.tar.gz"
+QPM_QPKG_SCRIPT="script.sh"
+QPM_QPKG_INSTALL="install.sh"
+QPM_QPKG_UNINSTALL="uninstall.sh"
+QPM_QPKG_WEB_CONFIG="web.conf"
 
 ##### system library #####
 # set QPKG configs, avgs(field value [qpkg_name])
@@ -415,22 +416,25 @@ source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
 case "$1" in
   start)
     echo "service start..."
+    /etc/config/apache/apache.conf
     ##### register web interface #####
     local web_dir=${SYS_QPKG_DIR}/${QPKG_DIR_WEB}
     if [ -n ${QPKG_DIR_WEB} ] &&
        [ -d ${web_dir}] &&
        [$(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0]; then
-      local qpkg_web_path="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
-      cat > $qpkg_web_path <<EOF
-Alias /${QPKG_WEBUI:-$QPKG_NAME}/ "${web_dir}"
-<Directory "${web_dir}">
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-</Directory>
+      local qpkg_web_config="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
+      cat > $qpkg_web_config <<EOF
+<IfModule alias_module>
+  Alias /${QPKG_WEB_PATH:-$QPKG_NAME}/ "${web_dir}"
+  <Directory "${web_dir}">
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+  </Directory>
+</IfModule>
 EOF
-      echo "Include ${qpkg_web_path} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
+      echo "Include ${qpkg_web_config} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
+      ${SYS_WEB_INIT} restart
     fi
     ##### register bin interface #####
     local bin_dir=${SYS_QPKG_DIR}/${QPKG_DIR_BIN}
@@ -444,19 +448,21 @@ EOF
           echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
         fi
       done
-
     fi
+    set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "TRUE"
     ;;
 
   stop)
     echo "service stop..."
     ##### remove web interface #####
-    $CMD_SED '/^Include.*# QPM {$QPKG_NAME} web/d' ${SYS_WEB_CONFIG}
+    $CMD_SED -i '/^Include.*# QPM {$QPKG_NAME} web/d' ${SYS_WEB_CONFIG}
+    ${SYS_WEB_INIT} restart
     ##### remove bin interface #####
     for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
       rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
     done
     rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
+    set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "FALSE"
     ;;
 
   restart)
@@ -563,52 +569,8 @@ err_log(){
   $CMD_ECHO "$message" 1>&2
   $write_err "$message"
 
-  # Any backed up configuration files are restored to be available for
-  # a new upgrade attempt.
-  restore_config
-
   set_progress_fail
   exit 1
-}
-
-############################
-# Store configuration files
-############################
-store_config(){
-  # Tag configuration files for later removal.
-  $CMD_SED -i "/\[$QPKG_NAME\]/,/^\[/s/^cfg:/^&/" $SYS_QPKG_CONFIG 2>/dev/null
-
-  SYS_TAR_CONFIG="$SYS_QPKG_STORE/${QPKG_NAME}_$$.tar"
-  local new_md5sum=
-  local orig_md5sum=
-  local current_md5sum=
-  local qpkg_config=$($CMD_SED -n '/^QPKG_CONFIG/s/QPKG_CONFIG="\(.*\)"/\1/p' qpkg.cfg)
-  for file in $qpkg_config
-  do
-    new_md5sum=$($CMD_GETCFG "" "$file" -f $SYS_QPKG_DATA_MD5SUM_FILE)
-    orig_md5sum=$($CMD_GETCFG "$QPKG_NAME" "^cfg:$file" -f $SYS_QPKG_CONFIG)
-    set_qpkg_config "$file" "$new_md5sum"
-    # Files relative to QPKG directory are changed to full path.
-    [ -z "${file##/*}" ] || file="$SYS_QPKG_DIR/$file"
-    current_md5sum=$($CMD_MD5SUM "$file" 2>/dev/null | $CMD_CUT -d' ' -f1)
-    if [ "$orig_md5sum" = "$current_md5sum" ] ||
-       [ "$new_md5sum" = "$current_md5sum" ]; then
-      : Use new file
-    elif [ -f $file ]; then
-      if [ -z "$orig_md5sum" ]; then
-        $CMD_MV $file ${file}.qdkorig
-        warn_log "$file is saved as ${file}.qdkorig"
-      elif [ "$orig_md5sum" = "$new_md5sum" ]; then
-        $CMD_TAR rf $SYS_TAR_CONFIG $file 2>/dev/null
-      else
-        $CMD_MV $file ${file}.qdksave
-        warn_log "$file is saved as ${file}.qdksave"
-      fi
-    fi
-  done
-
-  # Remove obsolete configuration files.
-  $CMD_SED -i "/\[$QPKG_NAME\]/,/^\[/{/^^cfg:/d}" $SYS_QPKG_CONFIG 2>/dev/null
 }
 
 #####################################################################
@@ -1166,8 +1128,6 @@ init(){
 
   add_config_prefix
 
-  source package_routines
-
   # Package specific routines as defined in package_routines.
   call_defined_routine pkg_init
 }
@@ -1177,7 +1137,7 @@ init(){
 #===
 install_put_data(){
   $CMD_CP -arf "${QPM_DIR_SHARED}/*" "${SYS_QPKG_DIR}/"
-  if [ $(expr match "$(cat /proc/cpuinfo)" '.*ARM') -ne 0 ]; then
+  if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     echo "put data for arm"
     $CMD_CP -arf "${QPM_DIR_ARM}/*" "${SYS_QPKG_DIR}/"
   else
@@ -1254,21 +1214,6 @@ post_install_register_qpkg(){
   set_qpkg_web_port
 }
 
-post_install_register_web(){
-  local web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
-    cat >> $qpkg_apache_path <<EOF
-Alias /${QPKG_WEBUI:-$QPKG_NAME}/ "${web_dir}"
-<Directory "${web_dir}">
-    Options Indexes FollowSymLinks
-    AllowOverride All
-    Order allow,deny
-    Allow from all
-</Directory>
-EOF
-  fi
-}
-
-
 #===
 # Main installation
 #===
@@ -1287,8 +1232,6 @@ main(){
   else
     $CMD_MKDIR -p $SYS_QPKG_DIR
   fi
-  # WTF
-  store_config
   # stop service
   stop_service
 
