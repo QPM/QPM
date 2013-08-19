@@ -13,6 +13,7 @@
 #===
 # Default Configs
 #===
+QPM_VER=""
 
 QPM_DIR_ICONS="icon"
 QPM_DIR_ARM="arm"
@@ -148,8 +149,7 @@ build_qpkg(){
   msg "取得QPKG設定值..."
   source $QPM_QPKG_CONFIGS
 
-  QPKG_VER=$QPKG_VER_MAJOR"."$QPKG_VER_MINOR"."$QPKG_VER_BUILD
-  QPKG_VER="${QPKG_VER:-0.1.0}"
+  QPM_VER=${${QPKG_VER_MAJOR}"."${QPKG_VER_MINOR}"."${QPKG_VER_BUILD}:-0.1.0}
   
   # Check
   msg "檢查編譯環境..."
@@ -165,7 +165,8 @@ build_qpkg(){
   cp -afp $QPM_QPKG_CONFIGS build.$$/qpkg.cfg || err_msg 找不到configs檔
 
   fetch_shell "QPM_QPKG_QPM_SERVICE" > build.$$/$QPM_QPKG_SERVICE
-  cat $QPM_QPKG_SERVICE build.$$/$QPM_QPKG_SERVICE || err_msg 找不到service檔
+  cat $QPM_QPKG_SERVICE >> build.$$/$QPM_QPKG_SERVICE || err_msg 找不到service檔
+  edit_config "QPM_VER" ${QPM_VER} build.$$/$QPM_QPKG_SERVICE
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
@@ -182,7 +183,7 @@ build_qpkg(){
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
 
-  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPKG_VER}.qpkg}
+  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPM_VER}.qpkg}
   QPKG_FILE_PATH=${QPM_DIR_BUILD}/${QPKG_FILE_NAME}
   rm -f "${QPKG_FILE_PATH}"
   touch "${QPKG_FILE_PATH}" || err_msg "建立package失敗 ${QPKG_FILE_PATH}"

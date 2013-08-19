@@ -61,52 +61,8 @@ err_log(){
   $CMD_ECHO "$message" 1>&2
   $write_err "$message"
 
-  # Any backed up configuration files are restored to be available for
-  # a new upgrade attempt.
-  restore_config
-
   set_progress_fail
   exit 1
-}
-
-############################
-# Store configuration files
-############################
-store_config(){
-  # Tag configuration files for later removal.
-  $CMD_SED -i "/\[$QPKG_NAME\]/,/^\[/s/^cfg:/^&/" $SYS_QPKG_CONFIG 2>/dev/null
-
-  SYS_TAR_CONFIG="$SYS_QPKG_STORE/${QPKG_NAME}_$$.tar"
-  local new_md5sum=
-  local orig_md5sum=
-  local current_md5sum=
-  local qpkg_config=$($CMD_SED -n '/^QPKG_CONFIG/s/QPKG_CONFIG="\(.*\)"/\1/p' qpkg.cfg)
-  for file in $qpkg_config
-  do
-    new_md5sum=$($CMD_GETCFG "" "$file" -f $SYS_QPKG_DATA_MD5SUM_FILE)
-    orig_md5sum=$($CMD_GETCFG "$QPKG_NAME" "^cfg:$file" -f $SYS_QPKG_CONFIG)
-    set_qpkg_config "$file" "$new_md5sum"
-    # Files relative to QPKG directory are changed to full path.
-    [ -z "${file##/*}" ] || file="$SYS_QPKG_DIR/$file"
-    current_md5sum=$($CMD_MD5SUM "$file" 2>/dev/null | $CMD_CUT -d' ' -f1)
-    if [ "$orig_md5sum" = "$current_md5sum" ] ||
-       [ "$new_md5sum" = "$current_md5sum" ]; then
-      : Use new file
-    elif [ -f $file ]; then
-      if [ -z "$orig_md5sum" ]; then
-        $CMD_MV $file ${file}.qdkorig
-        warn_log "$file is saved as ${file}.qdkorig"
-      elif [ "$orig_md5sum" = "$new_md5sum" ]; then
-        $CMD_TAR rf $SYS_TAR_CONFIG $file 2>/dev/null
-      else
-        $CMD_MV $file ${file}.qdksave
-        warn_log "$file is saved as ${file}.qdksave"
-      fi
-    fi
-  done
-
-  # Remove obsolete configuration files.
-  $CMD_SED -i "/\[$QPKG_NAME\]/,/^\[/{/^^cfg:/d}" $SYS_QPKG_CONFIG 2>/dev/null
 }
 
 #####################################################################
@@ -664,8 +620,6 @@ init(){
 
   add_config_prefix
 
-  source package_routines
-
   # Package specific routines as defined in package_routines.
   call_defined_routine pkg_init
 }
@@ -770,8 +724,6 @@ main(){
   else
     $CMD_MKDIR -p $SYS_QPKG_DIR
   fi
-  # WTF
-  store_config
   # stop service
   stop_service
 
