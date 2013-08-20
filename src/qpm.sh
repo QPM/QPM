@@ -13,7 +13,7 @@
 #===
 # Default Configs
 #===
-QPM_VER=""
+QPM_QPKG_VER=""
 
 QPM_DIR_ICONS="icon"
 QPM_DIR_ARM="arm"
@@ -68,9 +68,9 @@ edit_config(){
   local value="$2"
   local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
   if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
-    local new_cfg="${field}=\"${value}\""
-    new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
-    sed "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg > $qpkg_cfg.$$
+    local space=$(perl -E 'say " " x '$(expr 48 - ${#field} - ${#value} - 1))
+    value=$(echo ${value} | sed 's/\//\\\//g')
+    sed "s/${field}=[^#]*/${field}=${value}${space}/" $qpkg_cfg > $qpkg_cfg.$$
     rm -f $qpkg_cfg
     mv -f $qpkg_cfg.$$ $qpkg_cfg
   else
@@ -132,15 +132,15 @@ create_qpkg(){
   local configs_path="${qpkg_name}/${QPM_QPKG_CONFIGS}"
   fetch_shell "QPM_QPKG_CONFIGS" > $configs_path
 
-  edit_config "QPKG_NAME" ${qpkg_name} ${configs_path}
-  edit_config "QPKG_DISPLAY_NAME" ${qpkg_name} ${configs_path}
-  edit_config "QPKG_AUTHOR" $(/usr/bin/whoami) ${configs_path}
-  edit_config "#QPKG_DIR_ICONS" ${QPM_DIR_ICONS} ${configs_path}
-  edit_config "#QPKG_DIR_ARM" ${QPM_DIR_ARM} ${configs_path}
-  edit_config "#QPKG_DIR_X86" ${QPM_DIR_X86} ${configs_path}
-  edit_config "#QPKG_DIR_WEB" ${QPM_DIR_WEB} ${configs_path}
-  edit_config "#QPKG_DIR_BIN" ${QPM_DIR_BIN} ${configs_path}
-  edit_config "#QPKG_DIR_SHARE" ${QPM_DIR_SHARE} ${configs_path}
+  edit_config "QPKG_NAME" \"${qpkg_name}\" ${configs_path}
+  edit_config "QPKG_DISPLAY_NAME" \"${qpkg_name}\" ${configs_path}
+  edit_config "QPKG_AUTHOR" \"$(/usr/bin/whoami)\" ${configs_path}
+  edit_config "#QPKG_DIR_ICONS" \"${QPM_DIR_ICONS}\" ${configs_path}
+  edit_config "#QPKG_DIR_ARM" \"${QPM_DIR_ARM}\" ${configs_path}
+  edit_config "#QPKG_DIR_X86" \"${QPM_DIR_X86}\" ${configs_path}
+  edit_config "#QPKG_DIR_WEB" \"${QPM_DIR_WEB}\" ${configs_path}
+  edit_config "#QPKG_DIR_BIN" \"${QPM_DIR_BIN}\" ${configs_path}
+  edit_config "#QPKG_DIR_SHARE" \"${QPM_DIR_SHARE}\" ${configs_path}
 
   fetch_shell "QPM_QPKG_SERVICE" > "${qpkg_name}/${QPM_QPKG_SERVICE}"
 
@@ -154,8 +154,8 @@ build_qpkg(){
   msg "取得QPKG設定值..."
   source $QPM_QPKG_CONFIGS
 
-  QPM_VER="${QPKG_VER_MAJOR}.${QPKG_VER_MINOR}.${QPKG_VER_BUILD}"
-  QPM_VER=${QPM_VER:-0.1.0}
+  QPM_QPKG_VER="${QPKG_VER_MAJOR}.${QPKG_VER_MINOR}.${QPKG_VER_BUILD}"
+  QPM_QPKG_VER=${QPM_QPKG_VER:-0.1.0}
   
   # Check
   msg "檢查編譯環境..."
@@ -169,11 +169,13 @@ build_qpkg(){
   mkdir -m 755 -p build.$$ || err_msg "無法建立暫存目錄 ${build.$$}"
 
   cp -afp ${QPM_QPKG_CONFIGS} "build.$$/${QPM_QPKG_CONFIGS}" || err_msg 找不到configs檔
-  edit_config "QPM_VER" ${QPM_VER} "build.$$/${QPM_QPKG_CONFIGS}"
+  fetch_shell "QPM_QPKG_QPM_CONFIGS" >> "build.$$/${QPM_QPKG_CONFIGS}"
+  edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" "build.$$/${QPM_QPKG_CONFIGS}"
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
-  fetch_shell "QPM_QPKG_QPM_SERVICE" > ${service_file}
+  fetch_shell "QPM_QPKG_QPM_SERVICE_START" > ${service_file}
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
+  fetch_shell "QPM_QPKG_QPM_SERVICE_END" >> ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
@@ -190,7 +192,7 @@ build_qpkg(){
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
 
-  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPM_VER}.qpkg}
+  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPM_QPKG_VER}.qpkg}
   QPKG_FILE_PATH=${QPM_DIR_BUILD}/${QPKG_FILE_NAME}
   rm -f "${QPKG_FILE_PATH}"
   touch "${QPKG_FILE_PATH}" || err_msg "建立package失敗 ${QPKG_FILE_PATH}"
@@ -206,6 +208,8 @@ build_qpkg(){
   rm -rf tmp.$$
 
   edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
+
+  echo "建立${QPKG_FILE_PATH}..."
 
   echo "[v] package編譯完成"
 }

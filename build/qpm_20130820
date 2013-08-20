@@ -1,0 +1,1343 @@
+#!/bin/sh
+##############################################################################
+#
+# $Id: qbuild $
+#
+# This script is used to build QPKGs.
+#
+##############################################################################
+
+#! uninstall need SYS_QPKG_DIR
+#! äº†è§£ md5sum çš„ç”¨é€”
+
+#===
+# Default Configs
+#===
+QPM_QPKG_VER=""
+
+QPM_DIR_ICONS="icon"
+QPM_DIR_ARM="arm"
+QPM_DIR_X86="x86"
+QPM_DIR_SHARE="share"
+QPM_DIR_WEB="web"
+QPM_DIR_BIN="bin"
+QPM_DIR_BUILD="build"
+
+QPM_QPKG_CONFIGS="qpkg.cfg"
+QPM_QPKG_QPM_SERVICE="qpm_service.sh"
+QPM_QPKG_SERVICE="service.sh"
+QPM_QPKG_SERVICE_ID=101
+QPM_QPKG_DATA="data.tar.gz"
+QPM_QPKG_SCRIPT="script.sh"
+QPM_QPKG_INSTALL="install.sh"
+QPM_QPKG_UNINSTALL="uninstall.sh"
+QPM_QPKG_WEB_CONFIG="web.conf"
+
+#===
+# Message
+#===
+
+# Error messages
+err_msg(){
+  echo "[ERROR] $1" 1>&1
+  echo "[x] ä»»å‹™å¤±æ•—"
+  rm -rf build.$$
+  rm -rf tmp.$$
+  exit 0
+}
+
+warn_msg(){
+  echo "[WARN] $1" 1>&1
+}
+
+msg(){
+  echo "$1" 1>&1
+}
+
+debug_msg(){
+  #msg "$1" $DEBUG
+  return 0
+}
+
+#===
+# Library
+#===
+
+edit_config(){
+  local field="$1"
+  local value="$2"
+  local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
+  if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
+    local space=$(perl -E 'say " " x '$(expr 48 - ${#field} - ${#value} - 1))
+    value=$(echo ${value} | sed 's/\//\\\//g')
+    sed "s/${field}=[^#]*/${field}=${value}${space}/" $qpkg_cfg > $qpkg_cfg.$$
+    rm -f $qpkg_cfg
+    mv -f $qpkg_cfg.$$ $qpkg_cfg
+  else
+    return 1
+  fi
+}
+
+fetch_shell(){
+  local start=$(grep -n "^###${1} START" ${0} |  awk -F "[/:]" '{print $1}')
+  start=$(expr ${start} + 1)
+
+  local end=$(grep -n "^###${1} END" ${0} |  awk -F "[/:]" '{print $1}')
+  end=$(expr ${end} - 1)
+
+  sed -n "${start},${end}p" ${0}
+
+  return 0
+}
+
+#===
+# Main
+#===
+
+# Help messages
+help(){
+  cat <<EOF
+Usage: $(/usr/bin/basename $0) [options] [--create NAME]
+Options:
+  --create, -c NAME       å»ºç«‹ä¸€å€‹packageç›®éŒ„
+  -?, -h, --help          é¡¯ç¤ºæ“ä½œè¨Šæ¯
+  -V, -ver, --version     åˆ—å‡ºqbuildçš„ç‰ˆæœ¬è³‡è¨Š.
+EOF
+  exit 0
+}
+
+# Create directory with template build environment
+create_qpkg(){
+  [ -n "$1" ] || err_msg "internal error: create called with no argument"
+  local qpkg_name="$1"
+
+  [ -d "$qpkg_name" ] && err_msg "$(pwd)/${qpkg_name} å·²ç¶“å­˜åœ¨"
+
+  echo "å»ºç«‹ $qpkg_name ç›®éŒ„..."
+  /bin/mkdir -m 755 -p "${qpkg_name}" || err_msg "${qpkg_name}: ä¸»ç›®éŒ„å»ºç«‹å¤±æ•—"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ICONS}" || err_msg "${qpkg_name}: Iconç›®éŒ„å»ºç«‹å¤±æ•—"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ARM}" || err_msg "${qpkg_name}: ARMç›®éŒ„å»ºç«‹å¤±æ•—"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_X86}" || err_msg "${qpkg_name}: X86ç›®éŒ„å»ºç«‹å¤±æ•—"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}" || err_msg "${qpkg_name}: Shareç›®éŒ„å»ºç«‹å¤±æ•—"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Webç›®éŒ„å»ºç«‹å¤±æ•—"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Binç›®éŒ„å»ºç«‹å¤±æ•—"
+  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BUILD}" || err_msg "${qpkg_name}: Buildç›®éŒ„å»ºç«‹å¤±æ•—"
+
+  fetch_shell "QPM_ICONS_64" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon.png"
+  fetch_shell "QPM_ICONS_64_GRAY" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon_gray.png"
+  fetch_shell "QPM_ICONS_80" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon_80.png"
+
+  echo "åˆå§‹åŒ– QPKGè¨­å®šæª”..."
+
+  local configs_path="${qpkg_name}/${QPM_QPKG_CONFIGS}"
+  fetch_shell "QPM_QPKG_CONFIGS" > $configs_path
+
+  edit_config "QPKG_NAME" \"${qpkg_name}\" ${configs_path}
+  edit_config "QPKG_DISPLAY_NAME" \"${qpkg_name}\" ${configs_path}
+  edit_config "QPKG_AUTHOR" \"$(/usr/bin/whoami)\" ${configs_path}
+  edit_config "#QPKG_DIR_ICONS" \"${QPM_DIR_ICONS}\" ${configs_path}
+  edit_config "#QPKG_DIR_ARM" \"${QPM_DIR_ARM}\" ${configs_path}
+  edit_config "#QPKG_DIR_X86" \"${QPM_DIR_X86}\" ${configs_path}
+  edit_config "#QPKG_DIR_WEB" \"${QPM_DIR_WEB}\" ${configs_path}
+  edit_config "#QPKG_DIR_BIN" \"${QPM_DIR_BIN}\" ${configs_path}
+  edit_config "#QPKG_DIR_SHARE" \"${QPM_DIR_SHARE}\" ${configs_path}
+
+  fetch_shell "QPM_QPKG_SERVICE" > "${qpkg_name}/${QPM_QPKG_SERVICE}"
+
+  edit_config "QPKG_NAME" ${qpkg_name} "${qpkg_name}/${QPM_QPKG_SERVICE}"
+
+  echo "[v] packageåˆå§‹åŒ–å®Œæˆ"
+}
+
+build_qpkg(){
+  # Fetch configs
+  msg "å–å¾—QPKGè¨­å®šå€¼..."
+  source $QPM_QPKG_CONFIGS
+
+  QPM_QPKG_VER="${QPKG_VER_MAJOR}.${QPKG_VER_MINOR}.${QPKG_VER_BUILD}"
+  QPM_QPKG_VER=${QPM_QPKG_VER:-0.1.0}
+  
+  # Check
+  msg "æª¢æŸ¥ç·¨è­¯ç’°å¢ƒ..."
+  [ -n "$QPKG_AUTHOR" ] || err_msg "$QPM_QPKG_CONFIGS: QPKG_AUTHOR å¿…é ˆè¨­å®šå€¼"
+  [ -n "$QPKG_NAME" ] || err_msg "$QPM_QPKG_CONFIGS: QPKG_NAME å¿…é ˆè¨­å®šå€¼"
+
+  # Build
+  msg "ç·¨è­¯QPKG..."
+
+  rm -rf build.$$
+  mkdir -m 755 -p build.$$ || err_msg "ç„¡æ³•å»ºç«‹æš«å­˜ç›®éŒ„ ${build.$$}"
+
+  cp -afp ${QPM_QPKG_CONFIGS} "build.$$/${QPM_QPKG_CONFIGS}" || err_msg æ‰¾ä¸åˆ°configsæª”
+  fetch_shell "QPM_QPKG_QPM_CONFIGS" >> "build.$$/${QPM_QPKG_CONFIGS}"
+  edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" "build.$$/${QPM_QPKG_CONFIGS}"
+
+  local service_file="build.$$/${QPM_QPKG_SERVICE}"
+  fetch_shell "QPM_QPKG_QPM_SERVICE_START" > ${service_file}
+  cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg æ‰¾ä¸åˆ°serviceæª”
+  fetch_shell "QPM_QPKG_QPM_SERVICE_END" >> ${service_file}
+
+  cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg æ‰¾ä¸åˆ°iconç›®éŒ„
+  cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg æ‰¾ä¸åˆ°iconç›®éŒ„
+  cp -af ${QPKG_DIR_X86:-${QPM_DIR_X86}} build.$$/${QPM_DIR_X86} || warn_msg æ‰¾ä¸åˆ°x86ç›®éŒ„
+  cp -af ${QPKG_DIR_SHARE:-${QPM_DIR_SHARE}} build.$$/${QPM_DIR_SHARE} || warn_msg æ‰¾ä¸åˆ°sharedç›®éŒ„
+
+  fetch_shell "QPM_QPKG_INSTALL" > "build.$$/${QPM_QPKG_INSTALL}"
+  fetch_shell "QPM_QPKG_UNINSTALL" > "build.$$/${QPM_QPKG_UNINSTALL}"
+
+  mkdir -m 755 -p tmp.$$ || err_msg "ç„¡æ³•å»ºç«‹æš«å­˜ç›®éŒ„ ${tmp.$$}"
+
+  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARE} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
+  rm -rf build.$$
+
+  mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "ç„¡æ³•å»ºç«‹ç·¨è­¯ç›®éŒ„"
+
+  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPM_QPKG_VER}.qpkg}
+  QPKG_FILE_PATH=${QPM_DIR_BUILD}/${QPKG_FILE_NAME}
+  rm -f "${QPKG_FILE_PATH}"
+  touch "${QPKG_FILE_PATH}" || err_msg "å»ºç«‹packageå¤±æ•— ${QPKG_FILE_PATH}"
+
+  fetch_shell "QPM_QPKG_SCRIPT" > tmp.$$/$QPM_QPKG_SCRIPT
+
+  local script_len=$(ls -l tmp.$$/${QPM_QPKG_SCRIPT} | awk '{ print $5 }')
+  sed "s/EXTRACT_SCRIPT_LEN=000/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${QPKG_FILE_PATH}
+
+  #dd if=tmp.$$/$QPM_QPKG_DATA of="${QPM_QPKG_BUILD}/${QPKG_FILE_PATH}"
+  cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
+
+  rm -rf tmp.$$
+
+  edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
+
+  echo "å»ºç«‹${QPKG_FILE_PATH}..."
+
+  echo "[v] packageç·¨è­¯å®Œæˆ"
+}
+
+# Main
+main(){
+  while  [ $# -gt 0 ]
+  do
+    case "$1" in
+    --help|-h|-\?)  avg_help=TRUE ;;
+    --version|-ver|-V) avg_version=TRUE ;;
+    --create|-c) avg_qpkg_name="$2"
+        [ -n "$avg_qpkg_name" ] || err_msg "--create, -c: æ²’æœ‰packageåç¨±"
+        shift
+        ;;
+    esac
+    shift
+  done
+
+  [ -n "$avg_version" ] && version
+  [ -n "$avg_help" ] && help
+
+
+  if [ -n "$avg_qpkg_name" ]; then 
+    create_qpkg "$avg_qpkg_name"
+  else
+    build_qpkg # 2>/dev/null
+  fi
+}
+
+main "$@"
+exit 1
+###QPM_QPKG_SCRIPT START
+#!/bin/sh
+/bin/echo "Install QNAP package on TS-NAS..."
+/bin/grep "/mnt/HDA_ROOT" /proc/mounts >/dev/null 2>&1 || exit 1
+EXTRACT_DIR_TEMP="/mnt/HDA_ROOT/update_pkg/tmp.$$"
+EXTRACT_SCRIPT_LEN=000
+/bin/mkdir -p $EXTRACT_DIR_TEMP || exit 1
+/bin/dd if=${0} bs=$EXTRACT_SCRIPT_LEN skip=1 | /bin/tar -xz -C $EXTRACT_DIR_TEMP || exit 1
+( cd $EXTRACT_DIR_TEMP && /bin/sh install.sh || echo "Installation Abort." )
+#/bin/rm -rf $EXTRACT_DIR_TEMP && exit 10
+exit 1
+###QPM_QPKG_SCRIPT END
+
+###QPM_QPKG_QPM_CONFIGS START
+
+##### command definitions #####
+CMD_AWK="/bin/awk"
+CMD_CAT="/bin/cat"
+CMD_CHMOD="/bin/chmod"
+CMD_CHOWN="/bin/chown"
+CMD_CP="/bin/cp"
+CMD_CUT="/bin/cut"
+CMD_DATE="/bin/date"
+CMD_ECHO="/bin/echo"
+CMD_EXPR="/usr/bin/expr"
+CMD_FIND="/usr/bin/find"
+CMD_GETCFG="/sbin/getcfg"
+CMD_GREP="/bin/grep"
+CMD_GZIP="/bin/gzip"
+CMD_HOSTNAME="/bin/hostname"
+CMD_LN="/bin/ln"
+CMD_MD5SUM="/bin/md5sum"
+CMD_MKDIR="/bin/mkdir"
+CMD_MV="/bin/mv"
+CMD_RM="/bin/rm"
+CMD_RMDIR="/bin/rmdir"
+CMD_SED="/bin/sed"
+CMD_SETCFG="/sbin/setcfg"
+CMD_SLEEP="/bin/sleep"
+CMD_SORT="/usr/bin/sort"
+CMD_SYNC="/bin/sync"
+CMD_TAR="/bin/tar"
+CMD_TOUCH="/bin/touch"
+CMD_WGET="/usr/bin/wget"
+CMD_LOG_TOOL="/sbin/log_tool"
+CMD_XARGS="/usr/bin/xargs"
+CMD_7Z="/usr/local/sbin/7z"
+CMD_PRINTF="printf"
+CMD_PKG_TOOL=""
+
+##### system definitions #####
+SYS_EXTRACT_DIR="$(pwd)"
+SYS_CONFIG_DIR="/etc/config"
+SYS_RSS_IMG_DIR="/home/httpd/RSS/images"
+SYS_BIN_DIR="/usr/bin"
+SYS_OPT_DIR="/mnt/ext/opt"
+
+SYS_INIT_DIR="/etc/init.d"
+SYS_STARTUP_DIR="/etc/rcS.d"
+SYS_SHUTDOWN_DIR="/etc/rcK.d"
+
+SYS_BASE_DIR="/share/HDA_DATA"
+SYS_PUBLIC_DIR="/share/Public"
+SYS_DOWNLOAD_DIR="/share/Download"
+SYS_MULTIMEDIA_DIR="/share/Multimedia"
+SYS_RECORDINGS_DIR="/share/Recordings"
+
+SYS_WEB_DIR="/share/Web"
+SYS_WEB_CONFIG="${SYS_CONFIG_DIR}/apache/apache.conf"
+SYS_WEB_INIT="${SYS_INIT_DIR}/Qthttpd.sh"
+
+SYS_QPKG_CONFIG="${SYS_CONFIG_DIR}/qpkg.conf"
+SYS_QPKG_SERVICE="${SYS_INIT_DIR}/${QPKG_NAME}"
+SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
+SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
+
+SYS_QPKG_CFG_QPKGFILE="QPKG_File"
+SYS_QPKG_CFG_NAME="Name"
+SYS_QPKG_CFG_DISPLAY_NAME="Display_Name"
+SYS_QPKG_CFG_VERSION="Version"
+SYS_QPKG_CFG_AUTHOR="Author"
+SYS_QPKG_CFG_ENABLE="Enable"
+SYS_QPKG_CFG_DATE="Date"
+SYS_QPKG_CFG_SHELL="Shell"
+SYS_QPKG_CFG_INSTALL_PATH="Install_Path"
+SYS_QPKG_CFG_CONFIG_PATH="Config_Path"
+SYS_QPKG_CFG_WEB_PATH="WebUI"
+SYS_QPKG_CFG_WEB_PORT="Web_Port"
+SYS_QPKG_CFG_DESKTOP_APP="Desktop"
+
+SYS_PLATFORM="x86/arm"
+
+##### QPM definitions #####
+QPM_QPKG_VER=""
+
+QPM_DIR_ICONS="icon"
+QPM_DIR_ARM="arm"
+QPM_DIR_X86="x86"
+QPM_DIR_SHARE="share"
+QPM_DIR_WEB="web"
+QPM_DIR_BIN="bin"
+QPM_DIR_BUILD="build"
+
+QPM_QPKG_CONFIGS="qpkg.cfg"
+QPM_QPKG_QPM_SERVICE="qpm_service.sh"
+QPM_QPKG_SERVICE="service.sh"
+QPM_QPKG_SERVICE_ID=101
+QPM_QPKG_DATA="data.tar.gz"
+QPM_QPKG_SCRIPT="script.sh"
+QPM_QPKG_INSTALL="install.sh"
+QPM_QPKG_UNINSTALL="uninstall.sh"
+QPM_QPKG_WEB_CONFIG="web.conf"
+
+##### system library #####
+# set QPKG configs, avgs(field value [qpkg_name])
+set_qpkg_cfg(){
+  [ -n "$1" ] && [ -n "$2" ] || return 0
+  local field="$1"
+  local value="$2"
+  local section="${3:-$QPKG_NAME}"
+
+  $CMD_SETCFG ${section} ${field} ${value} -f ${SYS_QPKG_CONFIG}
+}
+
+# get QPKG configs, avgs(field [default_value] [qpkg_name])
+get_qpkg_cfg(){
+  [ -n "$1" ] || return 0
+  local field="$1"
+  local section="${3:-$QPKG_NAME}"
+  if [ -n "$2" ]; then 
+    echo $($CMD_GETCFG ${section} ${field} -d "${2}" -f ${SYS_QPKG_CONFIG})
+  else
+    echo $($CMD_GETCFG ${section} ${field} -f ${SYS_QPKG_CONFIG})
+  fi
+}
+
+# show message
+msg(){
+  [ -n "$1" ] || return 0
+  $CMD_PRINTF "${1}$(perl -E 'say "." x '$(expr 40 - ${#1}))"
+  [ -n "$2" ] && $CMD_PRINTF "${2}\n"
+}
+###QPM_QPKG_QPM_CONFIGS END
+
+###QPM_QPKG_CONFIGS START
+##### QPKG configs #####
+QPKG_NAME=""                                    # Package åç¨±
+QPKG_DISPLAY_NAME=""                            # Package é¡¯ç¤ºçš„åç¨±
+
+QPKG_VER_MAJOR="0"                              # ç‰ˆæœ¬è³‡è¨Š
+QPKG_VER_MINOR="1"
+QPKG_VER_BUILD="0"
+
+QPKG_AUTHOR=""                                  # ä½œè€…æˆ–ç¶­è­·äººå“¡
+
+QPKG_LICENSE="GPL v2"                           # æˆæ¬Šæ¨¡å¼
+
+
+#QPKG_REQUIRE="Python >= 2.5, Optware | opkg"   # Package ç›¸ä¾
+#QPKG_CONFLICT="Python, OPT/sed"                # Package ç›¸æ–¥
+
+#QPKG_WEB_PATH="/"                              # WebAppç›®éŒ„
+#QPKG_WEB_PORT=""                               # WebAppçš„Port number
+
+#QPKG_DESKTOP_APP="1"                           # é·å…¥QTS4çš„Webæ¡Œé¢ç³»çµ±
+
+#QPKG_DIR_ICONS=""                              # Package åœ–å¼çš„ç›®éŒ„
+#QPKG_DIR_ARM=""                                # Package æª”æ¡ˆç›®éŒ„ï¼ŒARMå°ˆç”¨
+#QPKG_DIR_X86=""                                # Package æª”æ¡ˆç›®éŒ„ï¼ŒX86å°ˆç”¨
+#QPKG_DIR_SHARE=""                              # Package æª”æ¡ˆç›®éŒ„ï¼Œé€šç”¨
+#QPKG_DIR_WEB=""                                # Package Webæª”æ¡ˆçš„ç›®éŒ„
+#QPKG_DIR_BIN=""                                # Package Binæª”æ¡ˆçš„ç›®éŒ„
+###QPM_QPKG_CONFIGS END
+
+###QPM_QPKG_QPM_SERVICE_START START
+#!/bin/sh
+
+#===
+# QPKG definitions
+#===
+source "${SYS_QPKG_DIR}/.qpkg.cfg"
+cd ${SYS_QPKG_DIR}
+
+case "$1" in
+  start)
+    msg "${QPKG_NAME} service start"
+    ##### register web interface #####
+#     local web_dir=${SYS_QPKG_DIR}/${QPKG_DIR_WEB}
+#     if [ -n ${QPKG_DIR_WEB} ] &&
+#        [ -d ${web_dir}] &&
+#        [$(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0]; then
+#       local qpkg_web_config="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
+#       cat > $qpkg_web_config <<EOF
+# <IfModule alias_module>
+#   Alias /${QPKG_WEB_PATH:-$QPKG_NAME}/ "${web_dir}"
+#   <Directory "${web_dir}">
+#       AllowOverride None
+#       Order allow,deny
+#       Allow from all
+#   </Directory>
+# </IfModule>
+# EOF
+#       echo "Include ${qpkg_web_config} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
+#       ${SYS_WEB_INIT} restart
+#     fi
+    ##### register bin interface #####
+    # local bin_dir=${SYS_QPKG_DIR}/${QPKG_DIR_BIN}
+    # if [ -n ${QPKG_DIR_BIN} ] &&
+    #    [ -d ${bin_dir}] &&
+    #    [$(ls -l | grep '\-rwx' | awk 'END {print NR}') -gt 0]; then
+    #   rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
+    #   for bin in `ls`; do
+    #     if [ -f $bin ] && [ -x $bin ]; then
+    #       $CMD_LN -sf "${bin_dir}/${bin}" "${SYS_BIN_DIR}/${bin}"
+    #       echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
+    #     fi
+    #   done
+    # fi
+    # set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "TRUE"
+    ;;
+
+  stop)
+    msg "${QPKG_NAME} service stop"
+    ##### remove web interface #####
+    # $CMD_SED -i '/^Include.*# QPM {$QPKG_NAME} web/d' ${SYS_WEB_CONFIG}
+    # ${SYS_WEB_INIT} restart
+    ##### remove bin interface #####
+    # for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
+    #   rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
+    # done
+    # rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
+    # set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "FALSE"
+    ;;
+
+  restart)
+    $0 stop
+    $0 start
+    ;;
+
+  install|unistall)
+    if [ ${2} != ${QPKG_NAME} ]; then
+      echo "Usage: $0 {start|stop|restart}"
+      exit 1
+    fi
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+###QPM_QPKG_QPM_SERVICE_START END
+
+###QPM_QPKG_QPM_SERVICE_END START
+#!/bin/sh
+
+case "$1" in
+  start)
+    set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "TRUE"
+    ;;
+  stop)
+    set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "FALSE"
+    ;;
+  install)
+    ;;
+  unistall)
+    ;;
+esac
+###QPM_QPKG_QPM_SERVICE_END END
+
+###QPM_QPKG_SERVICE START
+#!/bin/sh
+case "$1" in
+  start)
+    : ADD START ACTIONS HERE
+    ;;
+
+  stop)
+    : ADD STOP ACTIONS HERE
+    ;;
+
+  install)
+    # Install after forced start service
+    : ADD INSTALL ACTIONS HERE
+    ;;
+
+  unistall)
+    # Uninstall before forced stop service
+    : ADD UNSTALL ACTIONS HERE
+    ;;
+esac
+###QPM_QPKG_SERVICE END
+
+###QPM_QPKG_INSTALL START
+#!/bin/sh
+
+#===
+# QPKG definitions
+#===
+source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
+SYS_QPKG_TMP=$( cd "$( dirname "${0}" )" && pwd )
+
+###########################################
+# System messages
+###########################################
+SYS_MSG_FILE_NOT_FOUND="Data file not found."
+SYS_MSG_FILE_ERROR="Data file error."
+SYS_MSG_PUBLIC_NOT_FOUND="Public share not found."
+SYS_MSG_FAILED_CONFIG_RESTORE="Failed to restore saved configuration data."
+
+#===
+# Inform web interface about progress
+#===
+set_progress(){
+  $CMD_ECHO ${1:--1} > /tmp/update_process
+}
+set_progress_begin(){
+  set_progress 0
+}
+set_progress_before_install(){
+  set_progress 1
+}
+set_progress_after_install(){
+  set_progress 2
+}
+set_progress_end(){
+  set_progress 3
+}
+set_progress_fail(){
+  set_progress -1
+}
+
+#===
+# Log
+#===
+log() {
+  local write_msg="$CMD_LOG_TOOL -t0 -uSystem -p127.0.0.1 -mlocalhost -a"
+  [ -n "$1" ] && $CMD_ECHO "$1" && $write_msg "$1"
+}
+
+warn_log() {
+  local write_warn="$CMD_LOG_TOOL -t1 -uSystem -p127.0.0.1 -mlocalhost -a"
+  [ -n "$1" ] && $CMD_ECHO "$1" 1>&2 && $write_warn "$1"
+}
+
+err_log(){
+  local write_err="$CMD_LOG_TOOL -t2 -uSystem -p127.0.0.1 -mlocalhost -a"
+  local message="$QPKG_NAME $QPKG_VER installation failed. $1"
+  $CMD_ECHO "$message" 1>&2
+  $write_err "$message"
+
+  set_progress_fail
+  exit 1
+}
+
+#===
+# Remove specified file or directory (if empty).
+#===
+remove_file_and_empty_dir(){
+  [ -n "$1" ] || return 1
+  local file=
+  # Files relative to QPKG directory are changed to full path.
+  if [ -n "${1##/*}" ]; then
+    file="$SYS_QPKG_DIR/$1"
+  else
+    file="$1"
+  fi
+  if [ -f "$file" ]; then
+    $CMD_RM -f "$file"
+  elif [ -d "$file" ]; then
+    $CMD_RMDIR "$file" 2>/dev/null
+  fi
+}
+
+#===
+# library
+#===
+
+# edit qpkg.cfg
+edit_config(){
+  local field="$1"
+  local value="$2"
+  local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
+  if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
+    local space=$(perl -E 'say " " x '$(expr 48 - ${#field} - ${#value} - 1))
+    value=$($CMD_ECHO ${value} | $CMD_SED 's/\//\\\//g')
+    $CMD_SED -i "s/${field}=[^#]*/${field}=${value}${space}/" ${qpkg_cfg}
+  else
+    return 1
+  fi
+}
+
+# split MAJOR.MINOR.BUILD version
+split_version(){
+  [ -n "$1" ] || return 1
+  local version="$1"
+  local prefix="$2"
+
+  local major=$($CMD_EXPR "$version" : '\([^.]*\)')
+  local minor=$($CMD_EXPR "$version" : '[^.]*[.]\([^.]*\)')
+  local build=$($CMD_EXPR "$version" : '[^.]*[.][^.]*[.]\([^.]*\)')
+  eval ${prefix}MAJOR=${major:-0}
+  eval ${prefix}MINOR=${minor:-0}
+  eval ${prefix}BUILD=${build:-0}
+}
+
+##################################################################
+# Check if versions are equal
+#
+# Returns 0 if versions are equal, otherwise it returns 1.
+##################################################################
+is_equal(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+
+  split_version $1
+  split_version $2 REQ_
+
+  if $CMD_EXPR $MAJOR != $REQ_MAJOR >/dev/null ||
+     $CMD_EXPR $MINOR != $REQ_MINOR >/dev/null ||
+     $CMD_EXPR $BUILD != $REQ_BUILD >/dev/null; then
+    return 1
+  fi
+}
+
+##################################################################
+# Check if versions are unequal
+#
+# Returns 0 if versions are unequal, otherwise it returns 1.
+##################################################################
+is_unequal(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+
+  split_version $1
+  split_version $2 REQ_
+
+  if $CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null &&
+     $CMD_EXPR $MINOR = $REQ_MINOR >/dev/null &&
+     $CMD_EXPR $BUILD = $REQ_BUILD >/dev/null; then
+    return 1
+  fi
+}
+
+##################################################################
+# Check if one version is less than or equal to another version
+#
+# Returns 0 if VERSION1 is less than or equal to VERSION2,
+# otherwise it returns 1.
+##################################################################
+is_less_or_equal(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+
+  split_version $1
+  split_version $2 REQ_
+
+  # if $CMD_EXPR $MAJOR \> $REQ_MAJOR >/dev/null ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     $CMD_EXPR $MINOR \> $REQ_MINOR >/dev/null) ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
+  #     $CMD_EXPR $BUILD \> $REQ_BUILD >/dev/null); then
+  #   return 1
+  # fi
+}
+
+##################################################################
+# Check if one version is less than another version
+#
+# Returns 0 if VERSION1 is less than VERSION2,
+# otherwise it returns 1.
+##################################################################
+is_less(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+
+  split_version $1
+  split_version $2 REQ_
+
+  # if $CMD_EXPR $MAJOR \> $REQ_MAJOR >/dev/null ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     $CMD_EXPR $MINOR \> $REQ_MINOR >/dev/null) ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
+  #     $CMD_EXPR $BUILD \>= $REQ_BUILD >/dev/null); then
+  #   return 1
+  # fi
+}
+
+##################################################################
+# Check if one version is greater than another version
+#
+# Returns 0 if VERSION1 is greater than VERSION2,
+# otherwise it returns 1.
+##################################################################
+is_greater(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+
+  split_version $1
+  split_version $2 REQ_
+
+  # if $CMD_EXPR $MAJOR \< $REQ_MAJOR >/dev/null ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     $CMD_EXPR $MINOR \< $REQ_MINOR >/dev/null) ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
+  #     $CMD_EXPR $BUILD \<= $REQ_BUILD >/dev/null); then
+  #   return 1
+  # fi
+}
+
+##################################################################
+# Check if one version is greater than or equal to another version
+#
+# Returns 0 if VERSION1 is greater than or equal to VERSION2,
+# otherwise it returns 1.
+##################################################################
+is_greater_or_equal(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+
+  split_version $1
+  split_version $2 REQ_
+
+  # if $CMD_EXPR $MAJOR \< $REQ_MAJOR >/dev/null ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     $CMD_EXPR $MINOR \< $REQ_MINOR >/dev/null) ||
+  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
+  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
+  #     $CMD_EXPR $BUILD \< $REQ_BUILD >/dev/null); then
+  #   return 1
+  # fi
+}
+
+############################################################
+# Check that given QPKG package isn't installed or that
+# specified Optware package isn't installed. An optional
+# version check can also be performed.
+#
+# Returns 0 if package is not installed, otherwise it
+# returns 1.
+############################################################
+is_qpkg_not_installed(){
+  [ -n "$1" ] || return 1
+  local qpkg_name="$1"
+  local op="$2"
+  local conflict="$3"
+
+  local available=
+  local pkg="$($CMD_EXPR "$qpkg_name" : "OPT/\(.*\)")"
+  if [ -z "$pkg" ]; then
+    available=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_NAME" -f $SYS_QPKG_CONFIG)
+  elif [ -n "$CMD_PKG_TOOL" ]; then
+    available=$($CMD_PKG_TOOL status $pkg | $CMD_GREP "^Version:")
+  else
+    return 0
+  fi
+  local status=0
+  if [ -n "$available" ]; then
+    status=1
+    local installed=
+    if [ -z "$pkg" ]; then
+      installed=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_VERSION" -d "" -f $SYS_QPKG_CONFIG)
+    else
+      installed="$($CMD_PKG_TOOL status $pkg | $CMD_SED -n 's/^Version: \(.*\)/\1/p')"
+    fi
+
+    if [ -n "$conflict" ] && [ -n "$installed" ]; then
+      case "$op" in
+      =|==)
+        is_equal $installed $conflict || status=0 ;;
+      !=)
+        is_unequal $installed $conflict || status=0 ;;
+      \<=)
+        is_less_or_equal $installed $conflict || status=0 ;;
+      \<)
+        is_less $installed $conflict || status=0 ;;
+      \>)
+        is_greater $installed $conflict || status=0 ;;
+      \>=)
+        is_greater_or_equal $installed $conflict || status=0 ;;
+      *)
+        status=1
+        ;;
+      esac
+    fi
+  else
+    [ "$qpkg_name" = "$QPKG_NAME" ] && [ -d "$SYS_QPKG_DIR" ] && status=1
+  fi
+
+  return $status
+}
+
+############################################################
+# Check if given QPKG package exists and is enabled or that
+# specified Optware package exists. An optional version
+# check can also be performed.
+#
+# Returns 0 if package is valid, otherwise it returns 1.
+############################################################
+is_qpkg_enabled(){
+  [ -n "$1" ] || return 1
+  local qpkg_name="$1"
+  local op="$2"
+  local required="$3"
+
+  local enabled="FALSE"
+  local pkg="$($CMD_EXPR "$qpkg_name" : "OPT/\(.*\)")"
+  if [ -z "$pkg" ]; then
+    enabled=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_ENABLE" -d "FALSE" -f $SYS_QPKG_CONFIG)
+  elif [ -n "$CMD_PKG_TOOL" ]; then
+    $CMD_PKG_TOOL status $pkg | $CMD_GREP -q "^Version:" && enabled="TRUE"
+  else
+    return 1
+  fi
+  local status=1
+  if [ "$enabled" = "TRUE" ]; then
+    status=0
+    local installed=
+    if [ -z "$pkg" ]; then
+      installed=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_VERSION" -d "" -f $SYS_QPKG_CONFIG)
+    else
+      installed="$($CMD_PKG_TOOL status $pkg | $CMD_SED -n 's/^Version: \(.*\)/\1/p')"
+      # Installed packages with no specific version check shall always be upgraded
+      # if a new version is available.
+      [ -z "$required" ] && [ -z "$SYS_PKG_INSTALLED" ] && status=1
+    fi
+    if [ -n "$required" ] && [ -n "$installed" ]; then
+      case "$op" in
+      =|==)
+        is_equal $installed $required || status=1 ;;
+      !=)
+        is_unequal $installed $required || status=1 ;;
+      \<=)
+        is_less_or_equal $installed $required || status=1 ;;
+      \<)
+        is_less $installed $required || status=1 ;;
+      \>)
+        is_greater $installed $required || status=1 ;;
+      \>=)
+        is_greater_or_equal $installed $required || status=1 ;;
+      *)
+        status=1
+        ;;
+      esac
+    fi
+  fi
+  # Try to install the latest version and then re-check the requirement.
+  if [ $status -eq 1 ] && [ -n "$pkg" ] && [ -z "$SYS_PKG_INSTALLED" ]; then
+    if [ -z "$SYS_PKG_UPDATED" ]; then
+      $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS update || warn_log "$CMD_PKG_TOOL update failed"
+      SYS_PKG_UPDATED="TRUE"
+    fi
+    $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS install $pkg || warn_log "$CMD_PKG_TOOL install $pkg failed"
+    # Avoid never-ending loop...
+    SYS_PKG_INSTALLED="TRUE"
+    is_qpkg_enabled "$qpkg_name" $op $required && status=0
+  fi
+  SYS_PKG_INSTALLED=
+  return $status
+}
+
+#####################################################################
+# Append requirements to output message
+#####################################################################
+append_install_msg(){
+  if [ -n "$1" ]; then
+    if $CMD_EXPR "$1" : "OPT/.*" >/dev/null; then
+      opt_file=$($CMD_ECHO "$1" | $CMD_SED 's#OPT/\(.*\)#\1#g' )
+      opt_install_msg="${opt_install_msg}${opt_install_msg:+, }$opt_file"
+    else
+      install_msg="${install_msg}${install_msg:+, }$1"
+    fi
+  fi
+}
+append_remove_msg(){
+  if [ -n "$1" ]; then 
+    if $CMD_EXPR "$1" : "OPT/.*" >/dev/null; then
+      opt_file=$($CMD_ECHO "$1" | $CMD_SED 's#OPT/\(.*\)#\1#g' )
+      opt_remove_msg="${opt_remove_msg}${opt_remove_msg:+, }$opt_file"
+      [ -n "$2" ] && [ -n "$3" ] && opt_remove_msg="$opt_remove_msg $2 $3"
+    else
+      remove_msg="${remove_msg}${remove_msg:+, }$1"
+      [ -n "$2" ] && [ -n "$3" ] && remove_msg="$remove_msg $2 $3"
+    fi
+  fi
+}
+
+#####################################################################
+# Check requirements routines
+#
+# Only returns if all requirements are fulfilled, otherwise err_log
+# is called with a relevant error message.
+#####################################################################
+pre_install_check_requirements(){
+  local install_msg=
+  local opt_install_msg=
+  local remove_msg=
+  local opt_remove_msg=
+  if [ -n "$QPKG_REQUIRE" ]; then
+    OLDIFS="$IFS"; IFS=,
+    set $QPKG_REQUIRE
+    IFS="$OLDIFS"
+    for require
+    do
+      local statusOK="FALSE"
+      OLDIFS="$IFS"; IFS=\|
+      set $require
+      IFS="$OLDIFS"
+      for statement
+      do
+        set $($CMD_ECHO "$statement" | $CMD_SED 's/\(.*[^=<>!]\)\([=<>!]\+\)\(.*\)/\1 \2 \3/')
+        qpkg=$1
+        op=$2
+        version=$3
+        statusOK="TRUE"
+        is_qpkg_enabled "$qpkg" $op $version && break
+        statusOK="FALSE"
+      done 
+      [ "$statusOK" = "TRUE" ] || append_install_msg "${require## }"
+    done
+  fi
+  if [ -n "$QPKG_CONFLICT" ]; then
+    OLDIFS="$IFS"; IFS=,
+    set $QPKG_CONFLICT
+    IFS="$OLDIFS"
+    for conflict
+    do
+      set $($CMD_ECHO "$conflict" | $CMD_SED 's/\(.*[^=<>!]\)\([=<>!]\+\)\(.*\)/\1 \2 \3/')
+      qpkg=$1
+      op=$2
+      version=$3
+      is_qpkg_not_installed "$qpkg" $op $version || append_remove_msg "$qpkg" $op $version
+    done
+  fi
+  local err_msg=
+  [ -n "$opt_install_msg" ] || [ -n "$opt_remove_msg" ] && [ -z "$CMD_PKG_TOOL" ] && append_install_msg "Optware | opkg" && opt_remove_msg= && opt_install_msg=
+  [ -n "$install_msg" ] && err_msg="${err_msg}The following QPKG must be installed and enabled: ${install_msg}. "
+  [ -n "$remove_msg" ] && err_msg="${err_msg}The following QPKG must be removed: ${remove_msg}. "
+  [ -n "$opt_install_msg" ] &&  err_msg="${err_msg}The following Optware package must be installed: ${opt_install_msg}. "
+  [ -n "$opt_remove_msg" ] && err_msg="${err_msg}The following Optware package must be removed: ${opt_remove_msg}. "
+  [ -n "$err_msg" ] && err_log "$err_msg"
+
+  # Package specific routines as defined in package_routines.
+  call_defined_routine pkg_check_requirement
+}
+
+############################################################
+# Call package specific routine if it is defined
+############################################################
+call_defined_routine(){
+  [ -n "$(command -v $1)" ] && $1
+  cd $SYS_EXTRACT_DIR
+}
+
+###############
+# Init routine
+###############
+init(){
+  # Assign path to optional package tool.
+  if [ -x /opt/bin/opkg ]; then
+    CMD_PKG_TOOL="/opt/bin/opkg"
+    SYS_PKG_TOOL_OPTS="--force-maintainer"
+  elif [ -x /opt/bin/ipkg ]; then
+    CMD_PKG_TOOL="/opt/bin/ipkg"
+    SYS_PKG_TOOL_OPTS="-force-defaults"
+  fi
+  if [ -n "$CMD_PKG_TOOL" ] && [ -f $SYS_QPKG_DATA_PACKAGES_FILE ]; then
+    $CMD_ECHO "src/gz _qdk file://$(pwd)" > ipkg.conf
+    SYS_PKG_TOOL_OPTS="$SYS_PKG_TOOL_OPTS -f ipkg.conf"
+    $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS update || warn_log "$CMD_PKG_TOOL update failed"
+    SYS_PKG_UPDATED="TRUE"
+  fi
+}
+
+#===
+# get system information
+#===
+pre_install_get_sys_info(){
+  if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
+    SYS_PLATFORM="arm"
+  else
+    SYS_PLATFORM="x86"
+  fi;
+  edit_config "SYS_PLATFORM" ${SYS_PLATFORM}
+
+  msg "get system platform" ${SYS_PLATFORM}
+}
+
+#===
+# get base dir
+#===
+pre_install_get_base_dir_from(){
+  [ -n "$1" ] && [ -n "$2" ] || return 1
+  local sys_base=""
+  local sys_share=$($CMD_GETCFG SHARE_DEF ${1} -d ${2} -f ${SYS_CONFIG_DIR}/def_share.info)
+  local sys_dir=$($CMD_GETCFG ${sys_share} path -f ${SYS_CONFIG_DIR}/smb.conf)
+  [ -d ${sys_dir} ] && sys_base=$($CMD_ECHO ${sys_dir} | $CMD_AWK -F'/' '{print "/"$2"/"$3}')
+  
+  if [ -z ${sys_base} ] || [ ${sys_base} = '//' ]; then
+    for dirtest in /share/HDA_DATA /share/HDB_DATA /share/HDC_DATA \
+           /share/HDD_DATA /share/HDE_DATA /share/HDF_DATA \
+           /share/HDG_DATA /share/HDH_DATA /share/MD0_DATA \
+           /share/MD1_DATA /share/MD2_DATA /share/MD3_DATA
+    do
+      [ -d "$dirtest/${sys_share}" ] && sys_base="$dirtest"
+    done
+  fi
+
+  echo ${sys_base}
+}
+
+#===
+# get base dir & qpkg dir
+#===
+pre_install_get_base_dir(){
+  if [ -d $(pre_install_get_base_dir_from defPublic Public) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defPublic Public)
+  elif [ -d $(pre_install_get_base_dir_from defDownload Qdownload) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defDownload Qdownload)
+  elif [ -d $(pre_install_get_base_dir_from defMultimedia Qmultimedia) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defMultimedia Qmultimedia)
+  elif [ -d $(pre_install_get_base_dir_from defWeb Qweb) ]; then
+    SYS_BASE_DIR=$(pre_install_get_base_dir_from defWeb Qweb)
+  else
+    err_log "$SYS_MSG_PUBLIC_NOT_FOUND"
+  fi
+
+  SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
+  SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
+
+  edit_config "SYS_BASE_DIR" ${SYS_BASE_DIR}
+  edit_config "SYS_QPKG_STORE" ${SYS_QPKG_STORE}
+  edit_config "SYS_QPKG_DIR" ${SYS_QPKG_DIR}
+  
+  msg "get system base dir" ${SYS_BASE_DIR}
+  msg "get ${QPKG_NAME} qpkg dir" ${SYS_QPKG_DIR}
+}
+
+#===
+# check whether is already installed
+#===
+pre_check_qpkg_status(){
+  local ori_qpkg_ver=$(get_qpkg_cfg ${SYS_QPKG_CFG_VERSION} "not installed")
+  msg "original ${QPKG_NAME} version" ${ori_qpkg_ver}
+  msg "new ${QPKG_NAME} version" ${QPM_QPKG_VER}
+  if [ ori_qpkg_ver = "not installed" ]; then
+    msg "setup will now perform" "installing"
+  else
+    msg "setup will now perform" "upgrading"
+  fi
+  $CMD_MKDIR -p $SYS_QPKG_DIR
+}
+
+#===
+# stop service
+#===
+pre_install_stop_service(){
+  if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
+    msg "${QPKG_NAME} service stop"
+    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
+    $CMD_SLEEP 5
+    $CMD_PRINTF "[v]\n"
+  fi
+}
+
+#===
+# put data
+#===
+install_put_data(){
+  $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/"* "${SYS_QPKG_DIR}/"
+  if [ SYS_PLATFORM = 'arm' ]; then
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/"* "${SYS_QPKG_DIR}/" 
+  else
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/"* "${SYS_QPKG_DIR}/"
+  fi;
+}
+
+#===
+# put script
+#===
+install_put_script(){
+  # put configs
+  $CMD_CP -af ${QPM_QPKG_CONFIGS} "${SYS_QPKG_DIR}/.${QPM_QPKG_CONFIGS}"
+  # put service script
+  $CMD_CP -af ${QPM_QPKG_SERVICE} "${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
+  # put uninstall script
+  $CMD_CP -af ${QPM_QPKG_UNINSTALL} "${SYS_QPKG_DIR}/.${QPM_QPKG_UNINSTALL}"
+}
+
+#===
+# put icons
+#===
+install_put_icons(){
+  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon.png" "${SYS_QPKG_DIR}/.qpkg_icon.png"
+  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_80.png" "${SYS_QPKG_DIR}/.qpkg_icon_80.png"
+  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_gray.png" "${SYS_QPKG_DIR}/.qpkg_icon_gray.png"
+  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}.gif"
+  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_80.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_80.gif"
+  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_gray.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_gray.gif"
+}
+
+#===
+# link service script
+#===
+post_install_link_service(){
+  if [ -n "$QPM_QPKG_SERVICE" ]; then
+    local qpkg_service="${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
+    local init_service="${SYS_INIT_DIR}/${QPKG_NAME}"
+    local qpkg_dir=$($CMD_ECHO ${SYS_QPKG_DIR} | $CMD_SED 's/\//\\\//g')
+    $CMD_SED -i "s/\${SYS_QPKG_DIR}/${qpkg_dir}/" ${qpkg_service}
+    [ -f ${qpkg_service} ] || err_log "$QPM_QPKG_SERVICE: no such file"
+    $CMD_LN -sf ${qpkg_service} ${init_service}
+    $CMD_LN -sf ${init_service} "${SYS_STARTUP_DIR}/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_LN -sf ${init_service} "${SYS_SHUTDOWN_DIR}/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_CHMOD 755 ${qpkg_service}
+    msg "link ${QPKG_NAME} service script" ${init_service}
+  fi
+}
+
+#===
+# register QPKG information
+#===
+post_install_register_qpkg(){
+  msg "set QPKG information" ${SYS_QPKG_CONFIG}
+  [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_NAME} ${QPKG_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_DISPLAY_NAME} ${QPKG_DISPLAY_NAME}
+  msg "set QPKG display name" ${QPKG_DISPLAY_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} ${QPM_QPKG_VER}
+  set_qpkg_cfg ${SYS_QPKG_CFG_AUTHOR} ${QPKG_AUTHOR}
+  msg "set QPKG author" ${QPKG_AUTHOR}
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_QPKGFILE} "${QPKG_NAME}.qpkg"
+  set_qpkg_cfg ${SYS_QPKG_CFG_DATE} $($CMD_DATE +%F)
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_SHELL} ${QPM_QPKG_SERVICE}
+  set_qpkg_cfg ${SYS_QPKG_CFG_INSTALL_PATH} ${SYS_QPKG_DIR}
+
+  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
+  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT}
+  if [ -n "$QPKG_WEB_PATH" ]; then
+    msg "set QPKG web path" "host:${QPKG_WEB_PORT-:80}/${QPKG_WEB_PATH}"
+  fi
+  
+  set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} ${QPKG_DESKTOP_APP}
+  msg "set QPKG desktop app" ${QPKG_DESKTOP_APP-:"FALSE"}
+}
+
+#===
+# start service
+#===
+post_install_start_service(){
+  if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
+    msg "${QPKG_NAME} service start"
+    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
+    $CMD_PRINTF "[v]\n"
+    $CMD_SLEEP 5
+  fi
+}
+
+#===
+# Main installation
+#===
+main(){
+  ##### pre-install #####
+  # inform about progress
+  set_progress_begin
+  # WTF
+  #init
+  # get system information
+  pre_install_get_sys_info
+  # get base dir & get qpkg dir
+  pre_install_get_base_dir
+  # check QPKG_REQUIRE & QPKG_CONFLICT
+  #pre_install_check_requirements
+  # check whether is already installed
+  pre_check_qpkg_status
+  # stop service
+  pre_install_stop_service
+
+  ##### install #####
+  # inform about progress
+  set_progress_before_install
+  # put data
+  install_put_data 2>/dev/null
+  # put script
+  install_put_script 2>/dev/null
+  # put icons
+  install_put_icons 2>/dev/null
+  # inform about progress
+  set_progress_after_install
+
+  ##### post-install #####
+  # link service script
+  post_install_link_service
+  # register QPKG information
+  post_install_register_qpkg
+  # run post-install custom script
+  ${SYS_QPKG_SERVICE} install ${QPKG_NAME}
+  # start service
+  post_install_start_service
+
+  ##### print "QPKG has been installed" #####
+  # inform system log
+  log "${QPKG_NAME} ${QPM_QPKG_VER} has been installed in $SYS_QPKG_DIR."
+  # inform about progress
+  set_progress_end
+}
+
+main
+###QPM_QPKG_INSTALL END
+
+###QPM_QPKG_UNINSTALL START
+#!/bin/sh
+#===
+# QPKG definitions
+#===
+source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
+
+##### stop service & run unistall before script #####
+if [ -x ${SYS_QPKG_SERVICE} ]; then
+  ${SYS_QPKG_SERVICE} stop
+  $CMD_SLEEP 5
+  $CMD_SYNC
+  ${SYS_QPKG_SERVICE} unistall
+fi
+
+##### remove QPKG directory #####
+$CMD_RM -rf ${SYS_QPKG_DIR}
+$CMD_RM -f ${SYS_QPKG_SERVICE}
+$CMD_FIND $SYS_STARTUP_DIR -type l -name 'QS*${QPKG_NAME}' | $CMD_XARGS $CMD_RM -f 
+$CMD_FIND $SYS_SHUTDOWN_DIR -type l -name 'QK*${QPKG_NAME}' | $CMD_XARGS $CMD_RM -f
+
+##### remove icon for rss #####
+$CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}.gif"
+$CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_80.gif"
+$CMD_RM -f "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_gray.gif"
+
+##### remove QPKG configs #####
+rmcfg ${QPKG_NAME} -f ${SYS_QPKG_CONFIG}
+###QPM_QPKG_UNINSTALL END
+
+###QPM_ICONS_64 START
+‰PNG
+
+   IHDR   @   @   ªiqŞ  ôIDATx^Íšyp]wuÇ?çwï}»Vk±$[ò/‰ï±B 	kÖÉĞ! m™)¸d¦”N[†.0@†aI(]hXÒ	´0¤ÓÒ¦qˆcâ¯8²‘íX–díÒ[îı†ûñì7¶cYVœ¯tæ÷ôFººßï9çû;÷7O®şÆ* [‡öõ}û0Ø³îVX°ÉÕoÀø·—­ÙˆÈÀÊÅƒ(Z2è#áÿÙ°øïëeÏ“Ø}Û È@2ƒÿ‘¯‚§8~…»q«Zìí{ŒEkÑî+©o{W«{7Ar‘ñ¼–õKšGM&5—¨Åáõ•Ap@1aixbx|Å‹=W‰Ôíê»Ê«®ˆÎUO±ç‰)úCôoŸF–¬Ç\ñP Wßÿˆ‰U²O?„İùc(‘æ.¢5·Ô§[ºnÍÖ×²&—]ºvYóX˜Ê4•1¨ç
+ŠŠ\\Àˆª¯*D–@C¢ÑñãÏìï¯§&:ÔßÿE{x×<û£…q’˜·|³l&-÷m‡T»ıè3? i»„èª÷]–ihşÌ†ÅËZ:Z¥\íâ±P	#%¬
+–‹q!gld†÷÷:®;?Fß¿Ómß=ÌHsÃ#K7![Ø‡>ı}ìS‚çÅäíæßg²±å×¬šß˜kkÍG&[
+#,êª§BÜ­±¤òˆƒ<ê(¿Òs”Ÿï=¾›¾—'¾õ¬Æ"ÌC®zÏ{ÑşƒP.AË"Øòş/ìØÚ½¼{‹Wß5­Å*D8V+\ß0àVŒ€7½
+ø¾GŞØòä±¾±}{{9|`ßgÍ¶^dô8dj‘MëÖ€$ßDyÓû/_¸¨û¯W¿é’¥\Ã¼‰0’Ğº’*™G+ \|T 8ò.„@„l –¾£‡v¼Ğóäà¯_ºÇÛş`¥>~¢héæšTsÇ§Ûw¼u*[—š*…*”m¥çÕ­ÀW +nÀU€8Ÿ¶ŠÉÎkmïX0ñÎáÉe£,Şğ1~õ>Qˆ¶,Æï¼ô¦åós—Õ´6ëxÙz%k	"'€Ëze3¸ÿå²'œ”
+D*m¡â±N À$ZºÚer`pcO÷ÚëõØ¾G¼ÎÖfXy]m¦û²\´lA]!‘k,—#Bg¿Rú:÷äË
+‹Ó†îŒáxÑb™9T­J˜ûQEı ñ	r©ÿW¯óê÷@ûÊ›kÚ|¸iÑÂúb)¤¤\úzáÊ=Œ¯^UzV×¶.Nrm“O!‚]ã†™C¨ºoUµxé\mÿÑşlX,n÷éX—o¼eaGıd©¥B«„"U—ùHŞõ$Eè-XRFÀ,ynj	¨õ€[Û^Ù?‘0ÂL¡U
+ `<O´«£>ØÕ×|£¯u-k4‘]æÕÖ5„aä2oÁªb/`Ï0ÁÍ­	¶4<|¬ÄÏúËq4§«òÓÈxğ–FŸİ#!
+pŞ"ˆ#!RˆÄ¿¶¾^Ù¾ú©›Œ1MV!Të²o/$ùJöJwÚĞ™1Üİ¢3mø^oÉP©ó=ª½"ïÑ,áüEPPq„B„ĞZTŒéòC¼7wµÔ†‚EŠuÙ¿ ¥?]æi×üøïnK÷…ûL2Z²”-'Z’5ñ}a6P@" Œ,©„¶ÎË§}”E^&SMgŞêœ8¾U0"ÕYæšyI“ákû'¹ÿ×“Ü½$M²òK¬©÷Ù>PŠ[Óà0?°@1^2Õì«jÎŠIFÖZ;g L„J!Tª±¡1 ,÷î#0ÊGgq…ë~˜ŒG2;BÀ"X"cER>ªñ;ªq8ò˜½ÆBKßTTãÊŸ­Ër|i÷-Iá–Î )OØÒ” gtdv-`…˜¼‰i£Š¯ªü.¬åÂ€£ÍÎÁ"7ÎO¡W4||yûöQ®mMğÖÖ$?úÍ$£e‹fÇm:Ÿß·DÖÎ¹ Ïxn0Éúy)N‡µ	şpi÷ïe"´¼«#CmÂpsgšÚ7Jà	ÂùAT‹ ÖÄ\}U‹µÅ«ó€9@ «ğÍ½£´¥}:s>§Ãú¦FjøÆv—ØØ”b~ÚPãá,ª@@bÀFÄI÷§ëÁFŠZ\¨Î‰ 
+àĞh™¿şŸXUÏ’|p†JH’½´ÏıòO™¢6)”BwŸeUŒ3İUp¡‚5zPKå5s†¤ıÃEşòÜ¹¤†Ímò¡+ê|f]#ûGÊ `•Ş±½#Åx,F$<Á“ô?Î + ¸Ì+¸˜s CS!_zş?=<ÁuíYV6$YN!Ô‘â¨Æƒ~Ò;ÁãG&)©9÷
+ 4UğÕºŞW{’8^Ï÷O±³o’ö\ÀU­iş`E=ßp6¬nLÅ±¬.Á7u‚RhñŒœ£jÅy€¢¨:4²h¥^7$ ôXõ9B¤l;:A[ÆgEc
+Áá¦®š8q÷½0ˆUA^«ŒPiÅU¨Ì A€
+Êºæ4éÓdÿ‡û‡ùÊó´e¾ü–WWŸiÜ¼¨–Ç&ÙşÊ1g §3AWş© ˜
+-ó	Ö·f8j†¤õÉß®Rı÷Ü±´–ŸÃr\Øépä/® VxOw>öÓá†®<Í™ ®€†”G5:r	ZÒ>Ç&ÊøFÎ(€E\D‚°zÑ<À*”¬åú®Zn»¤3!0Âº3T€'óZÔ“3·€Š#ˆÛ+„İúú	P-¾'¼maO­o‹I/J‘20YFb>g}¨~ µê²¹J˜k˜,G4e|>°ª™;V4bD˜éæøX‘¤gbg® ãÈ›¸ÚL‡uªb•9Aè<†7wÖòÁË›¹t^†Ùbû‘1x¾ 9œ	"`áÔ9 Wò¸ÌÛ9©€H•Èº>½¬%ËV·pEkL`fåcÅïïà¯Æx1tæ§úÚÛ 8Ü6¨@¥
+.¨ ª®Ô³	eMŞ{Y3×u×Å7:Ä½ş…§zÙytŒñR„BL^­œ³ ØÊy€‹¨òz¶#‹*lhÏóÎe¼}i£#>{0QŠxòà0‘*Á@ußŸÅÔ‰`\å»9@O÷<À,ÙÒœKò¡5mÜ¸´‘\ÂãB"á|”È*îëÜ X9yR*Yw"œwXUB›»êØºyëÓÌÆ‹‘›Y¨ÂZÀP9sæ7ùRh¹mU+zM™Àc®pph’0ŠPåüĞÈ	Pu z^ ª"ËÛ–4±õê¹%°£w˜R9Â7± êVçwøU3Àyy@9²tÖ¦ØzMwìøs‰ãc%¶Š[ÀàÀl< ‰•¨f"@e¤¼yeíµIæßúE/O6²3@ÁŠ™{\œ>8+ÂÈÆ[]Âr)Ÿ[W·2×øŞÎÃ|÷ÙÃ\Ñg_ÿ8ÑLMNæ‡êivĞ³(Y%ån[İNg]ŠÚt‚Æl‚¹‚ßŞÑË—~v€»6vÒZ“æó`dF (1¿Ê.Pµœƒ Vùäµ‹ù½5Ì5Mñå'^æéüù—pÛåóùåáœQ+ÌX qüW|Ğ“Î¢³©²d^;®lŸ“LWgôv÷ñÃ_æ›w®áš%M tÖ§ñ€rhAf(€
+* EÎìg ²tÔ¥ñD¸xy`‚©RÄ¥óóUífYŞœãêÅML£.° >ÅîccxFfèœÂÕ,UsÀ™…ÇÇ([w!P”{İÏM«ÛªˆÅVëÆë¤o bÒWtÔñÂáaŒïÍ|r<Á"k‹V­u³€âÂ1D5àËîåBákïç¿^<BßXjlèn¤…üâà	NÆÆîÊåwß3˜¯Fe«ƒZ.øjsÔí¯e0Ê7ş÷ /ô³fa#SeÒÇ§n\ÎLğ|ï0ÿòÔËütwÅ2=ıãT£!›`mg<İÃæØ–·æi«M28^:ç6Pã<@T°6Â–Ë#¾ÑpÇàÀĞ;æepî¨çä°‚²m?Û_ P¶t5fùàUİÌ«Irˆÿæ®Í‹øĞ–E|öá]ì:2L¡‘ª¥ïX³€~g;`]W Ù$k4òÏõ’Kúçî 
+Å©"#CCÃ²ìıu§f>İ´pé²’…RÓÑxåbŠÆ}|çÆ.>sËjÎÏôòÑoïàş¬gíÂ†êi“÷ıÃ6ºsüÍí«ÄM…?ïáÏzÚL€ ¯9z"x!x–êÙóŸ¾?9øã0Èü‘X»LTùÁ¨ F•‡9;ô'¯_™¡A^ŞYÇ²æ~òâQÖ.h 9õæoS'÷>²‡ŞÁI4f¸¬í·mbd²Là	g…¸¢,¦8¾ÏO÷³Û†ú¯Î7µ 
+(`Î]_ˆMéëîKùÃ×,aı¢¦s>Júï^İÎß>ü"Ü¼ˆúÌ©-¨gh¢È+ÃSÚëYÙZËã{áŸ¥D pß`•áş¾ÉäDßc~bü(Aªñ{ÅâÂ? c­3ªuÛV•Gõ
+ÛöçÒùµ\·²-¾ùÖ|šTÂ#å{ñï)Z• ¡­.E)÷=¶—­o_‰ ”#ËT9â‰½}X«ô,1YŠ}u-–C¨Ì-¯!@Z[İ—˜xåQñHNö½Tœ8ñpq"›Ÿ®##¬U t†Ÿ— 0_ã¹ƒƒ<s`€H5~L—OÑ˜K‘òÕºzâÎú<Q|ú »ÇBBúF"›ğùÊ#{x`ÛúF¦8:<E)´dµzfâ¨bŒó€©Ç5;öu¿04%›6mÆV¬™l¹üÑü¼Zü€R)$R7( :ûÏ¹ë9ƒ­6-E1"$|@1´¨º÷<#îÔâŠˆ¬â¿gô,Yw’‰€¨8Áä+¯=úô‰É¾²@-ÖO1Ô|åÖ måçSõÍ¦*å0ÂªÆájòñ*±XÉÀÇ–Œ÷:ï{î™‘—w"‚€¼pŠüĞ/$j–‹Ÿ¸;Èä±Fœ[‚ËÚ]„ê~Á g0¶LqìD9=t`kfôàNğ:;;§%Ã+Oá•ÆŸ'µT¼`E2‘1¾±Ö¼ñ¿¡E0 ˆ8SNøQyŠÒÈÀ„éÛõ‰ÚÁ—şÙØ2ˆ© ‚òøTPzd*òJ*ë¼dš H V§ùÇ0pJE ÊëAN!-8x®çñÅ>aa‚BïáÄÀ®»_%ÿQñ˜†\µq=*Î4D#ÊAMb¼nÉ]…ú%‘Îæ›%SïO?O»)QO1GEy½!î<x¶Ly|(ŒFúËØ}Ozâğb#ÇuªÈškßE¢8ˆCEÔ¢^@!ÓÖ9U³ğbªá&“Îw&sõÆVÄÂêÃì@ ElHqlpÔ‹÷ù£÷fFó`PŠ€ê$cMi¿ëëä_ ®ÿ9@¨†¨%òS„A~A!ÓüÖR²a“õÓ]Ö,^às!nG¼¨xÌ/½”˜êÿY²0ğ”N°ˆáT(*>ƒmWñÿ¾jÒ…¨    IEND®B`‚
+###QPM_ICONS_64 END
+
+###QPM_ICONS_64_GRAY START
+‰PNG
+
+   IHDR   @   @    `¹U  	¶IDATx^­™ŒÕÇ?÷Î¼·ûö÷/ØeXvEÙPÀjÔBQ­ÕZcŒñ/kLÒF«5!iblM£IÓ¦Iš4¶Mš¤Ú4Qc1¶*B• Ö*àn‘âª°°?Ù}ì{3÷Ş&“É½™ßƒMú½¹ïÍ¹sçsÏ9sÎ™ñ0@	v"Ñ¬d1›äáf±IhŒAnLÄ‰	e^çíà…©ÏNò9yr|A@|ÅãÅa?ãL±ˆ®öæo5Üšë“×L×/öšqËÛ#‹”PN ¬ÀÁèÄøÇFJ‡¦ÿ:½ïÔ…išèa%@<ˆ$Ç‡Q4qYkçm?jX{¾Ğağ0ñ*VQw´ë$);GD'†©Ñ¡Ö™7ÎıêË·•Ëøld)eÄƒäfAkÖ´=yÅÊ¾|ÃŠÁğÕ©=W‡@"ğñÕø±ãæè›ç™E²™^Ä†8ˆG+koéøåÆöî:U_ÆÄÍÙ5ËÆ©ÛT[-LãÀá³ø ˆàjÄ „´²v{ß£ƒ×´åË¹xïeBÅi›“¶zjN<7‰|~ş£×Oü|h¨H-b	‚Wö?±ysã‚²Ğ˜Ø=4ID5ºêl€XI^Ÿşï{{?İqøLˆï¡énì|üò­µ%¡Q€¶;tÿ"sä(ƒ¨2'ÄŠà¡egwß-¦'<…¯ifÑm½kºLÉSh4Xûƒ©àvq·”Æ Òf¯uz È÷‹³›Ïsüu±˜UÍW¼½¹½¹«„AÆv=ÊM+µœ¡*’fà‹SÿşäĞV¯ŸÎÛ—ÜßßZØLÖö_y¬ÑV˜N®c€9FÆ3$¡¬o©¿ğ7HËcW.-!ÆİıÑ±×­gè¨×PC‰!$Ïz:,`„¢eu×Ğ€¶Hc‚³â®õM¿Û¶N QöTRiY›B™«XÆ!ã¡hçV< ±ÙÛˆcŠ=/ú¹Ûd‡Á ¬ı­qtjÌĞF_§…QÔÆìa!ÌZ
+ŒıÍŞ9±ÌçºÅ!{í&YÿNéÁõÉk©e/EB| ÚYÀ5Ù,‘ZWbÈ‡Şê'zZk•5€¶6´ÙQ¬%ı4Å,›8Â$=ñ¾FRŞØµMb+’IÏ§AÔh¸·¡$x!1XÇ.<®Å–s€1ü´/¥hƒ¤µ¾Fhë‚—ŠS8,c+oĞÀ ÏrÎ¡¨§c?VMÜ*$ŸÌ¨ä«É9¸=X¬æ eÈ¤(ëi$& …"t¶Ï*-ç‘|ÆIpXf%ÖQÏ ûğHÃ¥7°#¾AGMEä¥Ãğ-,Àa Én¾d9MäPÑ$"æ›@Ç¿VMÙıgô0ÆN¶ÓĞB¡€ƒ@&5g)Äù 
+ƒNP©ˆ`©×àq†ÙÂ*êˆAwñ2ÆÆ™!‡t[²U–´Ûö‰\"ÎŞ‚î2R¡Åc–0Ä•tÑ[½ƒbp‚! ğĞ©°¦#*2Æ6Ë"#DâL#œ¤•~¶RK}ô±ˆ8S ĞÑÂù€± ÅJ¸‘´7ØÙ’giÁ¡Ì0m,`Š]Y¿Šh‰Á…Â¸HXq×Ùİ»Í€Û?{y“F €-ç^bmë$ ”ÅóÊ´ÓCPÀ·ç¯æ"+:2å¶b¹”rÌÑÃ::qØ@m4YzœÇK ¤D‘2é˜,Ãlt#`-×à >—§fåQ©—Ğ.$Ø‘¦2İ"XÃä¨†ótB·&n>hTÜ«#«…9¸ëñ¨÷™$oãLepÒe‚oö¹Ïr7ÑÇÅ0Ìn¤3„"™tRI–­+¾]0ÕH–°
+Tƒf–=¼Ã‹²h $Æù€Â>V¨@%òts-ğ©	ç$s€t¡Ø	BÄ>€©Ò`!šËØÀr\³FãAÖ»œØŠÈ
+`Ò¾jeiâF6ÑÀ¥!±Ñ–‰Ïúó¸¥Ó0VP¬änº¹tãáRy¢"’.«¨éx¢¶Jwlá^ê˜FS™ÅiS
+ˆ\= èÄ%Pb{æÉ>¦ŒŸ}¤wPh¤AgÆ&(¥š{h`~å*6«®Ø\¨˜ŠM,b¾ø;_PƒªEÆ¥c›2(ÊxØÊ|ñ*¯±ŒÓè
+™EÆšÁ•å&£Ï7X@=íÌ!¯ò·ĞÄ˜Š1’˜«5ÊfCîäVæ‹ÏùÃÜÇ6şƒªøJG:HFW€r—
+Çè]Şâ16]H‚ÌÛcg…F‚IÔÚº^>—†O9b	E h¦årŒS»|#b•JÅ§)“çâø×³Ê–_<ú9…oZ¶®Vh!MIëD°ÿ§ù3š‹ãYŞgÂRk1qA…(`5øzLùºÎ©°¾Ìqú™¡ûùjñ2û)qš´³‚Wø }4QDb‘ª*4Á”Ïûc7¬DéOÃ"`!ß¦“, —Û¹ƒ?ğ	³Ôí<Å~®šà_ÔTxä÷˜crRl¼·öñ•šĞ…¢TF4”ÙÆ#H*á Oğ3®´ô#ôò0ğ¿¡1Ã\ ğÈòÙ+²ô75jˆ›Ë¶NÒ€Çn~OH%¬¤—½(KßÈŒ °œf‚D¨KzZpTôÓôTÇÛ)Û„œ… Ä0È¬«pkîä¡+¦Nñ}d0ËO9H!µxH|F‹gïöKÌ=W~Xç—|I“İû9D7YC'yrxÎ`4£x–ïE¢–yg‚Óöõgö…ÒsGçvù‚Òpqgñ»µö]©­ŠSÌ'äS£ÈÓH5V\I‰»øÉ,SÌPË³¼ÈS¨h«ˆÜWƒISümxA,ê×·îêh–ñ$W½dC¨ÀæÏÄ[3A/îÇõD4š¸NÄ-O™Ñ=cÛƒ @Òğhç/šeû!ûÉÎ¢ÒW¢Ì¼ì#i€s£S7_ø¼@£ß1Küõ9@[…ı¿!¬~à|0ùƒâk P„ûÔ€·*Ji*Än‡ì9ª8°cOÄ>`fvì‘Ù?šˆK‰ßÖğtÃMø„Éz>îÕ¿:*;û©Æ£ÌøÈìCÅ—4±Nzığò…ûRè¬ó]Ä¦ª9Ú1ÆÂÒnT"PÃ™7gv”>ÂBô8§Aë©Û‘¿­¦§ ­Î‰£ffº|tî×WÊÍ’ˆ-Ì0Ú•ß›Ûšß"—É6‘­Jæ/ÊŒ™Ò§ƒá`w°OÍ%9µò?êu›ô|ÁXd    IEND®B`‚
+###QPM_ICONS_64_GRAY END
+
+###QPM_ICONS_80 START
+‰PNG
+
+   IHDR   P   P   ò­  ‰IDATx^åœwÕÇ¿ïu÷äÙ0›³VÒ®2
+HX2’Œe»È²ì3øåw>£ÎWå;ûş°)œ °}ö‘³-lŠÂØ¤Â	,¢…B9.«Í«Íabw¿ßÍ¼éQÏlvW³Aö§êW¯§4UŸùşú×ıf§Ù¦‡ŞÆÙ0ş÷Ÿ_}%XÉB…åÎ‡æÜ ¦lWªâu)  anÃ 
+CˆW Œf˜úË¤GßAG3µ!qx'ÒQ·ıgC
+œˆ8åÃÛ€@esyo„¢}L©aœû 8._W}.§“9=•`\…Ñ1Æ`CÂ H¸‘Hô¥İMŠ‘ Aã(ıaŠÿİMƒæÎÉ6=¸+SÜÏî@:|íV°Š%>æ|Šã6pØzqÅ!57¯ÖĞ^:Å+]ÍÙìI8´D €¢Ç‚Fÿ©gßm«‡=0cß¥¡¨iXì}1Sä­?Ì¸1M 9RŞ–í`Eó6Âéİ±¹LİU4¯²^ä­
+†¦ˆ ‘&æ¸?––J@aÉr0ÀÍ¼¯k_GcËñ×Ûõˆo¥Î†7ÅŸ†t)1%ğ¿$åıüŸ3å}äKŒÏ»šëÛ×­*}[/­Ü\Á$@$Ê’%Æ”7÷%r–<æ‰:#’Á£Cio~ı™½k Gî¦Óß|HdHüûûm£å}Qe%î‡æúÊÖµÇB¾À’¨€'ålrG ÍkãLK"—+;“H—x{üæ­Æ:è‘GãI¼=.Ñ)‘mØ°é°ÍŸã¬|ñ}+‹«V.[5ìğUèdÉKO_6[wö[ÙN¡,v¦­½±áÖ–}ßİ{Zo¤ãwĞ+
+¤¡fÈ»ä†Ä%ÊíËòù‚òU+Ö*îbİ$)y „<¶…‘uŒK -’Y+’òÌ„@”(¯UoEÙÊš±û]: jïÄúOİKo=9Z «ZV^ÿA8=ß-]¶°{ˆ»Š‘’DÉÔQ²£Å] YšH²K¦PÈc»DÜEÉòÅ+¼yò£¬¬~j×¼LïïÉˆºõrçş|ãÂœw¢Ş¼Mº%ÏHo]dÈ³…]h	¤ÑB™nµ41‚`ìŒDxòª/­óï|íˆ±×/EËÁAèQ(UUUÀ²-`UËÿe±ßÔü+VL'0C ]`¦¼´ø.\ìÚa°×ÑïÓrUŞã/uÁ¿”)êŸĞy"™@VZ—‡ç®ÜºêÁ˜ ×‰¨[òÒ/Yhˆ»$O‘±gÀÄùB¶ )±äJV
+ÉŠ§„ûë—¬ÆŞ¦ËQ²àG :•ª× •Ë?§÷¦ê¥JK°Ç\‘÷Ån*×°!_AØ$
+H²#rt@¤U[²âñ47v8@Ô#²K©Úòi†@ÅO—Ì9òŠdúìÉ;‡ä­ÎUğÙJR\”£`w¿~¦Gâ˜çJ†\1t°«?ºB<¬"¯¤ŠºØ[Vå7M!…™"5miFå]UªÉïw§uŒÅ5%FòÉ2÷ [Pª­È	KœÉ .‡!îjzƒÈ)Z¤’Ó·‘qÕUUM¢”<ûÜ7ƒÉÛZæ@Ê°:OÁ‘Œd©XäSÆH¥Š¡;&²/‘ì)ÃÀ¤ÎUÕ4pÅKÏ¥*¸¶äÈN 5y‰fF^Æ¤¼+ãRîYîÅ…pbØD‚\ƒ3Œ‚3`c¡Š§[£dY¢°^˜`àP8Tpõb•õ¢Åóò›¡F‚°ÛwFÓW ñQB¿¹ÄƒcwŸfuÄX7hø¿æ²İÊŒY^8`XR›êĞÑÈE*Àj4Ÿ?WÊh["š©ôIœ£pp†»yğ_ÇCx­;&×¬óŒ’XîæXàå©´NËùPXe @õúó€v¦ä'Esš2}dÉ“ëŒ
+Œ„±àRšÆ€?uFåiæEŞQ¯(uâÇÇ‚˜˜ug"çÎ ÊU‰à @‰TÛJ‘„™Ø1 Gâmq‰Nx±-‚<°m¾é¬/Ôğ³`PÓ#‘ Æ™5PˆÀTÈV%@¤jÆÛWÒ1Ñ(trŒÇö^pocGÁ‡K]íş±'j
+!›PjMõ2—‹t$'Iê€R¤­˜QŞ<ÅµUnœm½ĞácCqÙ
+VäkHqy¹Ï4ad—Ôí]j%œq&(ÅKÈš=Ï6‡pe…*g8_ª÷Á„»ßëÇ]Ës°®Ğ‰'Ç‡Š]øC[8ûaOaéÆv“°R8{»Â¿?Œ[øq.n_ìá;ûú°½>WUzà¦Z^í!b²	Éb––ÖÂ H¯Y(yªan[Êİ8·-ÎOaxèğ o
+bUÀ‰ŸŠb'Ç©a#ë	$kÖT!X	eÊ“+dg…èCØ¸ºÚ‹sqK9Ã£GÑ2¤cZ`Vú8“nXúI–°Û—fW IÀƒ‡úp¨/Š/,ÎE¾SÁÙøø<*¼*z"&R4Äe¶ìë@Î»}ÁF€D² ’2a'pVÙÙÄ®¶ÖúqMï¬"×¹01“ğ§Ö ~İ0„Î1ÕJÈNcj‡ÙN ¬uö˜IØ <q| OÀºb76”zpq‘KÊœ…áŠj>ZéÅ“'ñËc˜™7©Nµ§°°§° ôV3˜ ŞjÊúh•w®*ÄdP9Ãgêre«OMrˆ0©‰31éËšÂö‰¹*0“ú\ÎÆ®Îb¸²ÆÜIİ\îÅ@ÔÄïë™¤@«,PÚ&qáäXWâÁxìlÆ=oŸF‚İ!ü`s9FrmmşÜ<Œƒ=‘©öÎlašÛ×•zQìQ1İaDÂ:Ö1Û—pç+-“›Â2xvÙ	”%’«ı}Í½ôİXŸ³qemN<YaœØ¶¬ ã±$àB¡K‘ï;ŒÙ%,f'0%PÌù¾..oigÃ­r|c}&Âü:‡c"‰L¤§ô;šÛCdy‘Û/*B6Qe'Òä‡ƒ}'Œ<ïÍ=Kİ¸{s•¼É&]!4Á”U›	8s'"F´0ÍŸYVˆmg]Ş©(w…¤ˆ‰·0³(}Ùw"–¸9%°Ø«áë—Vbe‰ÙFáŞ·Zaš’)´pÊSÚ–~ú³$Ğ©p\[À¶U%ğ:”i‘÷Ã¿´a_Ç0&
+³(Âja[àx…CãWÅÅİº²·Šé`WëÙÓ£=aLJ/J2¾™Ås gWÖğ¹¸¸2¿Ù¦7¬ãáwÚñê©~FML‘@Kø•@1b¥i'÷¹UeRÜtÑ2ğÜ‘nœÄ¬â 	ë˜F]H ×éø‘ùøÊ%qqNL79N$(;!cˆ@XÂÄt¥°ÿp-V—ù1Sè&Hdé¥TqéÌJ @Â2:	¼¢¾ÿº¹nMÁL25²š@YŒ’Îö†*	YÓ"ğË¨Â­k+0œì‚„È‚@‚UÒYæ9MO¿8{ò$ûÛ‡¦)šîëÀMóØ~I%f‹¨!ğòÉ§ÀTQª(s
+ƒ„=@„ÈJ=š‚»l>f“çub ƒ$[-ÌxÆ´
+X©L®vQ¢0e®_QŠ"Ÿ³E_XÇO^k„”­_'ÊE0’B…”c%YmaÎ>½¦³ÅpÔÀWŸÚ°U¹ØÛ:Å¦ŒVV‘1D„U¶ÔÉ°°È—ª Àë@±Ï9kç½;Ÿ>€Cíƒ¸~e9
+½¼ÛÜ‡©cµ/#{3nÿuAŒ.Kù²~pİr,/ËÁlr .í›ÏFS_Û×Wã¶µøíş—¬9I@HŸÂÂ®É&ğ­Kg]Ş]M¸ÿå“(ö;ñèß­ÆE¹H0¿À“İËF²Ò¶³ bbJ-¼¨ÄÕ•y˜m~»¯¦iâŞë—ci©İ	ó½ÖO$è<[vs é;Ò£kâk»Oõá²ú¢q¿«-ğXòl|N57ºƒY"v©R£ ˆM­…ÛûÃ˜	~ñÖ)h
+W`iC§‡1Wåãäéáìµ°H:h¬¿ÎÂ¤¸·¹ÇO¡®Øé¢±'ˆG^kÀËJ1««òğÒÁyé’ëÖÎšê<<±»)	di®ì[¹ 	ÓI<q˜¶­%&>D¾üØn<øÙµ¨+±%FuÎ,ì¼4õ†pû/w#¦8Õ3~Š>¶¤÷¼xÏ¾×Š›×ÏC:—.(³n¦|ä©f²„0ˆT1@FÔGŠÃÂ¨$N„Î0>ñÓWñÁ…¨È÷àô`ñzê¶ç%îWiÄ3{[01àHû "º	×L¡Ï‰,*Æ£¯7à¦uÕĞ™È•¹ØÓÔ7õZn`¥ôXBt©0CÍ-KÊk}cş±ùdxıxÒçÅ>L…ê€×¯©Âµ++àaÏ©^jÀšš ÆâSk«ñÒv<ınnŒ§³¹®ï4öb*Ø;1$gL–ÖN¿bÄŞS¹y4÷uD&?ã›ìÎ'Â”ùösğÈ­€Â¦B}Ú)á?®^†ë~²S
+G ì€ùE>üâ÷qC\~úÿ÷CñtŞ÷»ÃSò±3N#Áğ>•ÅBoÀ™£“ §å@v¶´Ş<Ù…^9ØRóeqY6Öáùı­øÚ•KÇıP>sI5¾õì¼q¢›ê‹3>ŒÒ\×”®Hš´$¦œ˜¦ÎcÃ;U-Ü»Çp¡ë*W4…	B¶~®ùãßAïp_¿f¹LÄy Ûò«½çâƒâã«+1[—â[¿Ùßl·Ú\ıø[SŞ‰aŒÀÁ@±¨ÉŒh§ê>¢:†Ûú¢¾²Ú[šo.©™;8/{£»ºñ¥ËêpíªJL)Ä©r<ôò1\³²bÌ–å¹‘ãÖpªÛØv—àWo¾?¹ö%iÏvI„ÎÖVîˆìpµ…UG°Z¸çgî$„ƒ¥úXZËŞÖşÑöÜõønÜûâAlYZ†Í‹Š±¬"E~&ˆœ¾˜_ˆWtÄ“ô>nşà|Œä@k?ˆÁ¨1ÆÏíÁ8)‰)ÉËÈˆh¡Îj´* 8†;^øÊ‰ÁÎ
+æ/.²R+åe'…6­}!ìxı¤¬~—†šB/rİTMà¶°­/(%|ÿ…ƒòCIÑÜBç`':‡ @&õO½{æßÚúCx¿kxÒé#c`–L} ³‡G‡wÆƒw@òñwBua°díÕ‘œªßWÎcº Ó#µ3mÙ#Âß öäåŒÉR9ƒ¦r¨Œ¨»¥1æé=ºÒ×µï(#3™@nDàî?ş‚áğ?×ÙÒ¸µ°¢œ3p)O¦ñoE¢”G$åY!]0 ]­§Èlÿ»ÿ„”—@>|,ªAŒıÑpæ}Ò¥2Î—”FRİÒrıëO”Ã˜”§Å«·­Z´ÿ5×/k‘^[ %q8$T×«Cäş¼Û¡êLu8ìIlI´VĞ_¹<Î ZE¡ş°èôöÙêjî÷	–ÜŒÁÛsx`êç{€Ç3¨8s¼Dà€)RmƒDâ@L[òdúP°/4Ô×öö½Ê=ĞĞˆ¨b„áïŞÿ$#áì3Íss‚½ª¿, 0f?„–Ù"/Ì'XJXš8¤8Î+ĞßŞ”ğÑâí?ş	oßÑÃŒÎ%Ğ–ØõŞcÜˆ´‰êŸÁX ¯¤’L.”˜š.„q!ĞÜ–ùzŒ§WòdêäÊaÒ`g+9"=ğôŸü¬g°±ã /cÆƒ˜‚ˆ¯¼<˜»à{º«à&¿Kí§œòB’“ŠÉáBû1)D4ÇRÇìã”8&ÕZCƒÀA ö¾P$ætÛ¿íë?v_|`D!™´@İ™‡°¿êÒˆ§ì{¦Ã{±`ª#'¯ÀªS#bgz‚æ|Û‰“H¾Ö#Æğ@¯Â…V£ıO¸†[ÿÓlkVô Î«¾å>Tœxç‚Oˆäº3°1â)¹Ápä\'TW˜¢cœìÄˆ##ÆõĞÑxÒs…:×bGÔØ&BëÂO%Ş q‰¿ÆD1Ub®€Cwæ®¯6Uw™Pœ‹,ß
+â\•I hâf´]5BÇT}x·é;¬EûÁE’	Éû¤\ÿW)À.§İ’8    IEND®B`‚
+###QPM_ICONS_80 END

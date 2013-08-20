@@ -88,9 +88,9 @@ edit_config(){
   local value="$2"
   local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
   if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
-    local new_cfg="${field}=\"${value}\""
-    new_cfg="${new_cfg}$(perl -E 'say " " x '$(expr 48 - ${#new_cfg}))#"
-    $CMD_SED -i "s/${field}=\".*\"[#| ]*/${new_cfg}/" $qpkg_cfg
+    local space=$(perl -E 'say " " x '$(expr 48 - ${#field} - ${#value} - 1))
+    value=$($CMD_ECHO ${value} | $CMD_SED 's/\//\\\//g')
+    $CMD_SED -i "s/${field}=[^#]*/${field}=${value}${space}/" ${qpkg_cfg}
   else
     return 1
   fi
@@ -476,6 +476,20 @@ init(){
 }
 
 #===
+# get system information
+#===
+pre_install_get_sys_info(){
+  if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
+    SYS_PLATFORM="arm"
+  else
+    SYS_PLATFORM="x86"
+  fi;
+  edit_config "SYS_PLATFORM" ${SYS_PLATFORM}
+
+  msg "get system platform" ${SYS_PLATFORM}
+}
+
+#===
 # get base dir
 #===
 pre_install_get_base_dir_from(){
@@ -498,6 +512,9 @@ pre_install_get_base_dir_from(){
   echo ${sys_base}
 }
 
+#===
+# get base dir & qpkg dir
+#===
 pre_install_get_base_dir(){
   if [ -d $(pre_install_get_base_dir_from defPublic Public) ]; then
     SYS_BASE_DIR=$(pre_install_get_base_dir_from defPublic Public)
@@ -517,6 +534,36 @@ pre_install_get_base_dir(){
   edit_config "SYS_BASE_DIR" ${SYS_BASE_DIR}
   edit_config "SYS_QPKG_STORE" ${SYS_QPKG_STORE}
   edit_config "SYS_QPKG_DIR" ${SYS_QPKG_DIR}
+  
+  msg "get system base dir" ${SYS_BASE_DIR}
+  msg "get ${QPKG_NAME} qpkg dir" ${SYS_QPKG_DIR}
+}
+
+#===
+# check whether is already installed
+#===
+pre_check_qpkg_status(){
+  local ori_qpkg_ver=$(get_qpkg_cfg ${SYS_QPKG_CFG_VERSION} "not installed")
+  msg "original ${QPKG_NAME} version" ${ori_qpkg_ver}
+  msg "new ${QPKG_NAME} version" ${QPM_QPKG_VER}
+  if [ ori_qpkg_ver = "not installed" ]; then
+    msg "setup will now perform" "installing"
+  else
+    msg "setup will now perform" "upgrading"
+  fi
+  $CMD_MKDIR -p $SYS_QPKG_DIR
+}
+
+#===
+# stop service
+#===
+pre_install_stop_service(){
+  if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
+    msg "${QPKG_NAME} service stop"
+    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
+    $CMD_SLEEP 5
+    $CMD_PRINTF "[v]\n"
+  fi
 }
 
 #===
@@ -524,11 +571,9 @@ pre_install_get_base_dir(){
 #===
 install_put_data(){
   $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/"* "${SYS_QPKG_DIR}/"
-  if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
-    echo "put data for arm"
-    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/"* "${SYS_QPKG_DIR}/"
+  if [ SYS_PLATFORM = 'arm' ]; then
+    $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/"* "${SYS_QPKG_DIR}/" 
   else
-    echo "put data for x86"
     $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/"* "${SYS_QPKG_DIR}/"
   fi;
 }
@@ -549,12 +594,12 @@ install_put_script(){
 # put icons
 #===
 install_put_icons(){
-  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon.png" "${SYS_QPKG_DIR}/.qpkg_icon.png" 2>/dev/null
-  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_80.png" "${SYS_QPKG_DIR}/.qpkg_icon_80.png" 2>/dev/null
-  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_gray.png" "${SYS_QPKG_DIR}/.qpkg_icon_gray.png" 2>/dev/null
-  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}.gif" 2>/dev/null
-  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_80.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_80.gif" 2>/dev/null
-  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_gray.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_gray.gif" 2>/dev/null
+  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon.png" "${SYS_QPKG_DIR}/.qpkg_icon.png"
+  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_80.png" "${SYS_QPKG_DIR}/.qpkg_icon_80.png"
+  $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_gray.png" "${SYS_QPKG_DIR}/.qpkg_icon_gray.png"
+  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}.gif"
+  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_80.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_80.gif"
+  $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_gray.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_gray.gif"
 }
 
 #===
@@ -562,22 +607,16 @@ install_put_icons(){
 #===
 post_install_link_service(){
   if [ -n "$QPM_QPKG_SERVICE" ]; then
-    $CMD_ECHO "Link service start/stop script: $QPM_QPKG_SERVICE"
     local qpkg_service="${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
     local init_service="${SYS_INIT_DIR}/${QPKG_NAME}"
+    local qpkg_dir=$($CMD_ECHO ${SYS_QPKG_DIR} | $CMD_SED 's/\//\\\//g')
+    $CMD_SED -i "s/\${SYS_QPKG_DIR}/${qpkg_dir}/" ${qpkg_service}
     [ -f ${qpkg_service} ] || err_log "$QPM_QPKG_SERVICE: no such file"
     $CMD_LN -sf ${qpkg_service} ${init_service}
     $CMD_LN -sf ${init_service} "${SYS_STARTUP_DIR}/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
     $CMD_LN -sf ${init_service} "${SYS_SHUTDOWN_DIR}/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
     $CMD_CHMOD 755 ${qpkg_service}
-  fi
-
-  # Only applied on TS-109/209/409 for chrooted env
-  if [ -d "${QPKG_ROOTFS-/mnt/HDA_ROOT/rootfs_2_3_6}" ]; then
-    if [ -n "$QPM_QPKG_SERVICE_CHROOT" ]; then
-      $CMD_MV $SYS_QPKG_DIR/$QPM_QPKG_SERVICE_CHROOT $QPKG_ROOTFS/etc/init.d
-      $CMD_CHMOD 755 $QPKG_ROOTFS/etc/init.d/$QPM_QPKG_SERVICE_CHROOT
-    fi
+    msg "link ${QPKG_NAME} service script" ${init_service}
   fi
 }
 
@@ -585,13 +624,15 @@ post_install_link_service(){
 # register QPKG information
 #===
 post_install_register_qpkg(){
-  $CMD_ECHO "Set QPKG information in $SYS_QPKG_CONFIG"
+  msg "set QPKG information in" ${SYS_QPKG_CONFIG}
   [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
 
   set_qpkg_cfg ${SYS_QPKG_CFG_NAME} ${QPKG_NAME}
   set_qpkg_cfg ${SYS_QPKG_CFG_DISPLAY_NAME} ${QPKG_DISPLAY_NAME}
-  set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} ${QPM_VER}
+  msg "set QPKG display name" ${QPKG_DISPLAY_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} ${QPM_QPKG_VER}
   set_qpkg_cfg ${SYS_QPKG_CFG_AUTHOR} ${QPKG_AUTHOR}
+  msg "set QPKG author" ${QPKG_AUTHOR}
 
   set_qpkg_cfg ${SYS_QPKG_CFG_QPKGFILE} "${QPKG_NAME}.qpkg"
   set_qpkg_cfg ${SYS_QPKG_CFG_DATE} $($CMD_DATE +%F)
@@ -601,8 +642,24 @@ post_install_register_qpkg(){
 
   set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
   set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT}
+  if [ -n "$QPKG_WEB_PATH" ]; then
+    msg "set QPKG web path" "host:${QPKG_WEB_PORT-:80}/${QPKG_WEB_PATH}"
+  fi
   
   set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} ${QPKG_DESKTOP_APP}
+  msg "set QPKG desktop app" ${QPKG_DESKTOP_APP-:"FALSE"}
+}
+
+#===
+# start service
+#===
+post_install_start_service(){
+  if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
+    msg "${QPKG_NAME} service start"
+    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
+    $CMD_PRINTF "[v]\n"
+    $CMD_SLEEP 5
+  fi
 }
 
 #===
@@ -614,31 +671,26 @@ main(){
   set_progress_begin
   # WTF
   #init
+  # get system information
+  pre_install_get_sys_info
   # get base dir & get qpkg dir
   pre_install_get_base_dir
-  echo "get system base dir..... ${SYS_BASE_DIR}"
-  echo "get ${QPKG_NAME} qpkg dir..... ${SYS_QPKG_DIR}"
   # check QPKG_REQUIRE & QPKG_CONFLICT
   #pre_install_check_requirements
   # check whether is already installed
-  if [ -d $SYS_QPKG_DIR ]; then
-    local qpkg_ver=$(get_qpkg_cfg ${SYS_QPKG_CFG_VERSION})
-    $CMD_ECHO "$QPKG_NAME $qpkg_ver is already installed. Setup will now perform package upgrading."
-  else
-    $CMD_MKDIR -p $SYS_QPKG_DIR
-  fi
+  pre_check_qpkg_status
   # stop service
-  stop_service
+  pre_install_stop_service
 
   ##### install #####
   # inform about progress
   set_progress_before_install
   # put data
-  install_put_data
+  install_put_data 2>/dev/null
   # put script
-  install_put_script
+  install_put_script 2>/dev/null
   # put icons
-  install_put_icons
+  install_put_icons 2>/dev/null
   # inform about progress
   set_progress_after_install
 
@@ -650,11 +702,11 @@ main(){
   # run post-install custom script
   ${SYS_QPKG_SERVICE} install ${QPKG_NAME}
   # start service
-  start_service
+  post_install_start_service
 
   ##### print "QPKG has been installed" #####
   # inform system log
-  log "$QPKG_NAME $QPKG_VER has been installed in $SYS_QPKG_DIR."
+  log "${QPKG_NAME} ${QPM_QPKG_VER} has been installed in $SYS_QPKG_DIR."
   # inform about progress
   set_progress_end
 }
