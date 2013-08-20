@@ -149,6 +149,23 @@ create_qpkg(){
   echo "[v] package初始化完成"
 }
 
+pad_field(){
+  [ -n "$1" ] || err_msg "internal error: pad_field called with no argument"
+
+  local field="$1"
+  local field_val=
+  eval "field_val=\$$field"
+  local pad_len=$(expr ${2:-10} - ${#field_val})
+
+  [ $pad_len -ge 0 ] || err_msg "the length of $field_val must be less than or equal to ${2:-10}"
+  while [ $pad_len -gt 0 ]
+  do
+    field_val="$field_val "
+    pad_len=$(expr $pad_len - 1)
+  done
+  eval $field=\""$field_val"\"
+}
+
 build_qpkg(){
   # Fetch configs
   msg "取得QPKG設定值..."
@@ -206,6 +223,15 @@ build_qpkg(){
   cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
 
   rm -rf tmp.$$
+
+  ######
+  local enc_space="                                                  "
+  local enc_flag="QNAPQPKG  "
+  local enc_qpkg_model="${QDK_BUILD_MODEL}$(perl -E 'say " " x '$(expr 10 - ${#QDK_BUILD_MODEL}))"
+  local enc_qpkg_name="${QPKG_NAME}$(perl -E 'say " " x '$(expr 20 - ${#QPKG_NAME}))"
+  local enc_qpkg_ver="${QPKG_NAME}$(perl -E 'say " " x '$(expr 10 - ${#QPM_QPKG_VER}))"
+  printf "${enc_qpkg_model}${enc_space}${enc_qpkg_name}${enc_qpkg_ver}${enc_flag}" >> ${QPKG_FILE_PATH}
+  ######
 
   edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
 
