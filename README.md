@@ -23,6 +23,7 @@ Configs
  - `QPKG_VER_MAJOR="0"`
  - `QPKG_VER_MINOR="1"`
  - `QPKG_VER_BUILD="0"` 第幾次編譯（自動增加）
+ - `QPKG_AUTO_UPDATE=""` 自動更新QPKG
 
 * 作者或維護人員
  - `QPKG_AUTHOR=""`（預設為使用者帳號）
