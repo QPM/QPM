@@ -8,53 +8,25 @@ cd ${SYS_QPKG_DIR}
 
 case "$1" in
   start)
-    msg "${QPKG_NAME} service start"
-    ##### register web interface #####
-#     local web_dir=${SYS_QPKG_DIR}/${QPKG_DIR_WEB}
-#     if [ -n ${QPKG_DIR_WEB} ] &&
-#        [ -d ${web_dir}] &&
-#        [$(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0]; then
-#       local qpkg_web_config="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
-#       cat > $qpkg_web_config <<EOF
-# <IfModule alias_module>
-#   Alias /${QPKG_WEB_PATH:-$QPKG_NAME}/ "${web_dir}"
-#   <Directory "${web_dir}">
-#       AllowOverride None
-#       Order allow,deny
-#       Allow from all
-#   </Directory>
-# </IfModule>
-# EOF
-#       echo "Include ${qpkg_web_config} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
-#       ${SYS_WEB_INIT} restart
-#     fi
-    ##### register bin interface #####
-    # local bin_dir=${SYS_QPKG_DIR}/${QPKG_DIR_BIN}
-    # if [ -n ${QPKG_DIR_BIN} ] &&
-    #    [ -d ${bin_dir}] &&
-    #    [$(ls -l | grep '\-rwx' | awk 'END {print NR}') -gt 0]; then
-    #   rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
-    #   for bin in `ls`; do
-    #     if [ -f $bin ] && [ -x $bin ]; then
-    #       $CMD_LN -sf "${bin_dir}/${bin}" "${SYS_BIN_DIR}/${bin}"
-    #       echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
-    #     fi
-    #   done
-    # fi
-    # set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "TRUE"
+    msg "${QPKG_NAME} service will now perform" "start"
     ;;
 
   stop)
-    msg "${QPKG_NAME} service stop"
+    msg "${QPKG_NAME} service will now perform" "stop"
     ##### remove web interface #####
-    # $CMD_SED -i '/^Include.*# QPM {$QPKG_NAME} web/d' ${SYS_WEB_CONFIG}
-    # ${SYS_WEB_INIT} restart
+    qpkg_web_config="${SYS_WEB_EXTRA}/${QPM_QPKG_WEB_CONFIG}"
+    if [ -f ${qpkg_web_config} ]; then
+      msg "remove web interface"
+      $CMD_SED -i '/${QPM_QPKG_WEB_CONFIG}/d' ${SYS_WEB_CONFIG}
+      ${SYS_WEB_INIT} restart &>/dev/null
+      $CMD_PRINTF "[v]\n"
+    fi
     ##### remove bin interface #####
-    # for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
-    #   rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
-    # done
-    # rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
-    # set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "FALSE"
+    for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
+      rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
+      msg "remove bin interface" "${bin}"
+    done
+    rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
     ;;
 
   restart)

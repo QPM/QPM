@@ -24,14 +24,14 @@ QPM_DIR_BIN="bin"
 QPM_DIR_BUILD="build"
 
 QPM_QPKG_CONFIGS="qpkg.cfg"
-QPM_QPKG_QPM_SERVICE="qpm_service.sh"
 QPM_QPKG_SERVICE="service.sh"
 QPM_QPKG_SERVICE_ID=101
 QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
 QPM_QPKG_UNINSTALL="uninstall.sh"
-QPM_QPKG_WEB_CONFIG="web.conf"
+QPM_QPKG_WEB_CONFIG="apache-qpkg-${QPKG_NAME}.conf"
+QPM_QPKG_BIN_LOG=".bin_log"
 
 #===
 # Message
@@ -212,18 +212,26 @@ build_qpkg(){
   echo "建立${QPKG_FILE_PATH}..."
 
   echo "[v] package編譯完成"
+
+  if [ -n "${avg_upload}" ]; then
+    echo "upload to ...${avg_upload}"
+    scp ${QPKG_FILE_PATH} "${avg_upload}"
+  fi
 }
 
 # Main
 main(){
   while  [ $# -gt 0 ]
   do
-    case "$1" in
+    case $(echo "$1" | awk -F"=" '{ print $1 }') in
     --help|-h|-\?)  avg_help=TRUE ;;
     --version|-ver|-V) avg_version=TRUE ;;
     --create|-c) avg_qpkg_name="$2"
         [ -n "$avg_qpkg_name" ] || err_msg "--create, -c: 沒有package名稱"
         shift
+        ;;
+    --upload)
+        avg_upload=$(echo "$1" | sed 's/--upload=//g')
         ;;
     esac
     shift
@@ -232,6 +240,7 @@ main(){
   [ -n "$avg_version" ] && version
   [ -n "$avg_help" ] && help
 
+  echo ${avg_upload}
 
   if [ -n "$avg_qpkg_name" ]; then 
     create_qpkg "$avg_qpkg_name"
@@ -310,6 +319,7 @@ SYS_MULTIMEDIA_DIR="/share/Multimedia"
 SYS_RECORDINGS_DIR="/share/Recordings"
 
 SYS_WEB_DIR="/share/Web"
+SYS_WEB_EXTRA="${SYS_CONFIG_DIR}/apache/extra"
 SYS_WEB_CONFIG="${SYS_CONFIG_DIR}/apache/apache.conf"
 SYS_WEB_INIT="${SYS_INIT_DIR}/Qthttpd.sh"
 
@@ -346,14 +356,14 @@ QPM_DIR_BIN="bin"
 QPM_DIR_BUILD="build"
 
 QPM_QPKG_CONFIGS="qpkg.cfg"
-QPM_QPKG_QPM_SERVICE="qpm_service.sh"
 QPM_QPKG_SERVICE="service.sh"
 QPM_QPKG_SERVICE_ID=101
 QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
 QPM_QPKG_UNINSTALL="uninstall.sh"
-QPM_QPKG_WEB_CONFIG="web.conf"
+QPM_QPKG_WEB_CONFIG="apache-qpkg-${QPKG_NAME}.conf"
+QPM_QPKG_BIN_LOG=".bin_log"
 
 ##### system library #####
 # set QPKG configs, avgs(field value [qpkg_name])
@@ -427,53 +437,25 @@ cd ${SYS_QPKG_DIR}
 
 case "$1" in
   start)
-    msg "${QPKG_NAME} service start"
-    ##### register web interface #####
-#     local web_dir=${SYS_QPKG_DIR}/${QPKG_DIR_WEB}
-#     if [ -n ${QPKG_DIR_WEB} ] &&
-#        [ -d ${web_dir}] &&
-#        [$(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0]; then
-#       local qpkg_web_config="${SYS_QPKG_DIR}/${QPM_QPKG_WEB_CONFIG}"
-#       cat > $qpkg_web_config <<EOF
-# <IfModule alias_module>
-#   Alias /${QPKG_WEB_PATH:-$QPKG_NAME}/ "${web_dir}"
-#   <Directory "${web_dir}">
-#       AllowOverride None
-#       Order allow,deny
-#       Allow from all
-#   </Directory>
-# </IfModule>
-# EOF
-#       echo "Include ${qpkg_web_config} # QPM {$QPKG_NAME} web" >> ${SYS_WEB_CONFIG}
-#       ${SYS_WEB_INIT} restart
-#     fi
-    ##### register bin interface #####
-    # local bin_dir=${SYS_QPKG_DIR}/${QPKG_DIR_BIN}
-    # if [ -n ${QPKG_DIR_BIN} ] &&
-    #    [ -d ${bin_dir}] &&
-    #    [$(ls -l | grep '\-rwx' | awk 'END {print NR}') -gt 0]; then
-    #   rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
-    #   for bin in `ls`; do
-    #     if [ -f $bin ] && [ -x $bin ]; then
-    #       $CMD_LN -sf "${bin_dir}/${bin}" "${SYS_BIN_DIR}/${bin}"
-    #       echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
-    #     fi
-    #   done
-    # fi
-    # set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "TRUE"
+    msg "${QPKG_NAME} service will now perform" "start"
     ;;
 
   stop)
-    msg "${QPKG_NAME} service stop"
+    msg "${QPKG_NAME} service will now perform" "stop"
     ##### remove web interface #####
-    # $CMD_SED -i '/^Include.*# QPM {$QPKG_NAME} web/d' ${SYS_WEB_CONFIG}
-    # ${SYS_WEB_INIT} restart
+    qpkg_web_config="${SYS_WEB_EXTRA}/${QPM_QPKG_WEB_CONFIG}"
+    if [ -f ${qpkg_web_config} ]; then
+      msg "remove web interface"
+      $CMD_SED -i '/${QPM_QPKG_WEB_CONFIG}/d' ${SYS_WEB_CONFIG}
+      ${SYS_WEB_INIT} restart &>/dev/null
+      $CMD_PRINTF "[v]\n"
+    fi
     ##### remove bin interface #####
-    # for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
-    #   rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
-    # done
-    # rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
-    # set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "FALSE"
+    for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
+      rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
+      msg "remove bin interface" "${bin}"
+    done
+    rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
     ;;
 
   restart)
@@ -498,6 +480,40 @@ esac
 
 case "$1" in
   start)
+    ##### register web interface #####
+    web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
+    if [ -n ${QPKG_DIR_WEB} ] &&
+       [ -d ${web_dir} ] &&
+       [ $(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0 ]; then
+       msg "register web interface"
+      qpkg_web_config="${SYS_WEB_EXTRA}/${QPM_QPKG_WEB_CONFIG}"
+      cat > $qpkg_web_config <<EOF
+<IfModule alias_module>
+  Alias /${QPKG_WEB_PATH:-$QPKG_NAME} "${web_dir}"
+  <Directory "${web_dir}">
+      AllowOverride None
+      Order allow,deny
+      Allow from all
+  </Directory>
+</IfModule>
+EOF
+      echo "Include ${qpkg_web_config}" >> ${SYS_WEB_CONFIG}
+      ${SYS_WEB_INIT} restart &>/dev/null
+      $CMD_PRINTF "[v]\n"
+    fi
+    ##### register bin interface #####
+    bin_dir=${SYS_QPKG_DIR}/${QPKG_DIR_BIN}
+    if [ -n ${QPKG_DIR_BIN} ] &&
+       [ -d ${bin_dir} ]; then
+      rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
+      for bin in `ls ${bin_dir}`; do
+        if [ -f "${bin_dir}/${bin}" ] && [ -x "${bin_dir}/${bin}" ]; then
+          $CMD_LN -sf "${bin_dir}/${bin}" "${SYS_BIN_DIR}/${bin}"
+          msg "register bin interface" "${bin}"
+          echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
+        fi
+      done
+    fi
     set_qpkg_cfg ${SYS_QPKG_CFG_ENABLE} "TRUE"
     ;;
   stop)
@@ -1095,8 +1111,8 @@ pre_check_qpkg_status(){
 #===
 pre_install_stop_service(){
   if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
-    msg "${QPKG_NAME} service stop"
-    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
+    msg "stop ${QPKG_NAME} service"
+    ${SYS_INIT_DIR}/${QPKG_NAME} stop &>/dev/null
     $CMD_SLEEP 5
     $CMD_PRINTF "[v]\n"
   fi
@@ -1160,7 +1176,7 @@ post_install_link_service(){
 # register QPKG information
 #===
 post_install_register_qpkg(){
-  msg "set QPKG information" ${SYS_QPKG_CONFIG}
+  msg "set QPKG information in" ${SYS_QPKG_CONFIG}
   [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
 
   set_qpkg_cfg ${SYS_QPKG_CFG_NAME} ${QPKG_NAME}
@@ -1179,11 +1195,11 @@ post_install_register_qpkg(){
   set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
   set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT}
   if [ -n "$QPKG_WEB_PATH" ]; then
-    msg "set QPKG web path" "host:${QPKG_WEB_PORT-:80}/${QPKG_WEB_PATH}"
+    msg "set QPKG web path" "host:${QPKG_WEB_PORT:-80}/${QPKG_WEB_PATH}"
   fi
   
   set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} ${QPKG_DESKTOP_APP}
-  msg "set QPKG desktop app" ${QPKG_DESKTOP_APP-:"FALSE"}
+  msg "set QPKG desktop app" ${QPKG_DESKTOP_APP:-"FALSE"}
 }
 
 #===
@@ -1191,9 +1207,7 @@ post_install_register_qpkg(){
 #===
 post_install_start_service(){
   if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
-    msg "${QPKG_NAME} service start"
-    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
-    $CMD_PRINTF "[v]\n"
+    ${SYS_INIT_DIR}/${QPKG_NAME} start
     $CMD_SLEEP 5
   fi
 }

@@ -559,8 +559,8 @@ pre_check_qpkg_status(){
 #===
 pre_install_stop_service(){
   if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
-    msg "${QPKG_NAME} service stop"
-    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
+    msg "stop ${QPKG_NAME} service"
+    ${SYS_INIT_DIR}/${QPKG_NAME} stop &>/dev/null
     $CMD_SLEEP 5
     $CMD_PRINTF "[v]\n"
   fi
@@ -643,11 +643,11 @@ post_install_register_qpkg(){
   set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
   set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT}
   if [ -n "$QPKG_WEB_PATH" ]; then
-    msg "set QPKG web path" "host:${QPKG_WEB_PORT-:80}/${QPKG_WEB_PATH}"
+    msg "set QPKG web path" "host:${QPKG_WEB_PORT:-80}/${QPKG_WEB_PATH}"
   fi
   
   set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} ${QPKG_DESKTOP_APP}
-  msg "set QPKG desktop app" ${QPKG_DESKTOP_APP-:"FALSE"}
+  msg "set QPKG desktop app" ${QPKG_DESKTOP_APP:-"FALSE"}
 }
 
 #===
@@ -655,9 +655,7 @@ post_install_register_qpkg(){
 #===
 post_install_start_service(){
   if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
-    msg "${QPKG_NAME} service start"
-    ${SYS_INIT_DIR}/${QPKG_NAME} stop 1>/dev/null
-    $CMD_PRINTF "[v]\n"
+    ${SYS_INIT_DIR}/${QPKG_NAME} start
     $CMD_SLEEP 5
   fi
 }

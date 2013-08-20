@@ -24,14 +24,14 @@ QPM_DIR_BIN="bin"
 QPM_DIR_BUILD="build"
 
 QPM_QPKG_CONFIGS="qpkg.cfg"
-QPM_QPKG_QPM_SERVICE="qpm_service.sh"
 QPM_QPKG_SERVICE="service.sh"
 QPM_QPKG_SERVICE_ID=101
 QPM_QPKG_DATA="data.tar.gz"
 QPM_QPKG_SCRIPT="script.sh"
 QPM_QPKG_INSTALL="install.sh"
 QPM_QPKG_UNINSTALL="uninstall.sh"
-QPM_QPKG_WEB_CONFIG="web.conf"
+QPM_QPKG_WEB_CONFIG="apache-qpkg-${QPKG_NAME}.conf"
+QPM_QPKG_BIN_LOG=".bin_log"
 
 #===
 # Message
@@ -212,18 +212,26 @@ build_qpkg(){
   echo "建立${QPKG_FILE_PATH}..."
 
   echo "[v] package編譯完成"
+
+  if [ -n "${avg_upload}" ]; then
+    echo "upload to ...${avg_upload}"
+    scp ${QPKG_FILE_PATH} "${avg_upload}"
+  fi
 }
 
 # Main
 main(){
   while  [ $# -gt 0 ]
   do
-    case "$1" in
+    case $(echo "$1" | awk -F"=" '{ print $1 }') in
     --help|-h|-\?)  avg_help=TRUE ;;
     --version|-ver|-V) avg_version=TRUE ;;
     --create|-c) avg_qpkg_name="$2"
         [ -n "$avg_qpkg_name" ] || err_msg "--create, -c: 沒有package名稱"
         shift
+        ;;
+    --upload)
+        avg_upload=$(echo "$1" | sed 's/--upload=//g')
         ;;
     esac
     shift
@@ -232,6 +240,7 @@ main(){
   [ -n "$avg_version" ] && version
   [ -n "$avg_help" ] && help
 
+  echo ${avg_upload}
 
   if [ -n "$avg_qpkg_name" ]; then 
     create_qpkg "$avg_qpkg_name"
