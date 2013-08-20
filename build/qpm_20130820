@@ -32,6 +32,7 @@ QPM_QPKG_INSTALL="install.sh"
 QPM_QPKG_UNINSTALL="uninstall.sh"
 QPM_QPKG_WEB_CONFIG="apache-qpkg-${QPKG_NAME}.conf"
 QPM_QPKG_BIN_LOG=".bin_log"
+QPM_QPKG_CORE="/bin/qpkg"
 
 #===
 # Message
@@ -209,39 +210,48 @@ build_qpkg(){
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
 
-  QPKG_FILE_NAME=${QPKG_FILE:-${QPKG_NAME}_${QPM_QPKG_VER}.qpkg}
-  QPKG_FILE_PATH=${QPM_DIR_BUILD}/${QPKG_FILE_NAME}
-  rm -f "${QPKG_FILE_PATH}"
-  touch "${QPKG_FILE_PATH}" || err_msg "建立package失敗 ${QPKG_FILE_PATH}"
+  local qpkg_file_name=${QPKG_FILE:-${QPKG_NAME}_${QPM_QPKG_VER}.qpkg}
+  local qpkg_file_path=${QPM_DIR_BUILD}/${qpkg_file_name}
+  rm -f "${qpkg_file_path}"
+  touch "${qpkg_file_path}" || err_msg "建立package失敗 ${qpkg_file_path}"
 
   fetch_shell "QPM_QPKG_SCRIPT" > tmp.$$/$QPM_QPKG_SCRIPT
 
   local script_len=$(ls -l tmp.$$/${QPM_QPKG_SCRIPT} | awk '{ print $5 }')
-  sed "s/EXTRACT_SCRIPT_LEN=000/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${QPKG_FILE_PATH}
+  sed "s/EXTRACT_SCRIPT_LEN=000/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${qpkg_file_path}
 
-  #dd if=tmp.$$/$QPM_QPKG_DATA of="${QPM_QPKG_BUILD}/${QPKG_FILE_PATH}"
-  cat tmp.$$/$QPM_QPKG_DATA >> ${QPKG_FILE_PATH}
+  #dd if=tmp.$$/$QPM_QPKG_DATA of="${QPM_QPKG_BUILD}/${qpkg_file_path}"
+  cat tmp.$$/$QPM_QPKG_DATA >> ${qpkg_file_path}
 
   rm -rf tmp.$$
 
   ######
-  local enc_space="                                                  "
+  # [MODEL(10)|RESERVED(40])|FW_VERSION(10)|NAME(20)|VERSION(10)|FLAG(10)]
+  local enc_space=$(perl -E 'say " " x 60')
   local enc_flag="QNAPQPKG  "
-  local enc_qpkg_model="${QDK_BUILD_MODEL}$(perl -E 'say " " x '$(expr 10 - ${#QDK_BUILD_MODEL}))"
   local enc_qpkg_name="${QPKG_NAME}$(perl -E 'say " " x '$(expr 20 - ${#QPKG_NAME}))"
-  local enc_qpkg_ver="${QPKG_NAME}$(perl -E 'say " " x '$(expr 10 - ${#QPM_QPKG_VER}))"
-  printf "${enc_qpkg_model}${enc_space}${enc_qpkg_name}${enc_qpkg_ver}${enc_flag}" >> ${QPKG_FILE_PATH}
+  local enc_qpkg_ver="${QPM_QPKG_VER}$(perl -E 'say " " x '$(expr 10 - ${#QPM_QPKG_VER}))"
+  printf "${enc_space}${enc_qpkg_name}${enc_qpkg_ver}${enc_flag}" >> ${qpkg_file_path}
   ######
 
   edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
 
-  echo "建立${QPKG_FILE_PATH}..."
+  echo "建立${qpkg_file_path}..."
+
+  if [ -x "${QPM_QPKG_CORE}" ]; then
+    ${QPM_QPKG_CORE} --encrypt ${qpkg_file_path}
+  else
+    local nas_qpkg="/share/Public/${qpkg_file_name}"
+    scp ${qpkg_file_path} ${nas_qpkg}
+    ssh admin@${avg_host} '${QPM_QPKG_CORE} --encrypt ${nas_qpkg}'
+    scp ${nas_qpkg} ${qpkg_file_path}
+  fi
 
   echo "[v] package編譯完成"
 
   if [ -n "${avg_upload}" ]; then
     echo "upload to ...${avg_upload}"
-    scp ${QPKG_FILE_PATH} "${avg_upload}"
+    scp ${qpkg_file_path} "${avg_upload}"
   fi
 }
 
@@ -256,9 +266,9 @@ main(){
         [ -n "$avg_qpkg_name" ] || err_msg "--create, -c: 沒有package名稱"
         shift
         ;;
-    --upload)
-        avg_upload=$(echo "$1" | sed 's/--upload=//g')
-        ;;
+    --upload) avg_upload=$(echo "$1" | sed 's/--upload=//g') ;;
+    --nas) avg_host=$(echo "$1" | sed 's/--nas=//g') ;;
+    --send-key) avg_send_key=TRUE ;;
     esac
     shift
   done
@@ -266,12 +276,14 @@ main(){
   [ -n "$avg_version" ] && version
   [ -n "$avg_help" ] && help
 
-  echo ${avg_upload}
-
   if [ -n "$avg_qpkg_name" ]; then 
     create_qpkg "$avg_qpkg_name"
   else
-    build_qpkg # 2>/dev/null
+    if [ -x "${QPM_QPKG_CORE}" ] || [ -n "$avg_host" ]; then
+      build_qpkg # 2>/dev/null
+    else
+      echo "編譯環境不是在QNAP的NAS平台時，需輸入--nas參數"
+    fi
   fi
 }
 
