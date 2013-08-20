@@ -51,7 +51,7 @@ warn_log() {
 
 err_log(){
   local write_err="$CMD_LOG_TOOL -t2 -uSystem -p127.0.0.1 -mlocalhost -a"
-  local message="$QPKG_NAME $QPKG_VER installation failed. $1"
+  local message="$QPKG_NAME $QPM_QPKG_VER installation failed. $1"
   $CMD_ECHO "$message" 1>&2
   $write_err "$message"
 
@@ -544,10 +544,12 @@ pre_install_get_base_dir(){
 #===
 pre_check_qpkg_status(){
   local ori_qpkg_ver=$(get_qpkg_cfg ${SYS_QPKG_CFG_VERSION} "not installed")
-  msg "original ${QPKG_NAME} version" ${ori_qpkg_ver}
+  msg "original ${QPKG_NAME} version" "${ori_qpkg_ver}"
   msg "new ${QPKG_NAME} version" ${QPM_QPKG_VER}
-  if [ ori_qpkg_ver = "not installed" ]; then
+  if [ "${ori_qpkg_ver}" = "not installed" ]; then
     msg "setup will now perform" "installing"
+  elif [ "${ori_qpkg_ver}" = "${QPM_QPKG_VER}" ]; then
+    msg "setup will now perform" "reinstalling"
   else
     msg "setup will now perform" "upgrading"
   fi
@@ -558,10 +560,12 @@ pre_check_qpkg_status(){
 # stop service
 #===
 pre_install_stop_service(){
-  if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
-    msg "stop ${QPKG_NAME} service"
-    ${SYS_INIT_DIR}/${QPKG_NAME} stop &>/dev/null
+  local service=$(get_qpkg_cfg "$SYS_QPKG_CFG_SHELL" "${SYS_INIT_DIR}/${QPKG_NAME}")
+  if [ -x "${service}" ]; then
+    msg "stop original ${QPKG_NAME} service"
+    ${service} stop &>/dev/null
     $CMD_SLEEP 5
+    $CMD_SYNC
     $CMD_PRINTF "[v]\n"
   fi
 }
@@ -570,12 +574,14 @@ pre_install_stop_service(){
 # put data
 #===
 install_put_data(){
+  msg "put QPKG data"
   $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/"* "${SYS_QPKG_DIR}/"
   if [ SYS_PLATFORM = 'arm' ]; then
     $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/"* "${SYS_QPKG_DIR}/" 
   else
     $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/"* "${SYS_QPKG_DIR}/"
   fi;
+  $CMD_PRINTF "[v]\n"
 }
 
 #===
@@ -583,10 +589,13 @@ install_put_data(){
 #===
 install_put_script(){
   # put configs
+  msg "put QPKG configs" "${QPM_QPKG_CONFIGS}"
   $CMD_CP -af ${QPM_QPKG_CONFIGS} "${SYS_QPKG_DIR}/.${QPM_QPKG_CONFIGS}"
   # put service script
+  msg "put QPKG service script" "${QPM_QPKG_SERVICE}"
   $CMD_CP -af ${QPM_QPKG_SERVICE} "${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
   # put uninstall script
+  msg "put QPKG uninstall script" "${QPM_QPKG_UNINSTALL}"
   $CMD_CP -af ${QPM_QPKG_UNINSTALL} "${SYS_QPKG_DIR}/.${QPM_QPKG_UNINSTALL}"
 }
 
@@ -594,12 +603,14 @@ install_put_script(){
 # put icons
 #===
 install_put_icons(){
+  msg "put QPKG icon"
   $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon.png" "${SYS_QPKG_DIR}/.qpkg_icon.png"
   $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_80.png" "${SYS_QPKG_DIR}/.qpkg_icon_80.png"
   $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon_gray.png" "${SYS_QPKG_DIR}/.qpkg_icon_gray.png"
   $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}.gif"
   $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_80.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_80.gif"
   $CMD_CP -af "${SYS_QPKG_DIR}/.qpkg_icon_gray.png" "${SYS_RSS_IMG_DIR}/${QPKG_NAME}_gray.gif"
+  $CMD_PRINTF "[v]\n"
 }
 
 #===
@@ -637,7 +648,7 @@ post_install_register_qpkg(){
   set_qpkg_cfg ${SYS_QPKG_CFG_QPKGFILE} "${QPKG_NAME}.qpkg"
   set_qpkg_cfg ${SYS_QPKG_CFG_DATE} $($CMD_DATE +%F)
 
-  set_qpkg_cfg ${SYS_QPKG_CFG_SHELL} ${QPM_QPKG_SERVICE}
+  set_qpkg_cfg ${SYS_QPKG_CFG_SHELL} "${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
   set_qpkg_cfg ${SYS_QPKG_CFG_INSTALL_PATH} ${SYS_QPKG_DIR}
 
   set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
@@ -677,7 +688,7 @@ main(){
   #pre_install_check_requirements
   # check whether is already installed
   pre_check_qpkg_status
-  # stop service
+  # uninstall service
   pre_install_stop_service
 
   ##### install #####

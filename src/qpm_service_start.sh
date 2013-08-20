@@ -35,7 +35,7 @@ case "$1" in
     ;;
 
   install|unistall)
-    if [ ${2} != ${QPKG_NAME} ]; then
+    if [ "$2" != ${QPKG_NAME} ]; then
       echo "Usage: $0 {start|stop|restart}"
       exit 1
     fi

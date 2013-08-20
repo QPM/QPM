@@ -2,14 +2,14 @@
 #===
 # QPKG definitions
 #===
-source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
+source "$( cd "$( dirname "${0}" )" && pwd )/.qpkg.cfg"
 
 ##### stop service & run unistall before script #####
 if [ -x ${SYS_QPKG_SERVICE} ]; then
   ${SYS_QPKG_SERVICE} stop
   $CMD_SLEEP 5
   $CMD_SYNC
-  ${SYS_QPKG_SERVICE} unistall
+  ${SYS_QPKG_SERVICE} unistall ${QPKG_NAME}
 fi
 
 ##### remove QPKG directory #####
