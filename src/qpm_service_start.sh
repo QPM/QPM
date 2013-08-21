@@ -22,11 +22,13 @@ case "$1" in
       $CMD_PRINTF "[v]\n"
     fi
     ##### remove bin interface #####
-    for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
-      rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
-      msg "remove bin interface" "${bin}"
-    done
-    rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
+    if [ -f ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG} ]; then
+      for bin in `cat ${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}`; do
+        rm -f "${SYS_BIN_DIR}/${bin}" 2>/dev/null
+        msg "remove bin interface" "${bin}"
+      done
+      rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
+    fi
     ;;
 
   restart)
@@ -34,7 +36,7 @@ case "$1" in
     $0 start
     ;;
 
-  install|unistall)
+  pre_install|post_install|pre_uninstall|post_uninstall)
     if [ "$2" != ${QPKG_NAME} ]; then
       echo "Usage: $0 {start|stop|restart}"
       exit 1

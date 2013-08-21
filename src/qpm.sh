@@ -94,6 +94,8 @@ Options:
   --create, -c NAME       建立一個package目錄
   -?, -h, --help          顯示操作訊息
   -V, -ver, --version     列出qbuild的版本資訊.
+  -nas                    設定QNAP的NAS IP.
+  ---push-key             上傳SSH公開金鑰至NAS.
 EOF
   exit 0
 }
@@ -174,10 +176,13 @@ build_qpkg(){
   qpm_len=$(expr ${qpm_len} - ${script_len})
   dd if=${0} bs=${script_len} skip=1 | tar -xz -C tmp.$$ || exit 1
 
-  cp -afp ${QPM_QPKG_CONFIGS} "build.$$/${QPM_QPKG_CONFIGS}" || err_msg 找不到configs檔
-  echo "\n" >> "build.$$/${QPM_QPKG_CONFIGS}"
-  cat "tmp.$$/qpm_qpkg.cfg" >> "build.$$/${QPM_QPKG_CONFIGS}"
-  edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" "build.$$/${QPM_QPKG_CONFIGS}"
+  local config_file="build.$$/${QPM_QPKG_CONFIGS}"
+  cp -afp ${QPM_QPKG_CONFIGS} ${config_file} || err_msg 找不到configs檔
+  echo "\n" >> ${config_file}
+  cat "tmp.$$/qpm_qpkg.cfg" >> ${config_file}
+  edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" ${config_file}
+  sed '/^$/d' ${config_file} > "tmp.$$/${QPM_QPKG_CONFIGS}"
+  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" > ${config_file}
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
   cat tmp.$$/qpm_service_start.sh > ${service_file}
@@ -185,6 +190,8 @@ build_qpkg(){
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
   echo "\n" >> ${service_file}
   cat tmp.$$/qpm_service_end.sh >> ${service_file}
+  sed '/^$/d' ${service_file} > "tmp.$$/${QPM_QPKG_SERVICE}"
+  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_SERVICE}" > ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
@@ -238,11 +245,6 @@ build_qpkg(){
   fi
 
   echo "[v] package編譯完成"
-
-  if [ -n "${avg_upload}" ]; then
-    echo "upload to ...${avg_upload}"
-    scp ${qpkg_file_path} "${avg_upload}"
-  fi
 }
 
 # Main
@@ -256,7 +258,6 @@ main(){
         [ -n "$avg_qpkg_name" ] || err_msg "--create, -c: 沒有package名稱"
         shift
         ;;
-    --upload) avg_upload=$(echo "$1" | sed 's/--upload=//g') ;;
     --nas) avg_host=$(echo "$1" | sed 's/--nas=//g') ;;
     --push-key) avg_push_key=TRUE ;;
     esac

@@ -216,9 +216,9 @@ pre_install_get_base_dir(){
   SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
   SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
 
-  edit_config "SYS_BASE_DIR" ${SYS_BASE_DIR}
-  edit_config "SYS_QPKG_STORE" ${SYS_QPKG_STORE}
-  edit_config "SYS_QPKG_DIR" ${SYS_QPKG_DIR}
+  edit_config "SYS_BASE_DIR" \"${SYS_BASE_DIR}\"
+  edit_config "SYS_QPKG_STORE" \"${SYS_QPKG_STORE}\"
+  edit_config "SYS_QPKG_DIR" \"${SYS_QPKG_DIR}\"
   
   msg "get system base dir" ${SYS_BASE_DIR}
   msg "get ${QPKG_NAME} qpkg dir" ${SYS_QPKG_DIR}
@@ -367,6 +367,8 @@ main(){
   pre_install_get_sys_info
   # get base dir & get qpkg dir
   pre_install_get_base_dir
+  # run pre-install custom script
+  ${SYS_QPKG_SERVICE} pre_install ${QPKG_NAME}
   # check QPKG_REQUIRE & QPKG_CONFLICT
   pre_install_check_requirements
   # check whether is already installed
@@ -392,7 +394,7 @@ main(){
   # register QPKG information
   post_install_register_qpkg
   # run post-install custom script
-  ${SYS_QPKG_SERVICE} install ${QPKG_NAME}
+  ${SYS_QPKG_SERVICE} post_install ${QPKG_NAME}
   # start service
   post_install_start_service
 

@@ -8,13 +8,18 @@ case "$1" in
     : ADD STOP ACTIONS HERE
     ;;
 
-  install)
-    # Install after forced start service
-    : ADD INSTALL ACTIONS HERE
+  pre_install)
+    : ADD PRE INSTALL ACTIONS HERE
     ;;
-
-  unistall)
+  post_install)
+    # Install after forced start service
+    : ADD POST INSTALL ACTIONS HERE
+    ;;
+  pre_uninstall)
     # Uninstall before forced stop service
-    : ADD UNSTALL ACTIONS HERE
+    : ADD PRE UNINSTALL ACTIONS HERE
+    ;;
+  post_uninstall)
+    : ADD POST UNINSTALL ACTIONS HERE
     ;;
 esac

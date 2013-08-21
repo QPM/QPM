@@ -64,6 +64,10 @@ Usage
  - `qpm --version|-ver|-V`
 * QPM操作說明
  - `qpm --help|-h|-\?`
+* QPM操作說明
+ - `qpm --help|-h|-\?`
+* 上傳SSH公開金鑰至NAS
+ - `qpm --push-key`
 * QPM在NAS上操作QPKG
  - 顯示已安裝的QPKG `qpm -l|-list` [v0.3]
  - 安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
@@ -84,8 +88,10 @@ Service Script
 ===
 - 當start service時 `service.sh >-> start`
 - 當stop service時 `service.sh >-> start` 
-- 當install QPKG後 `service.sh >-> install`
-- 當uninstall QPKG前 `service.sh >-> uninstall`
+- 當install QPKG前 `service.sh >-> pre_install`
+- 當install QPKG後 `service.sh >-> post_install`
+- 當uninstall QPKG前 `service.sh >-> pre_uninstall`
+- 當uninstall QPKG後 `service.sh >-> post_uninstall`
 
 Q&A
 ===
