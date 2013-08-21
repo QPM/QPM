@@ -1,4 +1,3 @@
-#!/bin/sh
 ##############################################################################
 #
 # $Id: qbuild $
@@ -7,8 +6,7 @@
 #
 ##############################################################################
 
-#! uninstall need SYS_QPKG_DIR
-#! 了解 md5sum 的用途
+IFS=" "
 
 #---
 # Default Configs
@@ -33,15 +31,10 @@ QPM_QPKG_UNINSTALL="uninstall.sh"
 QPM_QPKG_WEB_CONFIG="apache-qpkg-${QPKG_NAME}.conf"
 QPM_QPKG_BIN_LOG=".bin_log"
 QPM_QPKG_CORE="/sbin/qpkg"
+QPM_QPKG_TEMPLATE="template"
 
 QPM_QPKG_NAME_MAX=20
 QPM_QPKG_VER_MAX=10
-
-#---
-# QPM messages
-#---
-QPM_MSG_BUILD_READ_IP=
-QPM_MSG_KEY_READ_IP=
 
 
 #---
@@ -52,8 +45,8 @@ QPM_MSG_KEY_READ_IP=
 err_msg(){
   echo "[ERROR] $1" 1>&1
   echo "[x] 任務失敗"
-  rm -rf build.$$
-  rm -rf tmp.$$
+  rm -rf build.$$ &>/dev/null
+  rm -rf tmp.$$ &>/dev/null
   exit 0
 }
 
@@ -90,10 +83,15 @@ edit_config(){
 }
 
 fetch_shell(){
-  local start=$(grep -n "^###${1} START" ${0} |  awk -F "[/:]" '{print $1}')
+
+echo "2222:${1}" 1>&2
+
+  echo $(grep -n "^###${1} START" ${0}) 1>&2
+
+  local start=$(grep -n "^###${1} START" ${0} |  awk -F ":" '{print $1}')
   start=$(expr ${start} + 1)
 
-  local end=$(grep -n "^###${1} END" ${0} |  awk -F "[/:]" '{print $1}')
+  local end=$(grep -n "^###${1} END" ${0} |  awk -F ":" '{print $1}')
   end=$(expr ${end} - 1)
 
   sed -n "${start},${end}p" ${0}
@@ -119,29 +117,22 @@ EOF
 
 # Create directory with template build environment
 create_qpkg(){
+
   [ -n "$1" ] || err_msg "internal error: create called with no argument"
   local qpkg_name="$1"
 
   [ -d "$qpkg_name" ] && err_msg "$(pwd)/${qpkg_name} 已經存在"
 
   echo "建立 $qpkg_name 目錄..."
-  /bin/mkdir -m 755 -p "${qpkg_name}" || err_msg "${qpkg_name}: 主目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ICONS}" || err_msg "${qpkg_name}: Icon目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_ARM}" || err_msg "${qpkg_name}: ARM目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_X86}" || err_msg "${qpkg_name}: X86目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}" || err_msg "${qpkg_name}: Share目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}/${QPM_DIR_WEB}" || err_msg "${qpkg_name}: Web目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_SHARE}/${QPM_DIR_BIN}" || err_msg "${qpkg_name}: Bin目錄建立失敗"
-  /bin/mkdir -m 755 -p "${qpkg_name}/${QPM_DIR_BUILD}" || err_msg "${qpkg_name}: Build目錄建立失敗"
-
-  fetch_shell "QPM_ICONS_64" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon.png"
-  fetch_shell "QPM_ICONS_64_GRAY" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon_gray.png"
-  fetch_shell "QPM_ICONS_80" > "${qpkg_name}/${QPM_DIR_ICONS}/qpkg_icon_80.png"
+  mkdir -m 755 -p "${qpkg_name}" || err_msg "${qpkg_name}: 主目錄建立失敗"
+  local script_len=$(sed -n "2s/ */ /p" ${0} | awk -F ' ' '{print $4}')
+  dd if=${0} bs=${script_len} skip=1 | tar -xz -C ${qpkg_name} || exit 1
+  mv ${qpkg_name}/${QPM_QPKG_TEMPLATE}/* ${qpkg_name}
+  rm -rf ${qpkg_name}/${QPM_QPKG_TEMPLATE}
 
   echo "初始化 QPKG設定檔..."
 
   local configs_path="${qpkg_name}/${QPM_QPKG_CONFIGS}"
-  fetch_shell "QPM_QPKG_CONFIGS" > $configs_path
 
   edit_config "QPKG_NAME" \"${qpkg_name}\" ${configs_path}
   edit_config "QPKG_DISPLAY_NAME" \"${qpkg_name}\" ${configs_path}
@@ -152,10 +143,6 @@ create_qpkg(){
   edit_config "#QPKG_DIR_WEB" \"${QPM_DIR_WEB}\" ${configs_path}
   edit_config "#QPKG_DIR_BIN" \"${QPM_DIR_BIN}\" ${configs_path}
   edit_config "#QPKG_DIR_SHARE" \"${QPM_DIR_SHARE}\" ${configs_path}
-
-  fetch_shell "QPM_QPKG_SERVICE" > "${qpkg_name}/${QPM_QPKG_SERVICE}"
-
-  edit_config "QPKG_NAME" ${qpkg_name} "${qpkg_name}/${QPM_QPKG_SERVICE}"
 
   echo "[v] package初始化完成"
 }
@@ -184,11 +171,13 @@ build_qpkg(){
 
   QPM_QPKG_VER="${QPKG_VER_MAJOR}.${QPKG_VER_MINOR}.${QPKG_VER_BUILD}"
   QPM_QPKG_VER=${QPM_QPKG_VER:-0.1.0}
-  
+
   # Check
   msg "檢查編譯環境..."
   [ -n "$QPKG_AUTHOR" ] || err_msg "$QPM_QPKG_CONFIGS: QPKG_AUTHOR 必須設定值"
   [ -n "$QPKG_NAME" ] || err_msg "$QPM_QPKG_CONFIGS: QPKG_NAME 必須設定值"
+  [ ${#QPKG_NAME} -gt ${QPM_QPKG_NAME_MAX} ] && err_msg "QPKG的NAME不可以超過${QPM_QPKG_NAME_MAX}個字元"
+  [ ${#QPM_QPKG_VER} -gt ${QPM_QPKG_VER_MAX} ] && err_msg "QPKG的VERSION不可以超過${QPM_QPKG_VER_MAX}個字元"
 
   # Build
   msg "編譯QPKG..."
@@ -288,7 +277,9 @@ main(){
   [ -n "$avg_version" ] && version
   [ -n "$avg_help" ] && help
 
-  if [ -n "$avg_qpkg_name" ]; then 
+  if [ -n "$avg_qpkg_name" ]; then
+    [ ${#avg_qpkg_name} -gt ${QPM_QPKG_NAME_MAX} ] && err_msg "QPKG的NAME不可以超過${QPM_QPKG_NAME_MAX}個字元"
+
     create_qpkg "$avg_qpkg_name"
   elif [ -n "$avg_push_key" ]; then
     local id_rsa_client="$HOME/.ssh/id_rsa.pub"

@@ -403,4 +403,4 @@ main(){
   set_progress_end
 }
 
-main
+main "$@"
