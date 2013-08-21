@@ -4,7 +4,7 @@
 EXTRACT_DIR_TEMP="/mnt/HDA_ROOT/update_pkg/tmp.$$"
 EXTRACT_SCRIPT_LEN=000
 /bin/mkdir -p $EXTRACT_DIR_TEMP || exit 1
-/bin/dd if=${0} bs=$EXTRACT_SCRIPT_LEN skip=1 | /bin/tar -xz -C $EXTRACT_DIR_TEMP || exit 1
+/bin/dd if=${0} bs=$EXTRACT_SCRIPT_LEN skip=1 | /bin/tar -xz -C $EXTRACT_DIR_TEMP &>/dev/null || exit 1
 ( cd $EXTRACT_DIR_TEMP && /bin/sh install.sh || echo "Installation Abort." )
 /bin/rm -rf $EXTRACT_DIR_TEMP && exit 10
 exit 1

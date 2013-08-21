@@ -68,7 +68,7 @@ edit_config(){
   local value="$2"
   local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
   if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
-    local space=$(perl -E 'say " " x '$(expr 48 - ${#field} - ${#value} - 1))
+    local space=$($CMD_AWK 'BEGIN{i=0;while(i++<'$(expr 48 - ${#field} - ${#value} - 1)')printf " "}')
     value=$($CMD_ECHO ${value} | $CMD_SED 's/\//\\\//g')
     $CMD_SED -i "s/${field}=[^#]*/${field}=${value}${space}/" ${qpkg_cfg}
   else

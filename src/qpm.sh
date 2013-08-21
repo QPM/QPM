@@ -72,7 +72,7 @@ edit_config(){
   local value="$2"
   local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
   if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
-    local space=$(perl -E 'say " " x '$(expr 48 - ${#field} - ${#value} - 1))
+    local space=$(awk 'BEGIN{i=0;while(i++<'$(expr 48 - ${#field} - ${#value} - 1)')printf " "}')
     value=$(echo ${value} | sed 's/\//\\\//g')
     sed "s/${field}=[^#]*/${field}=${value}${space}/" $qpkg_cfg > $qpkg_cfg.$$
     rm -f $qpkg_cfg
@@ -80,23 +80,6 @@ edit_config(){
   else
     return 1
   fi
-}
-
-fetch_shell(){
-
-echo "2222:${1}" 1>&2
-
-  echo $(grep -n "^###${1} START" ${0}) 1>&2
-
-  local start=$(grep -n "^###${1} START" ${0} |  awk -F ":" '{print $1}')
-  start=$(expr ${start} + 1)
-
-  local end=$(grep -n "^###${1} END" ${0} |  awk -F ":" '{print $1}')
-  end=$(expr ${end} - 1)
-
-  sed -n "${start},${end}p" ${0}
-
-  return 0
 }
 
 #---
@@ -125,8 +108,8 @@ create_qpkg(){
 
   echo "建立 $qpkg_name 目錄..."
   mkdir -m 755 -p "${qpkg_name}" || err_msg "${qpkg_name}: 主目錄建立失敗"
-  local script_len=$(sed -n "2s/ */ /p" ${0} | awk -F ' ' '{print $4}')
-  dd if=${0} bs=${script_len} skip=1 | tar -xz -C ${qpkg_name} || exit 1
+  local qpm_len=$(sed -n "2s/ */ /p" ${0} | awk -F ' ' '{print $5}')
+  dd if=${0} bs=${qpm_len} skip=1 | tar -xz -C ${qpkg_name} || exit 1
   mv ${qpkg_name}/${QPM_QPKG_TEMPLATE}/* ${qpkg_name}
   rm -rf ${qpkg_name}/${QPM_QPKG_TEMPLATE}
 
@@ -184,25 +167,32 @@ build_qpkg(){
 
   rm -rf build.$$
   mkdir -m 755 -p build.$$ || err_msg "無法建立暫存目錄 ${build.$$}"
+  mkdir -m 755 -p tmp.$$ || err_msg "無法建立暫存目錄 ${tmp.$$}"
+
+  local script_len=$(sed -n "2s/ */ /p" ${0} | awk -F ' ' '{print $4}')
+  local qpm_len=$(sed -n "2s/ */ /p" ${0} | awk -F ' ' '{print $5}')
+  qpm_len=$(expr ${qpm_len} - ${script_len})
+  dd if=${0} bs=${script_len} skip=1 | tar -xz -C tmp.$$ || exit 1
 
   cp -afp ${QPM_QPKG_CONFIGS} "build.$$/${QPM_QPKG_CONFIGS}" || err_msg 找不到configs檔
-  fetch_shell "QPM_QPKG_QPM_CONFIGS" >> "build.$$/${QPM_QPKG_CONFIGS}"
+  echo "\n" >> "build.$$/${QPM_QPKG_CONFIGS}"
+  cat "tmp.$$/qpm_qpkg.cfg" >> "build.$$/${QPM_QPKG_CONFIGS}"
   edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" "build.$$/${QPM_QPKG_CONFIGS}"
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
-  fetch_shell "QPM_QPKG_QPM_SERVICE_START" > ${service_file}
+  cat tmp.$$/qpm_service_start.sh > ${service_file}
+  echo "\n" >> ${service_file}
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
-  fetch_shell "QPM_QPKG_QPM_SERVICE_END" >> ${service_file}
+  echo "\n" >> ${service_file}
+  cat tmp.$$/qpm_service_end.sh >> ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_X86:-${QPM_DIR_X86}} build.$$/${QPM_DIR_X86} || warn_msg 找不到x86目錄
   cp -af ${QPKG_DIR_SHARE:-${QPM_DIR_SHARE}} build.$$/${QPM_DIR_SHARE} || warn_msg 找不到shared目錄
 
-  fetch_shell "QPM_QPKG_INSTALL" > "build.$$/${QPM_QPKG_INSTALL}"
-  fetch_shell "QPM_QPKG_UNINSTALL" > "build.$$/${QPM_QPKG_UNINSTALL}"
-
-  mkdir -m 755 -p tmp.$$ || err_msg "無法建立暫存目錄 ${tmp.$$}"
+  cat tmp.$$/${QPM_QPKG_INSTALL} > "build.$$/${QPM_QPKG_INSTALL}"
+  cat tmp.$$/${QPM_QPKG_UNINSTALL} > "build.$$/${QPM_QPKG_UNINSTALL}"
 
   tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARE} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
   rm -rf build.$$
@@ -214,8 +204,7 @@ build_qpkg(){
   rm -f "${qpkg_file_path}"
   touch "${qpkg_file_path}" || err_msg "建立package失敗 ${qpkg_file_path}"
 
-  fetch_shell "QPM_QPKG_SCRIPT" > tmp.$$/$QPM_QPKG_SCRIPT
-
+  echo "\n#qpm#" >> tmp.$$/${QPM_QPKG_SCRIPT}
   local script_len=$(ls -l tmp.$$/${QPM_QPKG_SCRIPT} | awk '{ print $5 }')
   sed "s/EXTRACT_SCRIPT_LEN=000/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${qpkg_file_path}
 
@@ -226,10 +215,10 @@ build_qpkg(){
 
   ######
   # [MODEL(10)|RESERVED(40])|FW_VERSION(10)|NAME(20)|VERSION(10)|FLAG(10)]
-  local enc_space=$(perl -E 'say " " x 60')
+  local enc_space=$(awk 'BEGIN{i=0;while(i++<60)printf " "}')
   local enc_flag="QNAPQPKG  "
-  local enc_qpkg_name="${QPKG_NAME}$(perl -E 'say " " x '$(expr 20 - ${#QPKG_NAME}))"
-  local enc_qpkg_ver="${QPM_QPKG_VER}$(perl -E 'say " " x '$(expr 10 - ${#QPM_QPKG_VER}))"
+  local enc_qpkg_name="${QPKG_NAME}$(awk 'BEGIN{i=0;while(i++<'$(expr 20 - ${#QPKG_NAME})')printf " "}')"
+  local enc_qpkg_ver="${QPM_QPKG_VER}$(awk 'BEGIN{i=0;while(i++<'$(expr 10 - ${#QPM_QPKG_VER})')printf " "}')"
   printf "${enc_space}${enc_qpkg_name}${enc_qpkg_ver}${enc_flag}" >> ${qpkg_file_path}
   ######
 

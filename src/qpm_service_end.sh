@@ -1,5 +1,4 @@
 #!/bin/sh
-
 case "$1" in
   start)
     ##### register web interface #####
