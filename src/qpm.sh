@@ -10,9 +10,9 @@
 #! uninstall need SYS_QPKG_DIR
 #! 了解 md5sum 的用途
 
-#===
+#---
 # Default Configs
-#===
+#---
 QPM_QPKG_VER=""
 
 QPM_DIR_ICONS="icon"
@@ -32,11 +32,21 @@ QPM_QPKG_INSTALL="install.sh"
 QPM_QPKG_UNINSTALL="uninstall.sh"
 QPM_QPKG_WEB_CONFIG="apache-qpkg-${QPKG_NAME}.conf"
 QPM_QPKG_BIN_LOG=".bin_log"
-QPM_QPKG_CORE="/bin/qpkg"
+QPM_QPKG_CORE="/sbin/qpkg"
 
-#===
+QPM_QPKG_NAME_MAX=20
+QPM_QPKG_VER_MAX=10
+
+#---
+# QPM messages
+#---
+QPM_MSG_BUILD_READ_IP=
+QPM_MSG_KEY_READ_IP=
+
+
+#---
 # Message
-#===
+#---
 
 # Error messages
 err_msg(){
@@ -60,9 +70,9 @@ debug_msg(){
   return 0
 }
 
-#===
+#---
 # Library
-#===
+#---
 
 edit_config(){
   local field="$1"
@@ -91,9 +101,9 @@ fetch_shell(){
   return 0
 }
 
-#===
+#---
 # Main
-#===
+#---
 
 # Help messages
 help(){
@@ -239,12 +249,14 @@ build_qpkg(){
   echo "建立${qpkg_file_path}..."
 
   if [ -x "${QPM_QPKG_CORE}" ]; then
+    echo "認證QPKG..."
     ${QPM_QPKG_CORE} --encrypt ${qpkg_file_path}
   else
+    echo "傳送至${avg_host}認證QPKG..."
     local nas_qpkg="/share/Public/${qpkg_file_name}"
-    scp ${qpkg_file_path} ${nas_qpkg}
-    ssh admin@${avg_host} '${QPM_QPKG_CORE} --encrypt ${nas_qpkg}'
-    scp ${nas_qpkg} ${qpkg_file_path}
+    scp ${qpkg_file_path} "admin@${avg_host}:${nas_qpkg}"
+    ssh admin@${avg_host} "${QPM_QPKG_CORE} --encrypt ${nas_qpkg}" >/dev/null
+    scp "admin@${avg_host}:${nas_qpkg}" ${qpkg_file_path}
   fi
 
   echo "[v] package編譯完成"
@@ -268,7 +280,7 @@ main(){
         ;;
     --upload) avg_upload=$(echo "$1" | sed 's/--upload=//g') ;;
     --nas) avg_host=$(echo "$1" | sed 's/--nas=//g') ;;
-    --send-key) avg_send_key=TRUE ;;
+    --push-key) avg_push_key=TRUE ;;
     esac
     shift
   done
@@ -278,12 +290,41 @@ main(){
 
   if [ -n "$avg_qpkg_name" ]; then 
     create_qpkg "$avg_qpkg_name"
-  else
-    if [ -x "${QPM_QPKG_CORE}" ] || [ -n "$avg_host" ]; then
-      build_qpkg # 2>/dev/null
-    else
-      echo "編譯環境不是在QNAP的NAS平台時，需輸入--nas參數"
+  elif [ -n "$avg_push_key" ]; then
+    local id_rsa_client="$HOME/.ssh/id_rsa.pub"
+    local id_rsa_server="\$HOME/.ssh/id_rsa_$(/usr/bin/whoami).pub"
+    if [ ! -e "${id_rsa_client}" ]; then
+      echo "系統將為您建立公開金鑰，請依照步驟按下[ENTER]鍵"
+      sleep 3
+      ssh-keygen -t rsa
     fi
+    while [ -z "$avg_host" ]; do
+      printf "請輸入要配置的NAS IP:"
+      read avg_host
+      echo "連線至${avg_host}..."
+      ping -c 1 ${avg_host} &> /dev/null
+      if [ $? -ne 0 ]; then
+        avg_host=""
+        printf "IP有誤，"
+      fi
+    done
+    scp "${id_rsa_client}" "admin@${avg_host}:${id_rsa_server}"
+    ssh "admin@${avg_host}" "cat ${id_rsa_server} >> .ssh/authorized_keys"
+  else
+    if [ ! -x "${QPM_QPKG_CORE}" ] && [ -z "$avg_host" ]; then
+      while [ -z "$avg_host" ]; do
+        printf "請輸入用來編譯的NAS IP:"
+        read avg_host
+        echo "檢測${avg_host}..."
+        ping -c 1 ${avg_host} &> /dev/null
+        if [ $? -ne 0 ]; then
+          avg_host=""
+          printf "IP有誤，"
+        fi
+      done
+      echo "提醒您，可使用[--nas]參數輸入NAS IP"
+    fi
+    build_qpkg # 2>/dev/null
   fi
 }
 

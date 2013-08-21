@@ -1,22 +1,21 @@
 #!/bin/sh
 
-#===
+IFS=" "
+
+#---
 # QPKG definitions
-#===
+#---
 source "$( cd "$( dirname "${0}" )" && pwd )/qpkg.cfg"
 SYS_QPKG_TMP=$( cd "$( dirname "${0}" )" && pwd )
 
-###########################################
+#---
 # System messages
-###########################################
-SYS_MSG_FILE_NOT_FOUND="Data file not found."
-SYS_MSG_FILE_ERROR="Data file error."
-SYS_MSG_PUBLIC_NOT_FOUND="Public share not found."
-SYS_MSG_FAILED_CONFIG_RESTORE="Failed to restore saved configuration data."
+#---
+SYS_MSG_BASE_NOT_FOUND="Base folder not found."
 
-#===
+#---
 # Inform web interface about progress
-#===
+#---
 set_progress(){
   $CMD_ECHO ${1:--1} > /tmp/update_process
 }
@@ -36,9 +35,9 @@ set_progress_fail(){
   set_progress -1
 }
 
-#===
+#---
 # Log
-#===
+#---
 log() {
   local write_msg="$CMD_LOG_TOOL -t0 -uSystem -p127.0.0.1 -mlocalhost -a"
   [ -n "$1" ] && $CMD_ECHO "$1" && $write_msg "$1"
@@ -59,28 +58,9 @@ err_log(){
   exit 1
 }
 
-#===
-# Remove specified file or directory (if empty).
-#===
-remove_file_and_empty_dir(){
-  [ -n "$1" ] || return 1
-  local file=
-  # Files relative to QPKG directory are changed to full path.
-  if [ -n "${1##/*}" ]; then
-    file="$SYS_QPKG_DIR/$1"
-  else
-    file="$1"
-  fi
-  if [ -f "$file" ]; then
-    $CMD_RM -f "$file"
-  elif [ -d "$file" ]; then
-    $CMD_RMDIR "$file" 2>/dev/null
-  fi
-}
-
-#===
+#---
 # library
-#===
+#---
 
 # edit qpkg.cfg
 edit_config(){
@@ -96,388 +76,93 @@ edit_config(){
   fi
 }
 
-# split MAJOR.MINOR.BUILD version
-split_version(){
-  [ -n "$1" ] || return 1
-  local version="$1"
-  local prefix="$2"
-
-  local major=$($CMD_EXPR "$version" : '\([^.]*\)')
-  local minor=$($CMD_EXPR "$version" : '[^.]*[.]\([^.]*\)')
-  local build=$($CMD_EXPR "$version" : '[^.]*[.][^.]*[.]\([^.]*\)')
-  eval ${prefix}MAJOR=${major:-0}
-  eval ${prefix}MINOR=${minor:-0}
-  eval ${prefix}BUILD=${build:-0}
-}
-
-##################################################################
-# Check if versions are equal
-#
-# Returns 0 if versions are equal, otherwise it returns 1.
-##################################################################
-is_equal(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-
-  split_version $1
-  split_version $2 REQ_
-
-  if $CMD_EXPR $MAJOR != $REQ_MAJOR >/dev/null ||
-     $CMD_EXPR $MINOR != $REQ_MINOR >/dev/null ||
-     $CMD_EXPR $BUILD != $REQ_BUILD >/dev/null; then
-    return 1
-  fi
-}
-
-##################################################################
-# Check if versions are unequal
-#
-# Returns 0 if versions are unequal, otherwise it returns 1.
-##################################################################
-is_unequal(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-
-  split_version $1
-  split_version $2 REQ_
-
-  if $CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null &&
-     $CMD_EXPR $MINOR = $REQ_MINOR >/dev/null &&
-     $CMD_EXPR $BUILD = $REQ_BUILD >/dev/null; then
-    return 1
-  fi
-}
-
-##################################################################
-# Check if one version is less than or equal to another version
-#
-# Returns 0 if VERSION1 is less than or equal to VERSION2,
-# otherwise it returns 1.
-##################################################################
-is_less_or_equal(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-
-  split_version $1
-  split_version $2 REQ_
-
-  # if $CMD_EXPR $MAJOR \> $REQ_MAJOR >/dev/null ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     $CMD_EXPR $MINOR \> $REQ_MINOR >/dev/null) ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
-  #     $CMD_EXPR $BUILD \> $REQ_BUILD >/dev/null); then
-  #   return 1
-  # fi
-}
-
-##################################################################
-# Check if one version is less than another version
-#
-# Returns 0 if VERSION1 is less than VERSION2,
-# otherwise it returns 1.
-##################################################################
-is_less(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-
-  split_version $1
-  split_version $2 REQ_
-
-  # if $CMD_EXPR $MAJOR \> $REQ_MAJOR >/dev/null ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     $CMD_EXPR $MINOR \> $REQ_MINOR >/dev/null) ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
-  #     $CMD_EXPR $BUILD \>= $REQ_BUILD >/dev/null); then
-  #   return 1
-  # fi
-}
-
-##################################################################
-# Check if one version is greater than another version
-#
-# Returns 0 if VERSION1 is greater than VERSION2,
-# otherwise it returns 1.
-##################################################################
-is_greater(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-
-  split_version $1
-  split_version $2 REQ_
-
-  # if $CMD_EXPR $MAJOR \< $REQ_MAJOR >/dev/null ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     $CMD_EXPR $MINOR \< $REQ_MINOR >/dev/null) ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
-  #     $CMD_EXPR $BUILD \<= $REQ_BUILD >/dev/null); then
-  #   return 1
-  # fi
-}
-
-##################################################################
-# Check if one version is greater than or equal to another version
-#
-# Returns 0 if VERSION1 is greater than or equal to VERSION2,
-# otherwise it returns 1.
-##################################################################
-is_greater_or_equal(){
-  [ -n "$1" ] && [ -n "$2" ] || return 1
-
-  split_version $1
-  split_version $2 REQ_
-
-  # if $CMD_EXPR $MAJOR \< $REQ_MAJOR >/dev/null ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     $CMD_EXPR $MINOR \< $REQ_MINOR >/dev/null) ||
-  #    (($CMD_EXPR $MAJOR = $REQ_MAJOR >/dev/null) &&
-  #     ($CMD_EXPR $MINOR = $REQ_MINOR >/dev/null) &&
-  #     $CMD_EXPR $BUILD \< $REQ_BUILD >/dev/null); then
-  #   return 1
-  # fi
-}
-
-############################################################
-# Check that given QPKG package isn't installed or that
-# specified Optware package isn't installed. An optional
-# version check can also be performed.
-#
-# Returns 0 if package is not installed, otherwise it
-# returns 1.
-############################################################
-is_qpkg_not_installed(){
-  [ -n "$1" ] || return 1
-  local qpkg_name="$1"
-  local op="$2"
-  local conflict="$3"
-
-  local available=
-  local pkg="$($CMD_EXPR "$qpkg_name" : "OPT/\(.*\)")"
-  if [ -z "$pkg" ]; then
-    available=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_NAME" -f $SYS_QPKG_CONFIG)
-  elif [ -n "$CMD_PKG_TOOL" ]; then
-    available=$($CMD_PKG_TOOL status $pkg | $CMD_GREP "^Version:")
-  else
-    return 0
-  fi
-  local status=0
-  if [ -n "$available" ]; then
-    status=1
-    local installed=
-    if [ -z "$pkg" ]; then
-      installed=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_VERSION" -d "" -f $SYS_QPKG_CONFIG)
-    else
-      installed="$($CMD_PKG_TOOL status $pkg | $CMD_SED -n 's/^Version: \(.*\)/\1/p')"
+#---
+# compare version (=:0 >:1 <:2)
+#---
+compare_version(){
+  for (( i=1; i<=3; i=i+1 )); do
+    local left=$($CMD_ECHO "${1}" | $CMD_AWK -F '.' '{print $'$i'}')
+    local right=$($CMD_ECHO "${2}" | $CMD_AWK -F '.' '{print $'$i'}')
+    if [ "${left}" != "${right}" ]; then
+      left=$($CMD_ECHO "${left}" | $CMD_SED 's/\([0-9]*\)\(.*\)/0\1/')
+      right=$($CMD_ECHO "${right}" | $CMD_SED 's/\([0-9]*\)\(.*\)/0\1/')
+      if [ ${left} -gt ${right} ]; then
+        return 1
+      elif [ ${left} -lt ${right} ]; then
+        return 2
+      fi
     fi
+  done
 
-    if [ -n "$conflict" ] && [ -n "$installed" ]; then
-      case "$op" in
-      =|==)
-        is_equal $installed $conflict || status=0 ;;
-      !=)
-        is_unequal $installed $conflict || status=0 ;;
-      \<=)
-        is_less_or_equal $installed $conflict || status=0 ;;
-      \<)
-        is_less $installed $conflict || status=0 ;;
-      \>)
-        is_greater $installed $conflict || status=0 ;;
-      \>=)
-        is_greater_or_equal $installed $conflict || status=0 ;;
-      *)
-        status=1
-        ;;
-      esac
-    fi
-  else
-    [ "$qpkg_name" = "$QPKG_NAME" ] && [ -d "$SYS_QPKG_DIR" ] && status=1
-  fi
-
-  return $status
+  return 0
 }
 
-############################################################
-# Check if given QPKG package exists and is enabled or that
-# specified Optware package exists. An optional version
-# check can also be performed.
-#
-# Returns 0 if package is valid, otherwise it returns 1.
-############################################################
-is_qpkg_enabled(){
-  [ -n "$1" ] || return 1
-  local qpkg_name="$1"
-  local op="$2"
-  local required="$3"
+#---
+# check installed
+#---
+pre_install_check_qpkg_installed(){
+  for qpkg in $($CMD_ECHO ${1} | $CMD_SED 's/ //g' | $CMD_TR '|' ' '); do
+    qpkg=$($CMD_ECHO "$qpkg" | $CMD_SED 's/\(.*[^=<>!]\)\([=<>!]\+\)\(.*\)/\1 \2 \3/')
+    qpkg_name=$($CMD_ECHO "$qpkg" | $CMD_AWK '{print $1}')
+    qpkg_op=$($CMD_ECHO "$qpkg" | $CMD_AWK '{print $2}')
+    qpkg_ver=$($CMD_ECHO "$qpkg" | $CMD_AWK '{print $3}')
+    local installed = $(get_qpkg_cfg "${SYS_QPKG_CFG_VERSION}" "" "${qpkg_name}")
+    if [ -n "${installed}" ]; then
+      if [ -z "${qpkg_ver}" ]; then
+        return 0
+      else
+        compare_version "${installed}" "${qpkg_ver}"
+        local result=$?
+        case "$op" in
+        =|==)
+          [ ${result} -eq 0 ] && return 0 ;;
+        !=)
+          [ ${result} -ne 0 ] && return 0 ;;
+        \>=|=\>)
+          ([ ${result} -ne 1 ] || [ ${result} -eq 0 ]) && return 0 ;;
+        \<=|=\>)
+          ([ ${result} -ne 2 ] || [ ${result} -eq 0 ]) && return 0 ;;
+        \>)
+          [ ${result} -ne 1 ] && return 0 ;;
+        \<)
+          [ ${result} -ne 2 ] && return 0 ;;
+        esac
+      fi
+    fi
+  done
 
-  local enabled="FALSE"
-  local pkg="$($CMD_EXPR "$qpkg_name" : "OPT/\(.*\)")"
-  if [ -z "$pkg" ]; then
-    enabled=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_ENABLE" -d "FALSE" -f $SYS_QPKG_CONFIG)
-  elif [ -n "$CMD_PKG_TOOL" ]; then
-    $CMD_PKG_TOOL status $pkg | $CMD_GREP -q "^Version:" && enabled="TRUE"
-  else
-    return 1
-  fi
-  local status=1
-  if [ "$enabled" = "TRUE" ]; then
-    status=0
-    local installed=
-    if [ -z "$pkg" ]; then
-      installed=$($CMD_GETCFG "$qpkg_name" "$SYS_QPKG_CFG_VERSION" -d "" -f $SYS_QPKG_CONFIG)
-    else
-      installed="$($CMD_PKG_TOOL status $pkg | $CMD_SED -n 's/^Version: \(.*\)/\1/p')"
-      # Installed packages with no specific version check shall always be upgraded
-      # if a new version is available.
-      [ -z "$required" ] && [ -z "$SYS_PKG_INSTALLED" ] && status=1
-    fi
-    if [ -n "$required" ] && [ -n "$installed" ]; then
-      case "$op" in
-      =|==)
-        is_equal $installed $required || status=1 ;;
-      !=)
-        is_unequal $installed $required || status=1 ;;
-      \<=)
-        is_less_or_equal $installed $required || status=1 ;;
-      \<)
-        is_less $installed $required || status=1 ;;
-      \>)
-        is_greater $installed $required || status=1 ;;
-      \>=)
-        is_greater_or_equal $installed $required || status=1 ;;
-      *)
-        status=1
-        ;;
-      esac
-    fi
-  fi
-  # Try to install the latest version and then re-check the requirement.
-  if [ $status -eq 1 ] && [ -n "$pkg" ] && [ -z "$SYS_PKG_INSTALLED" ]; then
-    if [ -z "$SYS_PKG_UPDATED" ]; then
-      $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS update || warn_log "$CMD_PKG_TOOL update failed"
-      SYS_PKG_UPDATED="TRUE"
-    fi
-    $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS install $pkg || warn_log "$CMD_PKG_TOOL install $pkg failed"
-    # Avoid never-ending loop...
-    SYS_PKG_INSTALLED="TRUE"
-    is_qpkg_enabled "$qpkg_name" $op $required && status=0
-  fi
-  SYS_PKG_INSTALLED=
-  return $status
+  return 1
 }
 
-#####################################################################
-# Append requirements to output message
-#####################################################################
-append_install_msg(){
-  if [ -n "$1" ]; then
-    if $CMD_EXPR "$1" : "OPT/.*" >/dev/null; then
-      opt_file=$($CMD_ECHO "$1" | $CMD_SED 's#OPT/\(.*\)#\1#g' )
-      opt_install_msg="${opt_install_msg}${opt_install_msg:+, }$opt_file"
-    else
-      install_msg="${install_msg}${install_msg:+, }$1"
-    fi
-  fi
-}
-append_remove_msg(){
-  if [ -n "$1" ]; then 
-    if $CMD_EXPR "$1" : "OPT/.*" >/dev/null; then
-      opt_file=$($CMD_ECHO "$1" | $CMD_SED 's#OPT/\(.*\)#\1#g' )
-      opt_remove_msg="${opt_remove_msg}${opt_remove_msg:+, }$opt_file"
-      [ -n "$2" ] && [ -n "$3" ] && opt_remove_msg="$opt_remove_msg $2 $3"
-    else
-      remove_msg="${remove_msg}${remove_msg:+, }$1"
-      [ -n "$2" ] && [ -n "$3" ] && remove_msg="$remove_msg $2 $3"
-    fi
-  fi
-}
-
-#####################################################################
-# Check requirements routines
-#
-# Only returns if all requirements are fulfilled, otherwise err_log
-# is called with a relevant error message.
-#####################################################################
+#---
+# check requirements
+#---
 pre_install_check_requirements(){
   local install_msg=
-  local opt_install_msg=
   local remove_msg=
-  local opt_remove_msg=
+  local err_msg=
   if [ -n "$QPKG_REQUIRE" ]; then
-    OLDIFS="$IFS"; IFS=,
-    set $QPKG_REQUIRE
-    IFS="$OLDIFS"
-    for require
-    do
-      local statusOK="FALSE"
-      OLDIFS="$IFS"; IFS=\|
-      set $require
-      IFS="$OLDIFS"
-      for statement
-      do
-        set $($CMD_ECHO "$statement" | $CMD_SED 's/\(.*[^=<>!]\)\([=<>!]\+\)\(.*\)/\1 \2 \3/')
-        qpkg=$1
-        op=$2
-        version=$3
-        statusOK="TRUE"
-        is_qpkg_enabled "$qpkg" $op $version && break
-        statusOK="FALSE"
-      done 
-      [ "$statusOK" = "TRUE" ] || append_install_msg "${require## }"
+    QPKG_REQUIRE=$($CMD_ECHO "${QPKG_REQUIRE}" | $CMD_SED 's/ //g' | $CMD_TR ',' ' ')
+    for item in ${QPKG_REQUIRE}; do
+      pre_install_check_qpkg_installed "${item}"
+      [ $? -ne 0 ] && "${install_msg}${install_msg:+, }${item## }"
     done
   fi
   if [ -n "$QPKG_CONFLICT" ]; then
-    OLDIFS="$IFS"; IFS=,
-    set $QPKG_CONFLICT
-    IFS="$OLDIFS"
-    for conflict
-    do
-      set $($CMD_ECHO "$conflict" | $CMD_SED 's/\(.*[^=<>!]\)\([=<>!]\+\)\(.*\)/\1 \2 \3/')
-      qpkg=$1
-      op=$2
-      version=$3
-      is_qpkg_not_installed "$qpkg" $op $version || append_remove_msg "$qpkg" $op $version
+    QPKG_CONFLICT=$($CMD_ECHO "${QPKG_CONFLICT}" | $CMD_SED 's/ //g' | $CMD_TR ',' ' ')
+    for item in $QPKG_REQUIRE; do
+      pre_install_check_qpkg_installed "${item}"
+      [ $? -ne 1 ] && "${remove_msg}${remove_msg:+, }${item## }"
     done
   fi
-  local err_msg=
-  [ -n "$opt_install_msg" ] || [ -n "$opt_remove_msg" ] && [ -z "$CMD_PKG_TOOL" ] && append_install_msg "Optware | opkg" && opt_remove_msg= && opt_install_msg=
   [ -n "$install_msg" ] && err_msg="${err_msg}The following QPKG must be installed and enabled: ${install_msg}. "
   [ -n "$remove_msg" ] && err_msg="${err_msg}The following QPKG must be removed: ${remove_msg}. "
-  [ -n "$opt_install_msg" ] &&  err_msg="${err_msg}The following Optware package must be installed: ${opt_install_msg}. "
-  [ -n "$opt_remove_msg" ] && err_msg="${err_msg}The following Optware package must be removed: ${opt_remove_msg}. "
-  [ -n "$err_msg" ] && err_log "$err_msg"
-
-  # Package specific routines as defined in package_routines.
-  call_defined_routine pkg_check_requirement
+  [ -n "$err_msg" ] && err_log "${err_msg}"
 }
 
-############################################################
-# Call package specific routine if it is defined
-############################################################
-call_defined_routine(){
-  [ -n "$(command -v $1)" ] && $1
-  cd $SYS_EXTRACT_DIR
-}
-
-###############
-# Init routine
-###############
-init(){
-  # Assign path to optional package tool.
-  if [ -x /opt/bin/opkg ]; then
-    CMD_PKG_TOOL="/opt/bin/opkg"
-    SYS_PKG_TOOL_OPTS="--force-maintainer"
-  elif [ -x /opt/bin/ipkg ]; then
-    CMD_PKG_TOOL="/opt/bin/ipkg"
-    SYS_PKG_TOOL_OPTS="-force-defaults"
-  fi
-  if [ -n "$CMD_PKG_TOOL" ] && [ -f $SYS_QPKG_DATA_PACKAGES_FILE ]; then
-    $CMD_ECHO "src/gz _qdk file://$(pwd)" > ipkg.conf
-    SYS_PKG_TOOL_OPTS="$SYS_PKG_TOOL_OPTS -f ipkg.conf"
-    $CMD_PKG_TOOL $SYS_PKG_TOOL_OPTS update || warn_log "$CMD_PKG_TOOL update failed"
-    SYS_PKG_UPDATED="TRUE"
-  fi
-}
-
-#===
+#---
 # get system information
-#===
+#---
 pre_install_get_sys_info(){
   if [ $(expr match "$(/bin/uname -m)" 'arm') -ne 0 ]; then
     SYS_PLATFORM="arm"
@@ -489,9 +174,9 @@ pre_install_get_sys_info(){
   msg "get system platform" ${SYS_PLATFORM}
 }
 
-#===
+#---
 # get base dir
-#===
+#---
 pre_install_get_base_dir_from(){
   [ -n "$1" ] && [ -n "$2" ] || return 1
   local sys_base=""
@@ -512,9 +197,9 @@ pre_install_get_base_dir_from(){
   echo ${sys_base}
 }
 
-#===
+#---
 # get base dir & qpkg dir
-#===
+#---
 pre_install_get_base_dir(){
   if [ -d $(pre_install_get_base_dir_from defPublic Public) ]; then
     SYS_BASE_DIR=$(pre_install_get_base_dir_from defPublic Public)
@@ -525,7 +210,7 @@ pre_install_get_base_dir(){
   elif [ -d $(pre_install_get_base_dir_from defWeb Qweb) ]; then
     SYS_BASE_DIR=$(pre_install_get_base_dir_from defWeb Qweb)
   else
-    err_log "$SYS_MSG_PUBLIC_NOT_FOUND"
+    err_log "$SYS_MSG_BASE_NOT_FOUND"
   fi
 
   SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
@@ -539,9 +224,9 @@ pre_install_get_base_dir(){
   msg "get ${QPKG_NAME} qpkg dir" ${SYS_QPKG_DIR}
 }
 
-#===
+#---
 # check whether is already installed
-#===
+#---
 pre_check_qpkg_status(){
   local ori_qpkg_ver=$(get_qpkg_cfg ${SYS_QPKG_CFG_VERSION} "not installed")
   msg "original ${QPKG_NAME} version" "${ori_qpkg_ver}"
@@ -556,9 +241,9 @@ pre_check_qpkg_status(){
   $CMD_MKDIR -p $SYS_QPKG_DIR
 }
 
-#===
+#---
 # stop service
-#===
+#---
 pre_install_stop_service(){
   local service=$(get_qpkg_cfg "$SYS_QPKG_CFG_SHELL" "${SYS_INIT_DIR}/${QPKG_NAME}")
   if [ -x "${service}" ]; then
@@ -570,9 +255,9 @@ pre_install_stop_service(){
   fi
 }
 
-#===
+#---
 # put data
-#===
+#---
 install_put_data(){
   msg "put QPKG data"
   $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/"* "${SYS_QPKG_DIR}/"
@@ -584,9 +269,9 @@ install_put_data(){
   $CMD_PRINTF "[v]\n"
 }
 
-#===
+#---
 # put script
-#===
+#---
 install_put_script(){
   # put configs
   msg "put QPKG configs" "${QPM_QPKG_CONFIGS}"
@@ -599,9 +284,9 @@ install_put_script(){
   $CMD_CP -af ${QPM_QPKG_UNINSTALL} "${SYS_QPKG_DIR}/.${QPM_QPKG_UNINSTALL}"
 }
 
-#===
+#---
 # put icons
-#===
+#---
 install_put_icons(){
   msg "put QPKG icon"
   $CMD_CP -af "${QPM_DIR_ICONS}/qpkg_icon.png" "${SYS_QPKG_DIR}/.qpkg_icon.png"
@@ -613,9 +298,9 @@ install_put_icons(){
   $CMD_PRINTF "[v]\n"
 }
 
-#===
+#---
 # link service script
-#===
+#---
 post_install_link_service(){
   if [ -n "$QPM_QPKG_SERVICE" ]; then
     local qpkg_service="${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
@@ -631,9 +316,9 @@ post_install_link_service(){
   fi
 }
 
-#===
+#---
 # register QPKG information
-#===
+#---
 post_install_register_qpkg(){
   msg "set QPKG information in" ${SYS_QPKG_CONFIG}
   [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
@@ -661,9 +346,9 @@ post_install_register_qpkg(){
   msg "set QPKG desktop app" ${QPKG_DESKTOP_APP:-"FALSE"}
 }
 
-#===
+#---
 # start service
-#===
+#---
 post_install_start_service(){
   if [ -x ${SYS_INIT_DIR}/${QPKG_NAME} ]; then
     ${SYS_INIT_DIR}/${QPKG_NAME} start
@@ -671,21 +356,19 @@ post_install_start_service(){
   fi
 }
 
-#===
+#---
 # Main installation
-#===
+#---
 main(){
   ##### pre-install #####
   # inform about progress
   set_progress_begin
-  # WTF
-  #init
   # get system information
   pre_install_get_sys_info
   # get base dir & get qpkg dir
   pre_install_get_base_dir
   # check QPKG_REQUIRE & QPKG_CONFLICT
-  #pre_install_check_requirements
+  pre_install_check_requirements
   # check whether is already installed
   pre_check_qpkg_status
   # uninstall service
