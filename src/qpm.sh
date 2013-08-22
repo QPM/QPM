@@ -218,8 +218,6 @@ build_qpkg(){
   tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${data}
   rm -rf build.$$
 
-  exit 0
-
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
 
   if [ -n "${1}" ]; then
