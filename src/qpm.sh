@@ -176,15 +176,17 @@ build_qpkg(){
   qpm_len=$(expr ${qpm_len} - ${script_len})
   dd if=${0} bs=${script_len} skip=1 | tar -xz -C tmp.$$ || exit 1
 
+
   local config_file="build.$$/${QPM_QPKG_CONFIGS}"
   cp -afp ${QPM_QPKG_CONFIGS} ${config_file} || err_msg 找不到configs檔
   echo "\n" >> ${config_file}
   cat "tmp.$$/qpm_qpkg.cfg" >> ${config_file}
-  
   edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" ${config_file}
   edit_config "QPKG_WEB_PATH" \"$(echo ${QPKG_WEB_PATH} | sed 's/^\///g')\" ${config_file}
+  edit_config "QPM_QPKG_PLATFORM" \"${1}\" ${config_file}
   sed '/^$/d' ${config_file} > "tmp.$$/${QPM_QPKG_CONFIGS}"
   sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" | sed 's/^#.*//g' > ${config_file}
+  local data="${QPM_QPKG_CONFIGS}"
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
   cat tmp.$$/qpm_service_start.sh > ${service_file}
@@ -192,21 +194,39 @@ build_qpkg(){
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
   echo "\n" >> ${service_file}
   cat tmp.$$/qpm_service_end.sh >> ${service_file}
-
-  cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
-  cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
-  cp -af ${QPKG_DIR_X86:-${QPM_DIR_X86}} build.$$/${QPM_DIR_X86} || warn_msg 找不到x86目錄
-  cp -af ${QPKG_DIR_SHARE:-${QPM_DIR_SHARE}} build.$$/${QPM_DIR_SHARE} || warn_msg 找不到shared目錄
+  data+=" ${QPM_QPKG_SERVICE}"
 
   cat tmp.$$/${QPM_QPKG_INSTALL} > "build.$$/${QPM_QPKG_INSTALL}"
+  data+=" ${QPM_QPKG_INSTALL}"
   cat tmp.$$/${QPM_QPKG_UNINSTALL} > "build.$$/${QPM_QPKG_UNINSTALL}"
+  data+=" ${QPM_QPKG_UNINSTALL}"
 
-  tar -cpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARE} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
+  cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
+  data+=" ${QPM_DIR_ICONS}"
+  cp -af ${QPKG_DIR_SHARE:-${QPM_DIR_SHARE}} build.$$/${QPM_DIR_SHARE} || warn_msg 找不到share目錄
+  data+=" ${QPM_DIR_SHARE}"
+
+  if [ "${1}" = "arm" ] || [ -z "${1}" ]; then
+    cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到arm目錄
+    data+=" ${QPM_DIR_ARM}"
+  fi
+  if [ "${1}" = "x86" ] || [ -z "${1}" ]; then
+    cp -af ${QPKG_DIR_X86:-${QPM_DIR_X86}} build.$$/${QPM_DIR_X86} || warn_msg 找不到x86目錄
+    data+=" ${QPM_DIR_X86}"
+  fi
+
+  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${data}
   rm -rf build.$$
+
+  exit 0
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
 
-  local qpkg_file_name=${QPKG_FILE:-${QPKG_NAME}_${QPM_QPKG_VER}.qpkg}
+  if [ -n "${1}" ]; then
+    local qpkg_file_name=${QPKG_FILE:-${QPKG_NAME}_${QPM_QPKG_VER}_${1}.qpkg}
+  else
+    local qpkg_file_name=${QPKG_FILE:-${QPKG_NAME}_${QPM_QPKG_VER}.qpkg}
+  fi
   local qpkg_file_path=${QPM_DIR_BUILD}/${qpkg_file_name}
   rm -f "${qpkg_file_path}"
   touch "${qpkg_file_path}" || err_msg "建立package失敗 ${qpkg_file_path}"
@@ -259,9 +279,11 @@ main(){
         [ -n "$avg_qpkg_name" ] || err_msg "--create, -c: 沒有package名稱"
         shift
         ;;
-    --nas) avg_host=$(echo "$1" | sed 's/--nas=//g') ;;
+    -n|--nas) avg_host=$(echo "$1" | sed 's/^-[^=]*=//g') ;;
     --push-key) avg_push_key=TRUE ;;
     -nv|--no-version) avg_no_version=TRUE ;;
+    -ps|--platform-split) avg_platform_split=TRUE ;;
+    -p|--platform) avg_platform=$(echo "$1" | sed 's/^-[^=]*=//g') ;;
     esac
     shift
   done
@@ -271,7 +293,6 @@ main(){
 
   if [ -n "$avg_qpkg_name" ]; then
     [ ${#avg_qpkg_name} -gt ${QPM_QPKG_NAME_MAX} ] && err_msg "QPKG的NAME不可以超過${QPM_QPKG_NAME_MAX}個字元"
-
     create_qpkg "$avg_qpkg_name"
   elif [ -n "$avg_push_key" ]; then
     local id_rsa_client="$HOME/.ssh/id_rsa.pub"
@@ -307,7 +328,17 @@ main(){
       done
       echo "提醒您，可使用[--nas]參數輸入NAS IP"
     fi
-    build_qpkg # 2>/dev/null
+    if [ -n "${avg_platform_split}" ]; then
+      build_qpkg "x86" # 2>/dev/null
+      build_qpkg "arm" # 2>/dev/null
+    elif [ -n "${avg_platform}" ]; then
+      if [ "${avg_platform}" != "x86" ] && [ "${avg_platform}" != "arm" ]; then
+        err_msg "目前platform只支援x86或arm兩種"
+      fi
+      build_qpkg "${avg_platform}" # 2>/dev/null
+    else
+      build_qpkg # 2>/dev/null
+    fi
   fi
 }
 

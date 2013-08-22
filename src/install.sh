@@ -169,6 +169,9 @@ pre_install_get_sys_info(){
   else
     SYS_PLATFORM="x86"
   fi;
+  if [ -n "${QPM_QPKG_PLATFORM}" ] && [ "${QPM_QPKG_PLATFORM}" != "${SYS_PLATFORM}" ]; then
+    err_log "it install ${QPM_QPKG_PLATFORM} only."
+  fi
   edit_config "SYS_PLATFORM" \"${SYS_PLATFORM}\"
 
   msg "get system platform" ${SYS_PLATFORM}
@@ -391,7 +394,7 @@ main(){
   install_put_script 2>/dev/null
   # put icons
   install_put_icons 2>/dev/null
-  
+
   $CMD_SLEEP 5
   $CMD_SYNC
 
