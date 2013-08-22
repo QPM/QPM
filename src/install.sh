@@ -336,9 +336,15 @@ post_install_register_qpkg(){
   set_qpkg_cfg ${SYS_QPKG_CFG_SHELL} "${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
   set_qpkg_cfg ${SYS_QPKG_CFG_INSTALL_PATH} ${SYS_QPKG_DIR}
 
-  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} ${QPKG_WEB_PATH}
-  set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT}
+  local web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
+  if [ -n "${QPKG_DIR_WEB}" ] &&
+     [ -d ${web_dir} ] &&
+     [ $(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0 ]; then
+     $QPKG_WEB_PATH=${QPKG_WEB_PATH:-$QPKG_NAME}
+  fi
   if [ -n "$QPKG_WEB_PATH" ]; then
+    set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} "/${QPKG_WEB_PATH:-$QPKG_NAME}"
+    set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT:-80}
     msg "set QPKG web path" "host:${QPKG_WEB_PORT:-80}/${QPKG_WEB_PATH}"
   fi
   

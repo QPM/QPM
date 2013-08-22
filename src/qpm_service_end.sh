@@ -3,9 +3,7 @@ case "$1" in
   start)
     ##### register web interface #####
     web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
-    if [ -n ${QPKG_DIR_WEB} ] &&
-       [ -d ${web_dir} ] &&
-       [ $(ls -l ${web_dir} | grep "index." | awk 'END {print NR}') -gt 0 ]; then
+    if [ -n ${QPKG_DIR_WEB} ] && [ -d ${web_dir} ]; then
        msg "register web interface"
       qpkg_web_config="${SYS_WEB_EXTRA}/${QPM_QPKG_WEB_CONFIG}"
       cat > $qpkg_web_config <<EOF

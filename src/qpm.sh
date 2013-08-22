@@ -180,9 +180,11 @@ build_qpkg(){
   cp -afp ${QPM_QPKG_CONFIGS} ${config_file} || err_msg 找不到configs檔
   echo "\n" >> ${config_file}
   cat "tmp.$$/qpm_qpkg.cfg" >> ${config_file}
+  
   edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" ${config_file}
+  edit_config "QPKG_WEB_PATH" \"$(echo ${QPKG_WEB_PATH} | sed 's/^\///g')\" ${config_file}
   sed '/^$/d' ${config_file} > "tmp.$$/${QPM_QPKG_CONFIGS}"
-  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" > ${config_file}
+  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" | sed 's/^#.*//g' > ${config_file}
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
   cat tmp.$$/qpm_service_start.sh > ${service_file}
@@ -191,7 +193,7 @@ build_qpkg(){
   echo "\n" >> ${service_file}
   cat tmp.$$/qpm_service_end.sh >> ${service_file}
   sed '/^$/d' ${service_file} > "tmp.$$/${QPM_QPKG_SERVICE}"
-  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_SERVICE}" > ${service_file}
+  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_SERVICE}" | sed 's/^#.*//g' > ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
@@ -229,7 +231,7 @@ build_qpkg(){
   printf "${enc_space}${enc_qpkg_name}${enc_qpkg_ver}${enc_flag}" >> ${qpkg_file_path}
   ######
 
-  edit_config "QPKG_VER_BUILD" $(expr ${QPKG_VER_BUILD} + 1)
+  [ -z "${avg_no_version}" ] && edit_config "QPKG_VER_BUILD" \"$(expr ${QPKG_VER_BUILD} + 1)\"
 
   echo "建立${qpkg_file_path}..."
 
@@ -242,6 +244,7 @@ build_qpkg(){
     scp ${qpkg_file_path} "admin@${avg_host}:${nas_qpkg}"
     ssh admin@${avg_host} "${QPM_QPKG_CORE} --encrypt ${nas_qpkg}" >/dev/null
     scp "admin@${avg_host}:${nas_qpkg}" ${qpkg_file_path}
+    ssh admin@${avg_host} "rm -f ${nas_qpkg}" >/dev/null
   fi
 
   echo "[v] package編譯完成"
@@ -260,12 +263,13 @@ main(){
         ;;
     --nas) avg_host=$(echo "$1" | sed 's/--nas=//g') ;;
     --push-key) avg_push_key=TRUE ;;
+    -nv|--no-version) avg_no_version=TRUE ;;
     esac
     shift
   done
 
-  [ -n "$avg_version" ] && version
-  [ -n "$avg_help" ] && help
+  [ -n "${avg_version}" ] && version
+  [ -n "${avg_help}" ] && help
 
   if [ -n "$avg_qpkg_name" ]; then
     [ ${#avg_qpkg_name} -gt ${QPM_QPKG_NAME_MAX} ] && err_msg "QPKG的NAME不可以超過${QPM_QPKG_NAME_MAX}個字元"
