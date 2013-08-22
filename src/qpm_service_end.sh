@@ -3,7 +3,7 @@ case "$1" in
   start)
     ##### register web interface #####
     web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
-    if [ -n ${QPKG_DIR_WEB} ] && [ -d ${web_dir} ]; then
+    if [ -n "${QPKG_DIR_WEB}" ] && [ -d "${web_dir}" ]; then
        msg "register web interface"
       qpkg_web_config="${SYS_WEB_EXTRA}/${QPM_QPKG_WEB_CONFIG}"
       cat > $qpkg_web_config <<EOF
@@ -16,20 +16,19 @@ case "$1" in
   </Directory>
 </IfModule>
 EOF
-      echo "Include ${qpkg_web_config}" >> ${SYS_WEB_CONFIG}
+      $CMD_ECHO "Include ${qpkg_web_config}" >> ${SYS_WEB_CONFIG}
       ${SYS_WEB_INIT} restart &>/dev/null
       $CMD_PRINTF "[v]\n"
     fi
     ##### register bin interface #####
     bin_dir=${SYS_QPKG_DIR}/${QPKG_DIR_BIN}
-    if [ -n ${QPKG_DIR_BIN} ] &&
-       [ -d ${bin_dir} ]; then
+    if [ -n "${QPKG_DIR_BIN}" ] && [ -d "${bin_dir}" ]; then
       rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
       for bin in `ls ${bin_dir}`; do
         if [ -f "${bin_dir}/${bin}" ] && [ -x "${bin_dir}/${bin}" ]; then
           $CMD_LN -nfs "${bin_dir}/${bin}" "${SYS_BIN_DIR}/${bin}"
           msg "register bin interface" "${bin}"
-          echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
+          $CMD_ECHO ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
         fi
       done
     fi

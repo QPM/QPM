@@ -169,7 +169,7 @@ pre_install_get_sys_info(){
   else
     SYS_PLATFORM="x86"
   fi;
-  edit_config "SYS_PLATFORM" ${SYS_PLATFORM}
+  edit_config "SYS_PLATFORM" \"${SYS_PLATFORM}\"
 
   msg "get system platform" ${SYS_PLATFORM}
 }
@@ -261,7 +261,7 @@ pre_install_stop_service(){
 install_put_data(){
   msg "put QPKG data"
   $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_SHARE}/"* "${SYS_QPKG_DIR}/"
-  if [ SYS_PLATFORM = 'arm' ]; then
+  if [ "${SYS_PLATFORM}" = 'arm' ]; then
     $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_ARM}/"* "${SYS_QPKG_DIR}/" 
   else
     $CMD_CP -arf "${SYS_QPKG_TMP}/${QPM_DIR_X86}/"* "${SYS_QPKG_DIR}/"
@@ -391,6 +391,9 @@ main(){
   install_put_script 2>/dev/null
   # put icons
   install_put_icons 2>/dev/null
+  
+  $CMD_SLEEP 5
+  $CMD_SYNC
 
   ##### post-install #####
   # link service script

@@ -192,8 +192,6 @@ build_qpkg(){
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
   echo "\n" >> ${service_file}
   cat tmp.$$/qpm_service_end.sh >> ${service_file}
-  sed '/^$/d' ${service_file} > "tmp.$$/${QPM_QPKG_SERVICE}"
-  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_SERVICE}" | sed 's/^#.*//g' > ${service_file}
 
   cp -af ${QPKG_DIR_ICONS:-${QPM_DIR_ICONS}} build.$$/${QPM_DIR_ICONS} || warn_msg 找不到icon目錄
   cp -af ${QPKG_DIR_ARM:-${QPM_DIR_ARM}} build.$$/${QPM_DIR_ARM} || warn_msg 找不到icon目錄
@@ -203,7 +201,7 @@ build_qpkg(){
   cat tmp.$$/${QPM_QPKG_INSTALL} > "build.$$/${QPM_QPKG_INSTALL}"
   cat tmp.$$/${QPM_QPKG_UNINSTALL} > "build.$$/${QPM_QPKG_UNINSTALL}"
 
-  tar -zcpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARE} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
+  tar -cpf "tmp.$$/${QPM_QPKG_DATA}" -C "build.$$" ${QPM_QPKG_SERVICE} ${QPM_DIR_ICONS} ${QPM_DIR_ARM} ${QPM_DIR_X86} ${QPM_DIR_SHARE} ${QPM_QPKG_INSTALL} ${QPM_QPKG_UNINSTALL} ${QPM_QPKG_CONFIGS}
   rm -rf build.$$
 
   mkdir -m 755 -p ${QPM_DIR_BUILD} || err_msg "無法建立編譯目錄"
