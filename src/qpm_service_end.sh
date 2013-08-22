@@ -27,7 +27,7 @@ EOF
       rm -f "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}" 2>/dev/null
       for bin in `ls ${bin_dir}`; do
         if [ -f "${bin_dir}/${bin}" ] && [ -x "${bin_dir}/${bin}" ]; then
-          $CMD_LN -sf "${bin_dir}/${bin}" "${SYS_BIN_DIR}/${bin}"
+          $CMD_LN -nfs "${bin_dir}/${bin}" "${SYS_BIN_DIR}/${bin}"
           msg "register bin interface" "${bin}"
           echo ${bin} >> "${SYS_QPKG_DIR}/${QPM_QPKG_BIN_LOG}"
         fi

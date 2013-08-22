@@ -308,9 +308,9 @@ post_install_link_service(){
     local qpkg_dir=$($CMD_ECHO ${SYS_QPKG_DIR} | $CMD_SED 's/\//\\\//g')
     $CMD_SED -i "s/\${SYS_QPKG_DIR}/${qpkg_dir}/" ${qpkg_service}
     [ -f ${qpkg_service} ] || err_log "$QPM_QPKG_SERVICE: no such file"
-    $CMD_LN -sf ${qpkg_service} ${init_service}
-    $CMD_LN -sf ${init_service} "${SYS_STARTUP_DIR}/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
-    $CMD_LN -sf ${init_service} "${SYS_SHUTDOWN_DIR}/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_LN -nfs ${qpkg_service} ${init_service}
+    $CMD_LN -nfs ${init_service} "${SYS_STARTUP_DIR}/QS${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
+    $CMD_LN -nfs ${init_service} "${SYS_SHUTDOWN_DIR}/QK${QPM_QPKG_SERVICE_ID}${QPKG_NAME}"
     $CMD_CHMOD 755 ${qpkg_service}
     msg "link ${QPKG_NAME} service script" ${init_service}
   fi
@@ -391,8 +391,6 @@ main(){
   install_put_script 2>/dev/null
   # put icons
   install_put_icons 2>/dev/null
-  # inform about progress
-  set_progress_after_install
 
   ##### post-install #####
   # link service script
@@ -401,6 +399,8 @@ main(){
   post_install_register_qpkg
   # run post-install custom script
   ${SYS_QPKG_SERVICE} post_install ${QPKG_NAME}
+  # inform about progress
+  set_progress_after_install
   # start service
   post_install_start_service
 
