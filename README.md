@@ -146,7 +146,8 @@ Q&A
 ===
 #### 如何建立Web服務？
 1. 設定<span class="danger">QPKG_DIR_WEB="web"</span>（<strong>將註解#拿掉</strong>）  
-```javascript
+
+```shell
 QPKG_DIR_WEB攸關share/web的目錄，亦可設為QPKG_DIR_WEB="site"也就是/share/site
 ```
 2. `${QPKG_DIR}/share/web`為網站目錄，將網站內容放至該目錄
