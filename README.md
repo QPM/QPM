@@ -7,6 +7,9 @@ Copyright (C) 2013 YuTin Liu
 License GPLv3
 ```
 
+- [x] 456
+- [x] 123
+
 Run on：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
 
 Programming language：`Shell`
