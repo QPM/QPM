@@ -145,8 +145,8 @@ Service Script
 Q&A
 ===
 #### 如何建立Web服務？
-1. 設定_QPKG_DIR_WEB="web"_參數（__將註解#拿掉__）  
-`QPKG_DIR_WEB`攸關`share/web`的目錄，亦可設為`QPKG_DIR_WEB="site"`也就是`/share/site`
+1. 設定<em>QPKG_DIR_WEB="web"</em>參數（<strong>將註解#拿掉</strong>）  
+`QPKG_DIR_WEB`攸關`share/web`的目錄，_亦可_設為`QPKG_DIR_WEB="site"`也就是`/share/site`
 2. `${QPKG_DIR}/share/web`為網站目錄，將網站內容放至該目錄
 > 如果有分x86或arm的版本，也可將網站內容放置於`/x86/web`或`/arm/web`
 3. 首頁必須為`index.html` / `index.htm` / `index.php`
