@@ -7,9 +7,6 @@ Copyright (C) 2013 YuTin Liu
 License GPLv3
 ```
 
-- [x] 456
-- [x] 123
-
 Run on：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
 
 Programming language：`Shell`
@@ -149,8 +146,8 @@ Q&A
 ===
 #### 如何建立Web服務？
 1. 設定<span class="danger">QPKG_DIR_WEB="web"</span>（<strong>將註解#拿掉</strong>）  
-```shell
-QPKG_DIR_WEB攸關share/web的目錄，亦可設為QPKG_DIR_WEB="site"也就是/share/site`
+```javascript
+QPKG_DIR_WEB攸關share/web的目錄，亦可設為QPKG_DIR_WEB="site"也就是/share/site
 ```
 2. `${QPKG_DIR}/share/web`為網站目錄，將網站內容放至該目錄
 > 如果有分x86或arm的版本，也可將網站內容放置於`/x86/web`或`/arm/web`
