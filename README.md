@@ -53,34 +53,34 @@ Parameters
 ===
 ####Configs
 * 基本資訊
- - `QPKG_NAME=""` （套件名稱，必須）
- - `QPKG_DISPLAY_NAME=""` （顯示名稱）
- - `QPKG_AUTHOR=""`（預設為使用者帳號）
- - `QPKG_LICENSE="GPL v2"`
+ - `QPKG_NAME=""`（套件名稱，必須）
+ - `QPKG_DISPLAY_NAME=""`（套件名稱顯示於QTS上的，必須）
+ - `QPKG_AUTHOR=""`（製作者，預設為使用者帳號）
+ - `QPKG_LICENSE="GPLv3"`（版權宣告，預設為GPLv3）
  
 * 版本資訊
- - `QPKG_VER_MAJOR="0"`
- - `QPKG_VER_MINOR="1"`
- - `QPKG_VER_BUILD="0"` 第幾次編譯（自動增加）
- - `QPKG_AUTO_UPDATE=""` 自動更新QPKG
+ - `QPKG_VER_MAJOR="0"`（版本號，重大更動）
+ - `QPKG_VER_MINOR="1"`（版本號，功能微調或增加）
+ - `QPKG_VER_BUILD="0"`（版本號，編譯/除錯次數，自動累加）
+ - `QPKG_AUTO_UPDATE=""`（定期自動更新QPKG） [v0.5]
 
 * 相依/相斥
- - `QPKG_REQUIRE="Python >= 2.5, Optware | opkg"` 相依
- - `QPKG_CONFLICT="Python, OPT/sed"` 相斥
+ - `QPKG_REQUIRE="Python >= 2.5, Qairplay | play"`（套件相依）
+ - `QPKG_CONFLICT="Python, Qairplay"`（套件相斥）
 
 * 應用服務
- - `QPKG_WEB_PATH="/"` WebApp目錄
- - `QPKG_WEB_PORT=""` WebApp的Port number
- - `QPKG_DESKTOP="1"` 嵌入QTS4的Web桌面系統
- - `QPKG_SERVICE_SCRIPT=""` QPKG啓動後在背景運作的script [v0.3]
+ - `QPKG_WEB_PATH="/"`（WebApp目錄，http://nas-ip/[web_path]）
+ - `QPKG_WEB_PORT=""`（WebApp的port number）
+ - `QPKG_DESKTOP="1"`（將WebApp的頁面嵌入QTS4桌面系統）
+ - `QPKG_SERVICE_SCRIPT=""`（QPKG啓動後在背景運作的script）[v0.3]
 
 * QPKG目錄
- - `QPKG_DIR_ICONS="icon"` Package 圖式的目錄
- - `QPKG_DIR_ARM="arm"` Package 檔案目錄，ARM專屬
- - `QPKG_DIR_X86="x86"` Package 檔案目錄，X86專屬
- - `QPKG_DIR_SHARED="share"` Package 檔案目錄，通用
- - `QPKG_DIR_WEB="web"` Package Web檔案的目錄
- - `QPKG_DIR_BIN="bin"` Package Bin檔案的目錄
+ - `QPKG_DIR_ICONS="icon"`（Package 圖式的目錄）
+ - `QPKG_DIR_ARM="arm"`（Package 檔案目錄，ARM專屬）
+ - `QPKG_DIR_X86="x86"`（Package 檔案目錄，X86專屬）
+ - `QPKG_DIR_SHARED="share"`（Package 檔案目錄，通用）
+ - `QPKG_DIR_WEB="web"`（Package Web檔案的目錄）
+ - `QPKG_DIR_BIN="bin"`（Package Bin檔案的目錄）
 
 ####Variable
 * NAS目錄
