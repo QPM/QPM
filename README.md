@@ -10,7 +10,7 @@ License GPLv3
 Run on：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
 
 Programming language：`Shell`
-- - -
+
 Usage
 ===
 ####Install
@@ -48,7 +48,7 @@ Usage
 * 操作已封裝的QPKG檔
  - `qpm -o|--output` 將QPKG封裝的Data檔直接輸出 [v0.4]
  - `qpm -s|--split` 將已封裝的QPKG拆成x86和arm兩個安裝檔 [v0.4]
-
+- - -
 Parameters
 ===
 ####Configs
@@ -137,7 +137,7 @@ Service Script
 - 當install QPKG後 `service.sh >-> post_install`
 - 當uninstall QPKG前 `service.sh >-> pre_uninstall`
 - 當uninstall QPKG後 `service.sh >-> post_uninstall`
-
+- - -
 Q&A
 ===
 #### 如何建立Web服務？
