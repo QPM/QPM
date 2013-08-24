@@ -150,27 +150,28 @@ Q&A
 2. ${QPKG_DIR}/share/web 為網站目錄，將網站內容放至該目錄  
 `如果有分x86或arm的版本，也可將網站內容放置於 /x86/web 或 /arm/web`
 3. 首頁必須為index.html / index.htm / index.php  
-`（當搜尋不到index.*的檔案時，將不會設定QPKG配置資訊，使用者將沒辦法透過QTS直接開啓Web）`
+`當搜尋不到index.*的檔案時，將不會設定QPKG配置資訊，使用者將沒辦法透過QTS直接開啓Web`
 4. 當 start service 時，會依據 QPKG_WEB_PATH 的設定建立apache虛擬目錄
 `當 QPKG_WEB_PATH 沒有設定時，將使用 http://nas-ip:80/${QPKG_NAME} 目錄`
 
 #### 如何放至Bin檔案？
-- `${QPKG_DIR}/share/bin`為可執行檔的目錄，將可執行檔放至該目錄
-- 可執行檔必須設定權限為755
-- 當 start service 時，會將可執行檔link至/usr/bin目錄內
+1. 設定 QPKG_DIR_BIN="bin" （將註解#拿掉）  
+`QPKG_DIR_BIN攸關share/bin的目錄，亦可設為QPKG_DIR_BIN="opt"也就是/share/opt`
+2. ${QPKG_DIR}/share/bin 為可執行檔的目錄，將可執行檔放至該目錄  
+`如果有分x86或arm的版本，也可將網站內容放置於 /x86/bin 或 /arm/bin`
+3. 可執行檔必須設定權限為755  
+`當檔案權限為不可執行檔時，將不會建立link至/usr/bin`
+3. 當 start service 時，會將可執行檔link至/usr/bin目錄內
 
 #### ARM和X86的檔案如何運作？
-- ARM和X86的檔案會包裝成同一個QPKG
-- 安裝時會將SHARED目錄和ARM/X86目錄內的檔案合併
-- 當系統是X86時，將先安裝shared目錄再使用x86目錄覆蓋
-- 專屬x86的bin檔可放至`x86/bin`，專屬arm的bin檔可放至`x86/bin`
+1. ARM和X86的檔案會包裝成同一個QPKG安裝檔  
+```當設定qpm -ps後，QPGK將拆成x86和arm兩個檔案，x86安裝檔將無法在arm上安裝，arm安裝檔亦同```
+2. 當系統是X86時，將先安裝share目錄再使用x86目錄覆蓋
+3. 當系統是ARM時，將先安裝share目錄再使用arm目錄覆蓋
+4. 專屬x86的bin檔可放至`x86/bin`，專屬arm的bin檔可放至`x86/bin`
 
 #### Package 相依會自動到AppCenter下載安裝嗎？
 - 不會，但會陸續增加功能  [v0.3]
 
-#### 如何取得Package的系統設定值？
-- 設定 `set_qpkg_cfg field value [qpkg_name]`
-- 取得 `get_qpkg_cfg field [default_value] [qpkg_name]`
-
 #### 如有疑問或發現bug如何處理？
-- 請直接建立issue https://github.com/yutin1987/QPM/issues
+- 請直接建立[issue](https://github.com/yutin1987/QPM/issues)
