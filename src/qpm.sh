@@ -185,7 +185,7 @@ build_qpkg(){
   edit_config "QPKG_WEB_PATH" \"$(echo ${QPKG_WEB_PATH} | sed 's/^\///g')\" ${config_file}
   edit_config "QPM_QPKG_PLATFORM" \"${1}\" ${config_file}
   sed '/^$/d' ${config_file} > "tmp.$$/${QPM_QPKG_CONFIGS}"
-  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" | sed 's/^#.*//g' > ${config_file}
+  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" | sed 's/^#.*/d' > ${config_file}
   local data="${QPM_QPKG_CONFIGS}"
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"

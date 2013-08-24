@@ -170,7 +170,7 @@ pre_install_get_sys_info(){
     SYS_PLATFORM="x86"
   fi;
   if [ -n "${QPM_QPKG_PLATFORM}" ] && [ "${QPM_QPKG_PLATFORM}" != "${SYS_PLATFORM}" ]; then
-    err_log "it install ${QPM_QPKG_PLATFORM} only."
+    err_log "The QPKG file install ${QPM_QPKG_PLATFORM} only."
   fi
   edit_config "SYS_PLATFORM" \"${SYS_PLATFORM}\"
 
