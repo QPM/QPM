@@ -2,7 +2,7 @@ QPM
 ===
 qnap package manager
 
-```
+```javascript
 Copyright (C) 2013 YuTin Liu
 License GPLv3
 ```
