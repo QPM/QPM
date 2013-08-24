@@ -11,6 +11,37 @@ Run on：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
 
 Programming language：`Shell`
 
+Usage
+===
+####Base
+```
+> qpm -c [QPKG_NAME]
+> cd [QPKG_NAME]
+> qpm -nas=[NAS_IP]
+> cd ./build/[QPKG_NAME].qpkg
+```
+* QPM建立QPKG目錄
+ - `qpm --create|-c [QPKG_NAME]`
+* QPM編譯QPKG
+ - 直接編譯 `qpm`
+ - 指定編譯前/後的script `qpm --build-script=[file...]` [v0.3]
+####Advanced
+* QPM版本資訊
+ - `qpm --version|-ver|-V`
+* QPM操作說明
+ - `qpm --help|-h|-\?`
+* QPM操作說明
+ - `qpm --help|-h|-\?`
+* 上傳SSH公開金鑰至NAS
+ - `qpm --push-key`
+* QPM在NAS上操作QPKG
+ - 顯示已安裝的QPKG `qpm -l|-list` [v0.3]
+ - 安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
+ - 移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3]
+ - 啓動QPKG `qpm start ${QPKG_NAME}` [v0.2]
+ - 停止QPKG `qpm stop ${QPKG_NAME}` [v0.2]
+ - 重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2]
+
 Configs
 ===
 * Package name
@@ -50,29 +81,6 @@ Configs
  - `QPKG_DIR_SHARED="share"` Package 檔案目錄，通用
  - `QPKG_DIR_WEB="web"` Package Web檔案的目錄
  - `QPKG_DIR_BIN="bin"` Package Bin檔案的目錄
-
-Usage
-===
-* QPM建立QPKG目錄
- - `qpm --create|-c [QPKG_NAME]`
-* QPM編譯QPKG
- - 直接編譯 `qpm`
- - 指定編譯前/後的script `qpm --build-script=[file...]` [v0.3]
-* QPM版本資訊
- - `qpm --version|-ver|-V`
-* QPM操作說明
- - `qpm --help|-h|-\?`
-* QPM操作說明
- - `qpm --help|-h|-\?`
-* 上傳SSH公開金鑰至NAS
- - `qpm --push-key`
-* QPM在NAS上操作QPKG
- - 顯示已安裝的QPKG `qpm -l|-list` [v0.3]
- - 安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
- - 移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3]
- - 啓動QPKG `qpm start ${QPKG_NAME}` [v0.2]
- - 停止QPKG `qpm stop ${QPKG_NAME}` [v0.2]
- - 重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2]
 
 Package Icons
 ===
