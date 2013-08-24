@@ -39,12 +39,12 @@ Usage
  - `qpm -ps|--platform-split` 將QPKG封裝成x86和arm兩個安裝檔
  - `qpm -p|--platform=[x86/arm]` 指定只封裝x86/arm的安裝檔 
 * NAS上管理QPKG
- - `qpm -l|-list` 顯示已安裝的QPKG [v0.2]
- - `qpm install ${QPKG_NAME}` 安裝QPKG [v0.2]
- - `qpm uninstall ${QPKG_NAME}` 移除QPKG [v0.2]
- - `qpm start ${QPKG_NAME}` 啓動QPKG [v0.2]
- - `qpm stop ${QPKG_NAME}` 停止QPKG [v0.2]
- - `qpm restart ${QPKG_NAME}` 重啓QPKG [v0.2]
+ - `qpm -l|-list` 顯示已安裝的QPKG [v0.3]
+ - `qpm install ${QPKG_NAME}` 安裝QPKG [v0.3]
+ - `qpm uninstall ${QPKG_NAME}` 移除QPKG [v0.3]
+ - `qpm start ${QPKG_NAME}` 啓動QPKG [v0.3]
+ - `qpm stop ${QPKG_NAME}` 停止QPKG [v0.3]
+ - `qpm restart ${QPKG_NAME}` 重啓QPKG [v0.3]
 * 操作已封裝的QPKG檔
  - `qpm -o|--output` 將QPKG封裝的Data檔直接輸出 [v0.4]
  - `qpm -s|--split` 將已封裝的QPKG拆成x86和arm兩個安裝檔 [v0.4]
