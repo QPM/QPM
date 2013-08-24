@@ -13,28 +13,32 @@ Programming language：`Shell`
 
 Usage
 ===
+####Install
+- 至https://github.com/QPM/QPM/tree/master/release下載最新版的qpm
+- 上傳qpm至NAS的/usr/bin目錄 or 將qpm放置於PC的/usr/bin目錄
+- chmod 755 /usr/bin/qpm
+- qpm [option] [qpkg_name]
+
 ####Base
 ```
 > qpm -c [QPKG_NAME]
 > cd [QPKG_NAME]
 > qpm -nas=[NAS_IP]
-> cd ./build/[QPKG_NAME].qpkg
+> ls ./build/[QPKG_NAME].qpkg
 ```
+####Advanced
 * QPM建立QPKG目錄
  - `qpm --create|-c [QPKG_NAME]`
 * QPM編譯QPKG
  - 直接編譯 `qpm`
  - 指定編譯前/後的script `qpm --build-script=[file...]` [v0.3]
-####Advanced
 * QPM版本資訊
  - `qpm --version|-ver|-V`
 * QPM操作說明
  - `qpm --help|-h|-\?`
-* QPM操作說明
- - `qpm --help|-h|-\?`
 * 上傳SSH公開金鑰至NAS
  - `qpm --push-key`
-* QPM在NAS上操作QPKG
+* QPM在NAS上管理QPKG
  - 顯示已安裝的QPKG `qpm -l|-list` [v0.3]
  - 安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
  - 移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3]
