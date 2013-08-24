@@ -27,56 +27,52 @@ Usage
 > ls ./build/[QPKG_NAME].qpkg
 ```
 ####Advanced
-* QPM建立QPKG目錄
- - `qpm --create|-c [QPKG_NAME]`
-* QPM編譯QPKG
- - 直接編譯 `qpm`
- - 指定編譯前/後的script `qpm --build-script=[file...]` [v0.3]
-* QPM版本資訊
- - `qpm --version|-ver|-V`
-* QPM操作說明
- - `qpm --help|-h|-\?`
-* 上傳SSH公開金鑰至NAS
- - `qpm --push-key`
-* QPM在NAS上管理QPKG
- - 顯示已安裝的QPKG `qpm -l|-list` [v0.3]
- - 安裝QPKG `qpm install ${QPKG_NAME}` [v0.3]
- - 移除QPKG `qpm uninstall ${QPKG_NAME}` [v0.3]
- - 啓動QPKG `qpm start ${QPKG_NAME}` [v0.2]
- - 停止QPKG `qpm stop ${QPKG_NAME}` [v0.2]
- - 重啓QPKG `qpm restart ${QPKG_NAME}` [v0.2]
+* QPM的基本操作
+ - `qpm --version|-ver|-V` QPM的版本資訊
+ - `qpm --help|-h|-\?` QPM的操作說明
+ - `qpm --push-key` 透過QPM上傳SSH公開金鑰至NAS
+* 製作/封裝QPKG
+ - `qpm -c|--create [QPKG_NAME]` 建立QPKG目錄
+ - `qpm -n|--nas=[NAS_IP]` 封裝QPKG，省略`--nas`參數
+ - `qpm -bs|--build-script=[file...]` 指定封裝前/後要執行的script [v0.4]
+ - `qpm -nv|--no-version` 封裝QPKG後，不自動增加版號
+ - `qpm -ps|--platform-split` 將QPKG封裝成x86和arm兩個安裝檔
+ - `qpm -p|--platform=[x86/arm]` 指定只封裝x86/arm的安裝檔 
+* NAS上管理QPKG
+ - `qpm -l|-list` 顯示已安裝的QPKG [v0.2]
+ - `qpm install ${QPKG_NAME}` 安裝QPKG [v0.2]
+ - `qpm uninstall ${QPKG_NAME}` 移除QPKG [v0.2]
+ - `qpm start ${QPKG_NAME}` 啓動QPKG [v0.2]
+ - `qpm stop ${QPKG_NAME}` 停止QPKG [v0.2]
+ - `qpm restart ${QPKG_NAME}` 重啓QPKG [v0.2]
+* 操作已封裝的QPKG檔
+ - `qpm -o|--output` 將QPKG封裝的Data檔直接輸出 [v0.4]
+ - `qpm -s|--split` 將已封裝的QPKG拆成x86和arm兩個安裝檔 [v0.4]
 
-Configs
+Parameters
 ===
-* Package name
+####Configs
+* 基本資訊
  - `QPKG_NAME=""` （套件名稱，必須）
  - `QPKG_DISPLAY_NAME=""` （顯示名稱）
-
+ - `QPKG_AUTHOR=""`（預設為使用者帳號）
+ - `QPKG_LICENSE="GPL v2"`
+ 
 * 版本資訊
  - `QPKG_VER_MAJOR="0"`
  - `QPKG_VER_MINOR="1"`
  - `QPKG_VER_BUILD="0"` 第幾次編譯（自動增加）
  - `QPKG_AUTO_UPDATE=""` 自動更新QPKG
 
-* 作者或維護人員
- - `QPKG_AUTHOR=""`（預設為使用者帳號）
-
-* 授權模式
- - `QPKG_LICENSE="GPL v2"`
-
 * 相依/相斥
  - `QPKG_REQUIRE="Python >= 2.5, Optware | opkg"` 相依
  - `QPKG_CONFLICT="Python, OPT/sed"` 相斥
 
-* Web Application
+* 應用服務
  - `QPKG_WEB_PATH="/"` WebApp目錄
  - `QPKG_WEB_PORT=""` WebApp的Port number
-
-* 背景運作的service
- - `QPKG_SERVICE_SCRIPT=""` QPKG啓動後在背景運作的script [v0.3]
-
-* QPKG屬性
  - `QPKG_DESKTOP="1"` 嵌入QTS4的Web桌面系統
+ - `QPKG_SERVICE_SCRIPT=""` QPKG啓動後在背景運作的script [v0.3]
 
 * QPKG目錄
  - `QPKG_DIR_ICONS="icon"` Package 圖式的目錄
@@ -86,6 +82,34 @@ Configs
  - `QPKG_DIR_WEB="web"` Package Web檔案的目錄
  - `QPKG_DIR_BIN="bin"` Package Bin檔案的目錄
 
+####Variable
+* NAS目錄
+ - `SYS_CONFIG_DIR="/etc/config"` QPKG資訊檔的存放位置
+ - `SYS_RSS_IMG_DIR="/home/httpd/RSS/images"` QPKG icon的存放目錄
+ - `SYS_BIN_DIR="/usr/bin"` bin檔的存放位置
+ - `SYS_OPT_DIR="/mnt/ext/opt"` 
+ - `SYS_INIT_DIR="/etc/init.d"` service script存放的目錄
+
+ - `SYS_BASE_DIR="/share/HDA_DATA"`
+ - `SYS_PUBLIC_DIR="/share/Public"`
+ - `SYS_DOWNLOAD_DIR="/share/Download"`
+ - `SYS_MULTIMEDIA_DIR="/share/Multimedia"`
+ - `SYS_RECORDINGS_DIR="/share/Recordings"`
+ - `SYS_WEB_DIR="/share/Web"`
+
+ - `SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"`
+ - `SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"`
+
+ - `SYS_WEB_EXTRA="${SYS_CONFIG_DIR}/apache/extra"`
+ - `SYS_WEB_CONFIG="${SYS_CONFIG_DIR}/apache/apache.conf"`
+ - `SYS_WEB_INIT="${SYS_INIT_DIR}/Qthttpd.sh"`
+
+ - `SYS_QPKG_CONFIG="${SYS_CONFIG_DIR}/qpkg.conf"`
+ - `SYS_QPKG_SERVICE="${SYS_INIT_DIR}/${QPKG_NAME}"`
+
+
+ - `SYS_PLATFORM="x86/arm"`
+ 
 Package Icons
 ===
 - 當QPKG啓動時（64x64） `icon/qpkg_icon.png`
