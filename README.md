@@ -111,7 +111,15 @@ Parameters
  - `SYS_PLATFORM="x86/arm"`（x86/arm平台）
  
 * Command
+
 `CMD_AWK`, `CMD_CAT`, `CMD_CHMOD`, `CMD_CHOWN`, `CMD_CP`, `CMD_CUT`, `CMD_DATE`, `CMD_ECHO`, `CMD_EXPR`, `CMD_FIND`, `CMD_GETCFG`, `CMD_GREP`, `CMD_HOSTNAME`, `CMD_LN`, `CMD_MD5SUM`, `CMD_MKDIR`, `CMD_MV`, `CMD_RM`, `CMD_SED`, `CMD_SETCFG`, `CMD_SLEEP`, `CMD_SORT`, `CMD_SYNC`, `CMD_TAR`, `CMD_TR`, `CMD_TOUCH`, `CMD_WGET`, `CMD_LOG_TOOL`, `CMD_XARGS`, `CMD_PRINTF`, `CMD_SH`
+
+Function
+===
+* `set_qpkg_cfg`（設定QPKG配置資訊）
+`set_qpkg_cfg field value [qpkg_name]`
+* `get_qpkg_cfg`（取得QPKG配置資訊）
+`set_qpkg_cfg field [default_value] [qpkg_name]`
  
 Package Icons
 ===
