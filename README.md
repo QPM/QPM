@@ -141,13 +141,13 @@ Service Script
 Q&A
 ===
 #### 如何建立Web服務？
-- 設定`QPKG_DIR_WEB="web"`參數（將註解#拿掉）
+1. 設定`QPKG_DIR_WEB="web"`參數（將註解#拿掉）
  - `QPKG_DIR_WEB`攸關`share/web`的目錄，亦可設為`QPKG_DIR_WEB="site"`也就是`/share/site`
-- `${QPKG_DIR}/share/web`為網站目錄，將網站內容放至該目錄
+2. `${QPKG_DIR}/share/web`為網站目錄，將網站內容放至該目錄
  - 如果有分x86或arm的版本，也可將網站內容放置於`/x86/web`或`/arm/web`
-- 首頁必須為`index.html` / `index.htm` / `index.php`
+3. 首頁必須為`index.html` / `index.htm` / `index.php`
  - （當搜尋不到index.*的檔案時，將不會設定QPKG配置資訊，使用者將沒辦法透過QTS直接開啓Web）
-- 當 start service 時，會依據`QPKG_WEB_PATH`的設定建立apache虛擬目錄
+4. 當 start service 時，會依據`QPKG_WEB_PATH`的設定建立apache虛擬目錄
  - 當`QPKG_WEB_PATH`沒有設定時，將使用`http://nas-ip:80/${QPKG_NAME}`目錄
 
 #### 如何放至Bin檔案？
