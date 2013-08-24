@@ -84,34 +84,33 @@ Parameters
 
 ####Variable
 * NAS目錄
- - `SYS_CONFIG_DIR="/etc/config"` QPKG資訊檔的存放位置
- - `SYS_RSS_IMG_DIR="/home/httpd/RSS/images"` QPKG icon的存放目錄
- - `SYS_BIN_DIR="/usr/bin"` bin檔的存放位置
- - `SYS_OPT_DIR="/mnt/ext/opt"` 
- - `SYS_INIT_DIR="/etc/init.d"` service script存放的目錄
+ - `SYS_RSS_IMG_DIR="/home/httpd/RSS/images"`（QPKG icon的存放目錄）
+ - `SYS_CONFIG_DIR="/etc/config"`（存放configs的目錄）
+ - `SYS_BIN_DIR="/usr/bin"`（Bin檔的存放目錄）
+ - `SYS_OPT_DIR="/mnt/ext/opt"`（軟體掛載的目錄）
+ - `SYS_INIT_DIR="/etc/init.d"`（Service script存放的目錄）
+ - `SYS_WEB_EXTRA="${SYS_CONFIG_DIR}/apache/extra"`（存放Apache延伸設定檔的目錄）
 
- - `SYS_BASE_DIR="/share/HDA_DATA"`
- - `SYS_PUBLIC_DIR="/share/Public"`
- - `SYS_DOWNLOAD_DIR="/share/Download"`
- - `SYS_MULTIMEDIA_DIR="/share/Multimedia"`
- - `SYS_RECORDINGS_DIR="/share/Recordings"`
- - `SYS_WEB_DIR="/share/Web"`
+ - `SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"`（存放所有QPKG的目錄）
+ - `SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"`（存放此QPKG的目錄）
 
- - `SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"`
- - `SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"`
+ - `SYS_BASE_DIR="/share/HDA_DATA"`（主要存放檔案的目錄）
+ - `SYS_PUBLIC_DIR="/share/Public"`（Public檔案目錄）
+ - `SYS_DOWNLOAD_DIR="/share/Download"`（Download檔案目錄）
+ - `SYS_MULTIMEDIA_DIR="/share/Multimedia"`（Multimedia檔案目錄）
+ - `SYS_RECORDINGS_DIR="/share/Recordings"`（Recordings檔案目錄）
+ - `SYS_WEB_DIR="/share/Web"`（Web檔案目錄）
+ - `SYS_CODEBASE_DIR="/share/Codebase"`（Codebase檔案目錄）
 
- - `SYS_WEB_EXTRA="${SYS_CONFIG_DIR}/apache/extra"`
- - `SYS_WEB_CONFIG="${SYS_CONFIG_DIR}/apache/apache.conf"`
- - `SYS_WEB_INIT="${SYS_INIT_DIR}/Qthttpd.sh"`
+* NAS檔案
+ - `SYS_WEB_CONFIG="${SYS_CONFIG_DIR}/apache/apache.conf"`（Apache設定檔）
+ - `SYS_WEB_INIT="${SYS_INIT_DIR}/Qthttpd.sh"`（Apache service script檔）
+ - `SYS_QPKG_SERVICE="${SYS_INIT_DIR}/${QPKG_NAME}"`（此QPKG的service script檔案）
 
- - `SYS_QPKG_CONFIG="${SYS_CONFIG_DIR}/qpkg.conf"`
- - `SYS_QPKG_SERVICE="${SYS_INIT_DIR}/${QPKG_NAME}"`
-
-
- - `SYS_PLATFORM="x86/arm"`
- - 
+* NAS資訊
+ - `SYS_PLATFORM="x86/arm"`（x86/arm平台）
  
- * Command
+* Command
 `CMD_AWK`, `CMD_CAT`, `CMD_CHMOD`, `CMD_CHOWN`, `CMD_CP`, `CMD_CUT`, `CMD_DATE`, `CMD_ECHO`, `CMD_EXPR`, `CMD_FIND`, `CMD_GETCFG`, `CMD_GREP`, `CMD_HOSTNAME`, `CMD_LN`, `CMD_MD5SUM`, `CMD_MKDIR`, `CMD_MV`, `CMD_RM`, `CMD_SED`, `CMD_SETCFG`, `CMD_SLEEP`, `CMD_SORT`, `CMD_SYNC`, `CMD_TAR`, `CMD_TR`, `CMD_TOUCH`, `CMD_WGET`, `CMD_LOG_TOOL`, `CMD_XARGS`, `CMD_PRINTF`, `CMD_SH`
  
 Package Icons
