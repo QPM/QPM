@@ -14,7 +14,7 @@ Programming language：`Shell`
 Usage
 ===
 ####Install
-- 至https://github.com/QPM/QPM/tree/master/release下載最新版的qpm
+- 至[release](https://github.com/QPM/QPM/tree/master/release)下載最新版的qpm
 - 上傳qpm至NAS的/usr/bin目錄 or 將qpm放置於PC的/usr/bin目錄
 - chmod 755 /usr/bin/qpm
 - qpm [option] [qpkg_name]
