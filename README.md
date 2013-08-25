@@ -71,7 +71,7 @@ Parameters
  - `QPKG_CONFLICT="Python, Qairplay"`（套件相斥）
 
 * 應用服務
- - `QPKG_WEB_PATH="/"`（WebApp目錄，http://nas-ip/[web_path]）
+ - `QPKG_WEB_PATH="/"`（WebApp目錄，http://nas-ip/[web_path]）[tip](#%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8Bweb%E6%9C%8D%E5%8B%99)
  - `QPKG_WEB_PORT=""`（WebApp的port number）
  - `QPKG_DESKTOP="1"`（將WebApp的頁面嵌入QTS4桌面系統）
  - `QPKG_SERVICE_SCRIPT=""`（QPKG啓動後在背景運作的script）[v0.3]
@@ -81,7 +81,7 @@ Parameters
  - `QPKG_DIR_ARM="arm"`（Package 檔案目錄，ARM專屬）
  - `QPKG_DIR_X86="x86"`（Package 檔案目錄，X86專屬）
  - `QPKG_DIR_SHARED="share"`（Package 檔案目錄，通用）
- - `QPKG_DIR_WEB="web"`（Package Web檔案的目錄）
+ - `QPKG_DIR_WEB="web"`（Package Web檔案的目錄）[tip](#%E5%A6%82%E4%BD%95%E5%BB%BA%E7%AB%8Bweb%E6%9C%8D%E5%8B%99)
  - `QPKG_DIR_BIN="bin"`（Package Bin檔案的目錄）
 
 ####Variable
