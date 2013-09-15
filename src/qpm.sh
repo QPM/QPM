@@ -179,7 +179,7 @@ build_qpkg(){
 
   local config_file="build.$$/${QPM_QPKG_CONFIGS}"
   cp -afp ${QPM_QPKG_CONFIGS} ${config_file} || err_msg 找不到configs檔
-  echo "\n" >> ${config_file}
+  echo -e "\n" >> ${config_file}
   cat "tmp.$$/qpm_qpkg.cfg" >> ${config_file}
   edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" ${config_file}
   edit_config "QPKG_WEB_PATH" \"$(echo ${QPKG_WEB_PATH} | sed 's/^\///g')\" ${config_file}
@@ -190,9 +190,9 @@ build_qpkg(){
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
   cat tmp.$$/qpm_service_start.sh > ${service_file}
-  echo "\n" >> ${service_file}
+  echo -e "\n" >> ${service_file}
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
-  echo "\n" >> ${service_file}
+  echo -e "\n" >> ${service_file}
   cat tmp.$$/qpm_service_end.sh >> ${service_file}
   data+=" ${QPM_QPKG_SERVICE}"
 
