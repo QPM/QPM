@@ -179,20 +179,20 @@ build_qpkg(){
 
   local config_file="build.$$/${QPM_QPKG_CONFIGS}"
   cp -afp ${QPM_QPKG_CONFIGS} ${config_file} || err_msg 找不到configs檔
-  echo -e "\n" >> ${config_file}
+  echo -ne "\n" >> ${config_file}
   cat "tmp.$$/qpm_qpkg.cfg" >> ${config_file}
   edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" ${config_file}
   edit_config "QPKG_WEB_PATH" \"$(echo ${QPKG_WEB_PATH} | sed 's/^\///g')\" ${config_file}
   edit_config "QPM_QPKG_PLATFORM" \"${1}\" ${config_file}
   sed '/^$/d' ${config_file} > "tmp.$$/${QPM_QPKG_CONFIGS}"
-  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" | sed 's/^#.*/d' > ${config_file}
+  sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" | sed '/^#.*/d' > ${config_file}
   local data="${QPM_QPKG_CONFIGS}"
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
   cat tmp.$$/qpm_service_start.sh > ${service_file}
-  echo -e "\n" >> ${service_file}
+  echo -ne "\n" >> ${service_file}
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
-  echo -e "\n" >> ${service_file}
+  echo -ne "\n" >> ${service_file}
   cat tmp.$$/qpm_service_end.sh >> ${service_file}
   data+=" ${QPM_QPKG_SERVICE}"
 
@@ -229,7 +229,7 @@ build_qpkg(){
   rm -f "${qpkg_file_path}"
   touch "${qpkg_file_path}" || err_msg "建立package失敗 ${qpkg_file_path}"
 
-  echo "\n#qpm#" >> tmp.$$/${QPM_QPKG_SCRIPT}
+  echo -ne "\n#qpm#" >> tmp.$$/${QPM_QPKG_SCRIPT}
   local script_len=$(ls -l tmp.$$/${QPM_QPKG_SCRIPT} | awk '{ print $5 }')
   sed "s/EXTRACT_SCRIPT_LEN=000/EXTRACT_SCRIPT_LEN=${script_len}/" tmp.$$/$QPM_QPKG_SCRIPT > ${qpkg_file_path}
 
