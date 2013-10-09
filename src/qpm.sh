@@ -327,8 +327,11 @@ main(){
       echo "提醒您，可使用[--nas]參數輸入NAS IP"
     fi
     if [ -n "${avg_platform_split}" ]; then
+      no_version=avg_no_version
+      avg_no_version=TRUE
       build_qpkg "x86" # 2>/dev/null
       build_qpkg "arm" # 2>/dev/null
+      [ -z "${no_version}" ] && edit_config "QPKG_VER_BUILD" \"$(expr ${QPKG_VER_BUILD} + 1)\"
     elif [ -n "${avg_platform}" ]; then
       if [ "${avg_platform}" != "x86" ] && [ "${avg_platform}" != "arm" ]; then
         err_msg "目前platform只支援x86或arm兩種"
