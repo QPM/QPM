@@ -4,7 +4,7 @@ qnap package manager
 
 ```
 Copyright (C) 2013 YuTin Liu
-License LGPLv3
+License MIT
 ```
 
 Run on：`OSX`, `Ubuntu`, `Linux`, `NAS for x86`, `NAS for arm`
