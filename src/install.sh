@@ -326,18 +326,18 @@ post_install_register_qpkg(){
   msg "set QPKG information in" ${SYS_QPKG_CONFIG}
   [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
 
-  set_qpkg_cfg ${SYS_QPKG_CFG_NAME} ${QPKG_NAME}
-  set_qpkg_cfg ${SYS_QPKG_CFG_DISPLAY_NAME} ${QPKG_DISPLAY_NAME}
+  set_qpkg_cfg ${SYS_QPKG_CFG_NAME} "${QPKG_NAME}"
+  set_qpkg_cfg ${SYS_QPKG_CFG_DISPLAY_NAME} "${QPKG_DISPLAY_NAME}"
   msg "set QPKG display name" ${QPKG_DISPLAY_NAME}
-  set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} ${QPM_QPKG_VER}
-  set_qpkg_cfg ${SYS_QPKG_CFG_AUTHOR} ${QPKG_AUTHOR}
+  set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} "${QPM_QPKG_VER}"
+  set_qpkg_cfg ${SYS_QPKG_CFG_AUTHOR} "${QPKG_AUTHOR}"
   msg "set QPKG author" ${QPKG_AUTHOR}
 
   set_qpkg_cfg ${SYS_QPKG_CFG_QPKGFILE} "${QPKG_NAME}.qpkg"
   set_qpkg_cfg ${SYS_QPKG_CFG_DATE} $($CMD_DATE +%F)
 
   set_qpkg_cfg ${SYS_QPKG_CFG_SHELL} "${SYS_QPKG_DIR}/.${QPM_QPKG_SERVICE}"
-  set_qpkg_cfg ${SYS_QPKG_CFG_INSTALL_PATH} ${SYS_QPKG_DIR}
+  set_qpkg_cfg ${SYS_QPKG_CFG_INSTALL_PATH} "${SYS_QPKG_DIR}"
 
   local web_dir="${SYS_QPKG_DIR}/${QPKG_DIR_WEB}"
   if [ -n "${QPKG_DIR_WEB}" ] &&
@@ -347,11 +347,11 @@ post_install_register_qpkg(){
   fi
   if [ -n "$QPKG_WEB_PATH" ]; then
     set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PATH} "/${QPKG_WEB_PATH:-$QPKG_NAME}"
-    set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} ${QPKG_WEB_PORT:-80}
+    set_qpkg_cfg ${SYS_QPKG_CFG_WEB_PORT} "${QPKG_WEB_PORT:-80}"
     msg "set QPKG web path" "host:${QPKG_WEB_PORT:-80}/${QPKG_WEB_PATH}"
   fi
   
-  set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} ${QPKG_DESKTOP_APP}
+  set_qpkg_cfg ${SYS_QPKG_CFG_DESKTOP_APP} "${QPKG_DESKTOP_APP}"
   msg "set QPKG desktop app" ${QPKG_DESKTOP_APP:-"FALSE"}
 }
 

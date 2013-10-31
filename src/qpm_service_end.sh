@@ -10,7 +10,7 @@ case "$1" in
 <IfModule alias_module>
   Alias /${QPKG_WEB_PATH:-$QPKG_NAME} "${web_dir}"
   <Directory "${web_dir}">
-      AllowOverride None
+      AllowOverride All
       Order allow,deny
       Allow from all
   </Directory>
