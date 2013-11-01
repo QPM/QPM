@@ -25,7 +25,7 @@ script_len=${script_len}$(perl -E 'say " " x '$(expr 10 - ${#script_len}))
 sed "2s/SHELL_SIZE/${script_len}/g" ${QPM_TMP} > ${QPM_PATH}
 rm -f ${QPM_TMP} &>/dev/null
 
-tar -zcpf ${QPM_TMP} -C "src" "script.sh" "qpm_qpkg.cfg" "qpm_service_start.sh" "qpm_service_end.sh" "install.sh" "uninstall.sh"
+tar -zcpf ${QPM_TMP} -C "src" "script.sh" "qpm_qpkg.cfg" "qpm_service_pre.sh" "qpm_service_post.sh" "install.sh" "uninstall.sh"
 cat ${QPM_TMP} >> ${QPM_PATH}
 rm -f ${QPM_TMP} &>/dev/null
 mv ${QPM_PATH} ${QPM_TMP}
