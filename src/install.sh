@@ -323,15 +323,15 @@ post_install_link_service(){
 # register QPKG information
 #---
 post_install_register_qpkg(){
-  msg "set QPKG information in" ${SYS_QPKG_CONFIG}
+  msg "set QPKG information in" "${SYS_QPKG_CONFIG}"
   [ -f $SYS_QPKG_CONFIG ] || $CMD_TOUCH $SYS_QPKG_CONFIG
 
   set_qpkg_cfg ${SYS_QPKG_CFG_NAME} "${QPKG_NAME}"
   set_qpkg_cfg ${SYS_QPKG_CFG_DISPLAY_NAME} "${QPKG_DISPLAY_NAME}"
-  msg "set QPKG display name" ${QPKG_DISPLAY_NAME}
+  msg "set QPKG display name" "${QPKG_DISPLAY_NAME}"
   set_qpkg_cfg ${SYS_QPKG_CFG_VERSION} "${QPM_QPKG_VER}"
   set_qpkg_cfg ${SYS_QPKG_CFG_AUTHOR} "${QPKG_AUTHOR}"
-  msg "set QPKG author" ${QPKG_AUTHOR}
+  msg "set QPKG author" "${QPKG_AUTHOR}"
 
   set_qpkg_cfg ${SYS_QPKG_CFG_QPKGFILE} "${QPKG_NAME}.qpkg"
   set_qpkg_cfg ${SYS_QPKG_CFG_DATE} $($CMD_DATE +%F)
