@@ -69,7 +69,7 @@ debug_msg(){
 
 edit_config(){
   local field="$1"
-  local value="$2"
+  local value="\"$2\""
   local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
   if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
     local space=$(awk 'BEGIN{i=0;while(i++<'$(expr 48 - ${#field} - ${#value} - 1)')printf " "}')
@@ -119,15 +119,15 @@ create_qpkg(){
 
   local configs_path="${qpkg_name}/${QPM_QPKG_CONFIGS}"
 
-  edit_config "QPKG_NAME" \"${qpkg_name}\" ${configs_path}
-  edit_config "QPKG_DISPLAY_NAME" \"${qpkg_name}\" ${configs_path}
-  edit_config "QPKG_AUTHOR" \"$(/usr/bin/whoami)\" ${configs_path}
-  edit_config "#QPKG_DIR_ICONS" \"${QPM_DIR_ICONS}\" ${configs_path}
-  edit_config "#QPKG_DIR_ARM" \"${QPM_DIR_ARM}\" ${configs_path}
-  edit_config "#QPKG_DIR_X86" \"${QPM_DIR_X86}\" ${configs_path}
-  edit_config "#QPKG_DIR_WEB" \"${QPM_DIR_WEB}\" ${configs_path}
-  edit_config "#QPKG_DIR_BIN" \"${QPM_DIR_BIN}\" ${configs_path}
-  edit_config "#QPKG_DIR_SHARE" \"${QPM_DIR_SHARE}\" ${configs_path}
+  edit_config "QPKG_NAME" "${qpkg_name}" "${configs_path}"
+  edit_config "QPKG_DISPLAY_NAME" "${qpkg_name}" "${configs_path}"
+  edit_config "QPKG_AUTHOR" "$(/usr/bin/whoami)" "${configs_path}"
+  edit_config "#QPKG_DIR_ICONS" "${QPM_DIR_ICONS}" "${configs_path}"
+  edit_config "#QPKG_DIR_ARM" "${QPM_DIR_ARM}" "${configs_path}"
+  edit_config "#QPKG_DIR_X86" "${QPM_DIR_X86}" "${configs_path}"
+  edit_config "#QPKG_DIR_WEB" "${QPM_DIR_WEB}" "${configs_path}"
+  edit_config "#QPKG_DIR_BIN" "${QPM_DIR_BIN}" "${configs_path}"
+  edit_config "#QPKG_DIR_SHARE" "${QPM_DIR_SHARE}" "${configs_path}"
 
   echo "[v] package初始化完成"
 }
@@ -181,9 +181,9 @@ build_qpkg(){
   cp -afp ${QPM_QPKG_CONFIGS} ${config_file} || err_msg 找不到configs檔
   printf "\n" >> ${config_file}
   cat "tmp.$$/qpm_qpkg.cfg" >> ${config_file}
-  edit_config "QPM_QPKG_VER" \"${QPM_QPKG_VER}\" ${config_file}
-  edit_config "QPKG_WEB_PATH" \"$(echo ${QPKG_WEB_PATH} | sed 's/^\///g')\" ${config_file}
-  edit_config "QPM_QPKG_PLATFORM" \"${1}\" ${config_file}
+  edit_config "QPM_QPKG_VER" "${QPM_QPKG_VER}" ${config_file}
+  edit_config "QPKG_WEB_PATH" "$(echo ${QPKG_WEB_PATH} | sed 's/^\///g')" ${config_file}
+  edit_config "QPM_QPKG_PLATFORM" "${1}" ${config_file}
   sed '/^$/d' ${config_file} > "tmp.$$/${QPM_QPKG_CONFIGS}"
   sed 's/# .*//g' "tmp.$$/${QPM_QPKG_CONFIGS}" | sed '/^#.*/d' > ${config_file}
   local data="${QPM_QPKG_CONFIGS}"
@@ -247,7 +247,7 @@ build_qpkg(){
   printf "${enc_space}${enc_qpkg_name}${enc_qpkg_ver}${enc_flag}" >> ${qpkg_file_path}
   ######
 
-  [ -z "${avg_no_version}" ] && edit_config "QPKG_VER_BUILD" \"$(expr ${QPKG_VER_BUILD} + 1)\"
+  [ -z "${avg_no_version}" ] && edit_config "QPKG_VER_BUILD" "$(expr ${QPKG_VER_BUILD} + 1)"
 
   echo "建立${qpkg_file_path}..."
 
@@ -331,7 +331,7 @@ main(){
       avg_no_version=TRUE
       build_qpkg "x86" # 2>/dev/null
       build_qpkg "arm" # 2>/dev/null
-      [ -z "${no_version}" ] && edit_config "QPKG_VER_BUILD" \"$(expr ${QPKG_VER_BUILD} + 1)\"
+      [ -z "${no_version}" ] && edit_config "QPKG_VER_BUILD" "$(expr ${QPKG_VER_BUILD} + 1)"
     elif [ -n "${avg_platform}" ]; then
       if [ "${avg_platform}" != "x86" ] && [ "${avg_platform}" != "arm" ]; then
         err_msg "目前platform只支援x86或arm兩種"

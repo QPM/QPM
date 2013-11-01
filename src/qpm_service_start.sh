@@ -17,7 +17,7 @@ case "$1" in
     qpkg_web_config="${SYS_WEB_EXTRA}/${QPM_QPKG_WEB_CONFIG}"
     if [ -f "${qpkg_web_config}" ]; then
       msg "remove web interface"
-      $CMD_SED -i '/${QPM_QPKG_WEB_CONFIG}/d' ${SYS_WEB_CONFIG}
+      $CMD_SED -i "/${QPM_QPKG_WEB_CONFIG}/d" ${SYS_WEB_CONFIG}
       ${SYS_WEB_INIT} restart &>/dev/null
       $CMD_PRINTF "[v]\n"
     fi

@@ -65,7 +65,7 @@ err_log(){
 # edit qpkg.cfg
 edit_config(){
   local field="$1"
-  local value="$2"
+  local value="\"$2\""
   local qpkg_cfg="${3:-$QPM_QPKG_CONFIGS}"
   if [ -n "$field" ] && [ -n "$value" ] && [ -f "$qpkg_cfg" ]; then
     local space=$($CMD_AWK 'BEGIN{i=0;while(i++<'$(expr 48 - ${#field} - ${#value} - 1)')printf " "}')
@@ -172,7 +172,7 @@ pre_install_get_sys_info(){
   if [ -n "${QPM_QPKG_PLATFORM}" ] && [ "${QPM_QPKG_PLATFORM}" != "${SYS_PLATFORM}" ]; then
     err_log "The QPKG file install ${QPM_QPKG_PLATFORM} only."
   fi
-  edit_config "SYS_PLATFORM" \"${SYS_PLATFORM}\"
+  edit_config "SYS_PLATFORM" "${SYS_PLATFORM}"
 
   msg "get system platform" ${SYS_PLATFORM}
 }
@@ -219,9 +219,9 @@ pre_install_get_base_dir(){
   SYS_QPKG_STORE="${SYS_BASE_DIR}/.qpkg"
   SYS_QPKG_DIR="${SYS_QPKG_STORE}/${QPKG_NAME}"
 
-  edit_config "SYS_BASE_DIR" \"${SYS_BASE_DIR}\"
-  edit_config "SYS_QPKG_STORE" \"${SYS_QPKG_STORE}\"
-  edit_config "SYS_QPKG_DIR" \"${SYS_QPKG_DIR}\"
+  edit_config "SYS_BASE_DIR" "${SYS_BASE_DIR}"
+  edit_config "SYS_QPKG_STORE" "${SYS_QPKG_STORE}"
+  edit_config "SYS_QPKG_DIR" "${SYS_QPKG_DIR}"
   
   msg "get system base dir" ${SYS_BASE_DIR}
   msg "get ${QPKG_NAME} qpkg dir" ${SYS_QPKG_DIR}
