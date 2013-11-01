@@ -189,11 +189,11 @@ build_qpkg(){
   local data="${QPM_QPKG_CONFIGS}"
 
   local service_file="build.$$/${QPM_QPKG_SERVICE}"
-  cat tmp.$$/qpm_service_start.sh > ${service_file}
+  cat tmp.$$/qpm_service_pre.sh > ${service_file}
   printf "\n" >> ${service_file}
   cat ${QPM_QPKG_SERVICE} >> ${service_file} || err_msg 找不到service檔
   printf "\n" >> ${service_file}
-  cat tmp.$$/qpm_service_end.sh >> ${service_file}
+  cat tmp.$$/qpm_service_post.sh >> ${service_file}
   data+=" ${QPM_QPKG_SERVICE}"
 
   cat tmp.$$/${QPM_QPKG_INSTALL} > "build.$$/${QPM_QPKG_INSTALL}"
